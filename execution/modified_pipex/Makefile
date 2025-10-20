@@ -6,7 +6,7 @@
 #    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/13 09:24:28 by atabarea          #+#    #+#              #
-#    Updated: 2025/10/20 12:26:28 by atabarea         ###   ########.fr        #
+#    Updated: 2025/10/20 14:28:45 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC = src/pipex.c src/error.c src/freer.c src/ft_putchar_fd.c\
 	src/ft_split.c src/ft_putstr_fd.c src/ft_putendl_fd.c src/ft_strcmp.c\
 	src/ft_strlen.c src/get_path.c src/open_file.c src/error_cmd.c\
 	src/ft_strjoin.c src/ft_substr.c src/ft_strchr.c src/ft_strdup.c\
-	src/fd_closer.c
+	src/fd_closer.c src/numoffds.c
 
 OBJ = $(SRC:.c=.o)
 

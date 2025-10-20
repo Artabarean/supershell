@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:51:34 by alex              #+#    #+#             */
-/*   Updated: 2025/10/20 12:46:53 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:27:44 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	error_cl(int *fd);
 void	fd_closer(int *p_fd);
 void	pid_check(int pid);
 void	error_cmd(char *cmd, char **freecom, int term_fd);
-int		pipex(int argc, char *argv[], char **envp);
+// int		pipex(int argc, char *argv[], char **envp);
+int		numofoutfds(char *argv[]);
+int		numofinfds(char *argv[]);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:51:16 by alex              #+#    #+#             */
-/*   Updated: 2025/10/20 13:14:28 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/20 14:26:58 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,25 @@ void	second_child(char **argv, int *p_fd, char **envp, int term_fd)
 int	main(int argc, char *argv[], char **envp)
 {
 	int		p_fd[2];
-	pid_t	*pid;
+	pid_t	*pidin;
+	pid_t	*pidout;
 	int		term_fd;
 
-	pid = malloc(sizeof(pid_t) * numoffds(argv));
+	pidout = malloc(sizeof(pid_t) * numofoutfds(argv));
+	pidin = malloc(sizeof(pid_t) * numofinfds(argv));
 	if (argc < 5)
 		handle_exit();
 	if (pipe(p_fd) == -1)
 		exit(-1);
-	pid[0] = fork();
-	pid_check(pid[0]);
+	pidout[0] = fork();
+	pid_check(pidout[0]);
 	term_fd = dup(1);
-	if (pid[0] == 0)
+	if (pidout[0] == 0)
 		child(argv, envp, p_fd, term_fd);
-	pid[1] = fork();
-	pid_check(pid[1]);
-	if (pid[1] == 0)
+	pidin[0] = fork();
+	pid_check(pidin[0]);
+	if (pidin[0] == 0)
 		second_child(argv, p_fd, envp, term_fd);
-	waitpid(pid[0], NULL, 0);
+	waitpid(pidin[0], NULL, 0);
 	return (fd_closer(p_fd), 0);
 }
