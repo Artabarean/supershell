@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:51:16 by alex              #+#    #+#             */
-/*   Updated: 2025/10/20 12:40:42 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/20 13:14:28 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,23 @@ void	second_child(char **argv, int *p_fd, char **envp, int term_fd)
 int	main(int argc, char *argv[], char **envp)
 {
 	int		p_fd[2];
-	pid_t	pid;
-	pid_t	pid2;
+	pid_t	*pid;
 	int		term_fd;
 
+	pid = malloc(sizeof(pid_t) * numoffds(argv));
 	if (argc < 5)
 		handle_exit();
 	if (pipe(p_fd) == -1)
 		exit(-1);
-	pid = fork();
-	pid_check(pid);
+	pid[0] = fork();
+	pid_check(pid[0]);
 	term_fd = dup(1);
-	if (pid == 0)
+	if (pid[0] == 0)
 		child(argv, envp, p_fd, term_fd);
-	pid2 = fork();
-	pid_check(pid2);
-	if (pid2 == 0)
+	pid[1] = fork();
+	pid_check(pid[1]);
+	if (pid[1] == 0)
 		second_child(argv, p_fd, envp, term_fd);
-	waitpid(pid, NULL, 0);
+	waitpid(pid[0], NULL, 0);
 	return (fd_closer(p_fd), 0);
 }
