@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:51:34 by alex              #+#    #+#             */
-/*   Updated: 2025/10/20 14:27:44 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/21 10:51:03 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 void	exec(char *cmd, char **env, int term_fd);
 void	child(char **av, char **envp, int *fd, int term_fd);
-void	second_child(char **argv, int *p_fd, char **envp, int term_fd);
+void	second_child(char **argv, int *p_fd, char **envp, int term_fd, int argc);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	**ft_split(char const *s, char c);
@@ -52,6 +52,7 @@ void	pid_check(int pid);
 void	error_cmd(char *cmd, char **freecom, int term_fd);
 // int		pipex(int argc, char *argv[], char **envp);
 int		numofoutfds(char *argv[]);
+char	*ft_itoa(int n);
 int		numofinfds(char *argv[]);
 
 #endif

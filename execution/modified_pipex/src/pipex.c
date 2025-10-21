@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:51:16 by alex              #+#    #+#             */
-/*   Updated: 2025/10/20 14:26:58 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/21 10:51:26 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ void	child(char **argv, char **envp, int *p_fd, int term_fd)
 	exec(argv[2], envp, term_fd);
 }
 
-void	second_child(char **argv, int *p_fd, char **envp, int term_fd)
+void	second_child(char **argv, int *p_fd, char **envp, int term_fd, int argc)
 {
-	int	outfile;
+	int		outfile;
+	char	*outfd;
 
+	outfd = findout(argv, argc);	
 	outfile = open_file(argv[4], 1, p_fd);
 	dup2(outfile, 1);
 	close(outfile);
@@ -91,7 +93,7 @@ int	main(int argc, char *argv[], char **envp)
 	pidin[0] = fork();
 	pid_check(pidin[0]);
 	if (pidin[0] == 0)
-		second_child(argv, p_fd, envp, term_fd);
+		second_child(argv, p_fd, envp, term_fd, argc);
 	waitpid(pidin[0], NULL, 0);
 	return (fd_closer(p_fd), 0);
 }
