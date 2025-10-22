@@ -6,7 +6,7 @@
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/22 11:47:27 by alex             ###   ########.fr       */
+/*   Updated: 2025/10/22 12:57:40 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	error(void)
 	exit(EXIT_FAILURE);
 }
 
-/* Function that take the command and send it to find_path
+/* Function that takes the command and sends it to find_path
  before executing it. */
 void	execute(char *argv, char **envp)
 {
@@ -70,7 +70,6 @@ void	execute(char *argv, char **envp)
 		error();
 }
 
-/* Function that will read input from the terminal and return line. */
 int	get_next_line(char **line)
 {
 	char	*buffer;
