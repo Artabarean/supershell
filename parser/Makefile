@@ -10,6 +10,9 @@ SRC	 =	main.c \
 		enviroment.c \
 		lexer.c \
 		lexer_utils.c \
+		init.c \
+		utils.c \
+		parser.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 

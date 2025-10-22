@@ -26,22 +26,3 @@ void	parse_env(t_env *e, char **env)
 		i++;
 	}
 }
-
-void	init_env(t_prompt *prompt, char **env)
-{
-	t_env	*e;	
-
-	prompt->enviroment = malloc(sizeof(t_env));
-	if (!prompt->enviroment)
-		return ;
-	e = prompt->enviroment;
-	e->path = NULL;
-	e->home = NULL;
-	e->pwd = NULL;
-	e->oldpwd = NULL;
-	e->user = NULL;
-	e->shell = NULL;
-	e->shlvl = 0;
-	e->cmdpath = NULL;
-	parse_env(e, env);
-}
