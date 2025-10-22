@@ -3,18 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/07 14:49:15 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/17 10:15:29 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:45:18 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* The strlcat() function appends the NUL-terminated string src to the end of 
-dst. It will append at most size - strlen(dst) - 1 bytes, NUL-terminating the 
-result. */
-/* The strlcat() functions return the total length of the string they tried 
-to create that means the initial length of dst plus the length of src. */
 
 #include "libft.h"
 

@@ -3,19 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/08 12:51:40 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/13 16:40:52 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:45:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* La fonction strdup() renvoie un pointeur sur une nouvelle chaîne de 
-caractères qui est dupliquée depuis s. La mémoire occupée par cette nouvelle 
-chaîne est obtenue en appelant malloc(), et peut (doit) donc être libérée avec
-free().*/
-/* La fonction strdup() renvoie un pointeur sur la chaîne dupliquée, ou NULL
-s'il n'y avait pas assez de mémoire.  */
 
 #include "libft.h"
 

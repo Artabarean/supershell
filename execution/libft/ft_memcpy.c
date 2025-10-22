@@ -3,17 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/05 11:18:02 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/13 13:17:42 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:45:39 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* La fonction memcpy() copie n octets depuis la zone mémoire src vers la zone
-mémoire dest. Les deux zones ne doivent pas se chevaucher. Si c'est le cas, 
-utilisez plutôt memmove(). */
-/* La fonction memcpy() renvoie un pointeur sur dest. */
 
 #include "libft.h"
 

@@ -3,18 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/08 12:17:37 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/12 15:28:51 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:46:36 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* calloc() alloue la mémoire necessaire pour un tableau de nmemb éléments de
-taille size octets, et renvoie un pointeur vers la mémoire allouée. Cette zone 
-est remplie avec des zéros. Si nmemb ou size vaut 0, calloc() renvoie soit 
-NULL, soit un pointeur unique qui pourra être passé ultérieurement à free() 
-avec succès. */
 
 #include "libft.h"
 

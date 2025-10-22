@@ -3,17 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 17:26:08 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/13 15:57:51 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:46:20 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Alloue (avec malloc) et retourne une chaine de caractères représentant 
-l’integer reçu en argument .Les nombres négatifs doivent être gérés. */
-/* La chaine de caractères représentant l’integer. NULL si l’allocation 
-échoue. */
 
 #include "libft.h"
 

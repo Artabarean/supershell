@@ -3,16 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/07 10:27:30 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/07 10:33:03 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:46:24 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Vérifie s'il s'agit d'un caractère imprimable, y compris l'espace. */
-/* Les valeurs renvoyées sont non nulles si le caractère c entre dans la 
-catégorie testée, et zéro sinon */
 
 #include "libft.h"
 

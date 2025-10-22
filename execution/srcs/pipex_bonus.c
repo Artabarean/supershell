@@ -3,18 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/05 10:33:51 by gcollet           #+#    #+#             */
-/*   Updated: 2021/08/13 18:13:03 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:43:56 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-/* Child process that create a fork and a pipe, put the output inside a pipe
- and then close with the exec function. The main process will change his stdin
- for the pipe file descriptor. */
 void	child_process(char *argv, char **envp)
 {
 	pid_t	pid;
@@ -39,9 +36,6 @@ void	child_process(char *argv, char **envp)
 	}
 }
 
-/* Function who make a child process that will read from the stdin with
- get_next_line until it find the limiter word and then put the output inside a
- pipe. The main process will change his stdin for the pipe file descriptor. */
 void	here_doc(char *limiter, int argc)
 {
 	pid_t	reader;
@@ -71,9 +65,6 @@ void	here_doc(char *limiter, int argc)
 	}
 }
 
-/* Main function that run the childs process with the right file descriptor
- or display an error message if arguments are wrong. It will run here_doc
- function if the "here_doc" string is find in argv[1] */
 int	main(int argc, char **argv, char **envp)
 {
 	int	i;

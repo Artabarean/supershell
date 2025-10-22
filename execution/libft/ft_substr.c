@@ -3,17 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 10:51:58 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/13 16:02:24 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:45:03 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Alloue (avec malloc()) et retourne une chaine de caractères issue de la 
-chaine ’s’. Cette nouvelle chaine commence à l’index ’start’ et a pour taille 
-maximale ’len’ */
-/* La nouvelle chaine de caractere. NULL si l’allocation échoue. */
 
 #include "libft.h"
 

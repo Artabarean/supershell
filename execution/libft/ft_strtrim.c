@@ -3,17 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 12:46:47 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/13 13:30:05 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:45:08 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Alloue (avec malloc) et retourne une copie de la chaine ’s1’, sans les 
-caractères spécifiés dans ’set’ au début et à la fin de la chaine de 
-caractères. */
-/* La chaine de caractères trimmée. NULL si l’allocation échoue. */
 
 #include "libft.h"
 

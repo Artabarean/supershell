@@ -5,15 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/07 13:31:38 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/22 11:25:29 by alex             ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:44:37 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* The strlcpy() function copies up to size characters from the 
-NUL-terminated string src to dst, NUL-terminating the result. */
-/* The strlcpy() functions return the total length of the string 
-they tried to create. For strlcpy() that means the length of src. */
 
 #include "../libft/libft.h"
 

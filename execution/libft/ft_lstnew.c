@@ -3,17 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/20 08:21:11 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/20 11:42:33 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:45:58 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Alloue (avec malloc) et renvoie un nouvel élément. La variable content est 
-initialisée à l’aide de la valeur du paramètre content. La variable ’next’ est
-initialisée à NULL. */
-/* Valeur de retour: Le nouvel element */
 
 #include "libft.h"
 

@@ -5,14 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 11:42:29 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/22 11:23:23 by alex             ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:44:42 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Alloue (avec malloc) et retourne une nouvelle chaine, résultat de la 
-concaténation de s1 et s2. */
-/* La nouvelle chaine de caractères. NULL si l’allocation échoue. */
 
 #include "../libft/libft.h"
 

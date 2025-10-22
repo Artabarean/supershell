@@ -3,16 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/08 11:53:08 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/12 17:33:21 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:46:42 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* La fonction atoi() convertit le début de la chaîne pointée par nptr en 
-entier de type int . */
-/* VALEUR RENVOYÉE : Le résultat de la conversion.   */
 
 #include "libft.h"
 

@@ -5,12 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/11 11:17:23 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/22 11:25:24 by alex             ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:44:50 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Écrit la chaine de caractères ’s’ sur le file descriptor donné. */
 
 #include "../libft/libft.h"
 

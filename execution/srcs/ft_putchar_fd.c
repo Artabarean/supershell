@@ -5,12 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/11 11:01:32 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/22 11:26:21 by alex             ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:44:53 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Écrit le caractère ’c’ sur le file descriptor donné. */
 
 #include "../libft/libft.h"
 

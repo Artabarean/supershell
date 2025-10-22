@@ -3,16 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/20 13:17:48 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/20 15:04:09 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:46:11 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Supprime et libère la mémoire de l’élément passé en paramètre, et de tous 
-les élements qui suivent, à l’aide de del et de free(3) Enfin, le pointeur 
-initial doit être mis à NULL. */
 
 #include "libft.h"
 

@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42quebec.com>     +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/11 10:20:19 by gcollet           #+#    #+#             */
-/*   Updated: 2021/05/13 13:34:37 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:45:13 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/* Applique la fonction ’f’ à chaque caractère de la chaine de caractères 
-passée en argument pour créer une nouvelle chaine de caractères (avec malloc)
-résultant des applications successives de ’f’. */
-/* La chaine de caractères résultant des application ssuccessives de f. 
-Retourne NULL si l’allocation échoue. */
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {

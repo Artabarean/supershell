@@ -3,19 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcollet <gcollet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 10:37:42 by gcollet           #+#    #+#             */
-/*   Updated: 2022/02/06 10:00:40 by gcollet          ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:45:35 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* La fonction memmove() copie n octets depuis la zone mémoire src vers la zone 
-mémoire dest. Les deux zones peuvent se chevaucher : la copie se passe comme 
-si les octets de src étaient d'abord copiés dans une zone temporaire qui ne 
-chevauche ni src ni dest, et les octets sont ensuite copiés de la zone 
-temporaire vers dest.  */
-/* La fonction memmove() renvoie un pointeur sur dest. */
 
 #include "libft.h"
 

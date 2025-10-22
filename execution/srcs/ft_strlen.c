@@ -5,14 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/06 14:39:40 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/22 11:23:26 by alex             ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:44:29 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* La fonction strlen() calcule la longueur de la chaîne de caractères s, sans 
-compter l'octet nul « \0 » final. */
-/* La fonction strlen() renvoie le nombre de caractères dans la chaîne s. */
 
 #include "../libft/libft.h"
 

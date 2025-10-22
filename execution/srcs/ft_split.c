@@ -5,16 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/10 14:59:30 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/22 11:23:17 by alex             ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:44:45 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* Alloue (avec malloc) et retourne un tableau de chaines de caracteres obtenu 
-en séparant ’s’ à l’aide du caractère ’c’, utilisé comme délimiteur. Le tableau
-doit être terminé par NULL. */
-/* Le tableau de nouvelles chaines de caractères, résultant du découpage. 
-NULL si l’allocation échoue. */
 
 #include "../libft/libft.h"
 

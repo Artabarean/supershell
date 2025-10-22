@@ -5,17 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/07 11:51:46 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/22 11:23:29 by alex             ###   ########.fr       */
+/*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
+/*   Updated: 2025/10/22 11:44:14 by alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* La fonction strcmp() compare les deux chaînes s1 et s2. Elle renvoie un 
-entier négatif, nul, ou positif, si s1 est respectivement inférieure, égale 
-ou supérieure à s2. */
-/* La fonction strncmp() renvoie un entier inférieur, égal ou supérieur à zéro
-si s1 (ou ses n premiers octets) est respectivement inférieure, égale ou 
-supérieure à s2. */
 
 #include "../libft/libft.h"
 
