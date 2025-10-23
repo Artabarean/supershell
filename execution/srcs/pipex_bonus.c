@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/23 12:20:38 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/23 12:33:09 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,22 @@ void	here_doc(char *limiter)
 
 int	pipex(t_prompt *prompt)
 {
-	int	i;
 	int	filein;
 	int	fileout;
 	t_cmd *current_node;
 
 	if (prompt->cmds->heredoc == 1)
 	{
-		i = 3;
 		fileout = open_file(prompt->cmds->outfile, 0);
 		here_doc(prompt->cmds->outfile);
 	}
+	if (prompt->cmds->append == 1)
+		fileout = open_file(prompt->cmds->outfile, 0);
 	else
 	{
-		i = 2;
 		fileout = open_file(prompt->cmds->outfile, 1);
 		filein = open_file(prompt->cmds->infile, 2);
-		dup2(filein, STDIN_FILENO);
+		dup2(filein, 0);
 	}
 	current_node = prompt->cmds;
 	while (current_node->next != NULL)
@@ -89,7 +88,7 @@ int	pipex(t_prompt *prompt)
 		current_node = current_node->next;
 		child_process(current_node->full_cmd, current_node->full_path, prompt);
 	}
-	dup2(fileout, STDOUT_FILENO);
+	dup2(fileout, 1);
 	execute(current_node->full_cmd, current_node->full_path, prompt);
 	usage();
 }
