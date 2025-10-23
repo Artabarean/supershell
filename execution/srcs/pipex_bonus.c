@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/23 12:45:48 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/23 13:04:10 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,14 @@ void	here_doc(char *limiter)
 
 int	pipex(t_prompt prompt)
 {
-	int	filein;
-	int	fileout;
-	t_cmd *current_node;
+	int		filein;
+	int		fileout;
+	t_cmd	*current_node;
+	int		i;
+	int		j;
 
+	j = 0;
+	i = 0;
 	// if (prompt.cmds->heredoc == 1)
 	// {
 	// 	fileout = open_file(prompt->cmds->outfile, 0);
@@ -78,8 +82,20 @@ int	pipex(t_prompt prompt)
 		fileout = open_file(prompt.cmds->outfile, 0);
 	else
 	{
-		fileout = open_file(prompt.cmds->outfile, 1);
-		filein = open_file(prompt.cmds->infile, 2);
+		while (prompt.cmds->outfile[i])
+		{
+			fileout = open_file(prompt.cmds->outfile[i], 1);
+			if (prompt.cmds->outfile[i++] == NULL)
+				break ;
+			close(fileout);
+			i++;
+		}
+		while (prompt.cmds->infile[j])
+		{
+			filein = open_file(prompt.cmds->infile[j], 2);
+			j++;
+		}
+		
 		dup2(filein, 0);
 	}
 	current_node = prompt.cmds;

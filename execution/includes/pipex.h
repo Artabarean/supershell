@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
-/*   Updated: 2025/10/23 12:46:09 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/23 12:48:49 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 /* Mandatory functions */
 void	error(void);
+int		get_next_line(char **line);
 void	execute(char **full_cmd, char *full_path, t_prompt prompt);
 int		pipex(t_prompt prompt);
 
