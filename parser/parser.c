@@ -20,7 +20,7 @@ void	parser(t_prompt *prompt)
 	curr = create_cmd(prompt->cmds);
 	while (prompt->tkns[i] != NULL)
 	{
-		if (ft_strncmp (prompt->tkns[i], "|", 1))
+		if (!ft_strncmp (prompt->tkns[i], "|", 1))
 		{
 			curr->full_cmd[j] = NULL;
 			curr = create_cmd(prompt->cmds);
@@ -44,12 +44,5 @@ void	parser(t_prompt *prompt)
 			curr->full_cmd[j++] = ft_strdup(prompt->tkns[i]);
 		i++;
 	}
-		curr->full_cmd[j] = NULL;
+	curr->full_cmd[j] = NULL;
 }
-
-/*
-agrupar los tokens en cmds
-interpretar < << >> > | para separar los comandos
-infile
-outfile
-*/

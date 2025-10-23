@@ -5,7 +5,7 @@ t_cmd	*new_cmd(void)
 	t_cmd	*c;
 
 	c = malloc(sizeof(t_cmd));
-	if (c)
+	if (!c)
 		return (NULL);
 	c->full_cmd = malloc(sizeof(char *) * MAX_TOKENS);
 	c->full_path = NULL;
