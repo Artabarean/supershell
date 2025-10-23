@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/23 13:02:41 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/23 14:05:54 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error(void)
 {
-	perror("\033[31mError");
+	perror("Error");
 	exit(EXIT_FAILURE);
 }
 
