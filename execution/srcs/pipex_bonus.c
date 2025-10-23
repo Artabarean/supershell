@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/23 13:04:10 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/23 13:54:06 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	child_process(char **full_cmd, char *full_path, t_prompt prompt)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
+		dup2(fd[1], 1);
 		execute(full_cmd, full_path, prompt);
 	}
 	else
 	{
 		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
+		dup2(fd[0], 0);
 		waitpid(pid, NULL, 0);
 	}
 }
@@ -58,7 +58,7 @@ void	here_doc(char *limiter)
 	else
 	{
 		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
+		dup2(fd[0], 0);
 		wait(NULL);
 	}
 }
@@ -93,6 +93,9 @@ int	pipex(t_prompt prompt)
 		while (prompt.cmds->infile[j])
 		{
 			filein = open_file(prompt.cmds->infile[j], 2);
+			if (prompt.cmds->infile[j++] == NULL)
+				break;
+			close(filein);
 			j++;
 		}
 		
