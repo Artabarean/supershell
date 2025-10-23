@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/23 13:54:06 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/23 14:22:20 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	pipex(t_prompt prompt)
 			if (prompt.cmds->outfile[i++] == NULL)
 				break ;
 			close(fileout);
+			fileout = -1;
 			i++;
 		}
 		while (prompt.cmds->infile[j])
@@ -96,6 +97,7 @@ int	pipex(t_prompt prompt)
 			if (prompt.cmds->infile[j++] == NULL)
 				break;
 			close(filein);
+			filein = -1;
 			j++;
 		}
 		
