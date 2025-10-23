@@ -6,13 +6,13 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/23 12:37:53 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/23 12:45:48 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	child_process(char **full_cmd, char *full_path, t_prompt *prompt)
+void	child_process(char **full_cmd, char *full_path, t_prompt prompt)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -63,26 +63,26 @@ void	here_doc(char *limiter)
 	}
 }
 
-int	pipex(t_prompt *prompt)
+int	pipex(t_prompt prompt)
 {
 	int	filein;
 	int	fileout;
 	t_cmd *current_node;
 
-	// if (prompt->cmds->heredoc == 1)
+	// if (prompt.cmds->heredoc == 1)
 	// {
 	// 	fileout = open_file(prompt->cmds->outfile, 0);
-	// 	here_doc(prompt->cmds->outfile);
+	// 	here_doc(prompt.cmds->outfile);
 	// }
-	if (prompt->cmds->append == 1)
-		fileout = open_file(prompt->cmds->outfile, 0);
+	if (prompt.cmds->append == 1)
+		fileout = open_file(prompt.cmds->outfile, 0);
 	else
 	{
-		fileout = open_file(prompt->cmds->outfile, 1);
-		filein = open_file(prompt->cmds->infile, 2);
+		fileout = open_file(prompt.cmds->outfile, 1);
+		filein = open_file(prompt.cmds->infile, 2);
 		dup2(filein, 0);
 	}
-	current_node = prompt->cmds;
+	current_node = prompt.cmds;
 	while (current_node->next != NULL)
 	{
 		current_node = current_node->next;
