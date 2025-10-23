@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2025/10/22 12:56:45 by alex             ###   ########.fr       */
+/*   Updated: 2025/10/23 11:18:00 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/pipex.h"
-#include "../parser/parser.h"
 
-void    executer(t_prompt prompt)
+void    executer(t_prompt *prompt)
 {
-    
+	if (prompt->cmds->infile && prompt->cmds->outfile)
+		pipex(prompt);
+	else
+		
 }

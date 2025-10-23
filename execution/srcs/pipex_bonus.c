@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alex <alex@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/22 11:43:56 by alex             ###   ########.fr       */
+/*   Updated: 2025/10/23 12:20:38 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	child_process(char *argv, char **envp)
+void	child_process(char **full_cmd, char *full_path, t_prompt *prompt)
 {
 	pid_t	pid;
 	int		fd[2];
@@ -26,7 +26,7 @@ void	child_process(char *argv, char **envp)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
-		execute(argv, envp);
+		execute(full_cmd, full_path, prompt);
 	}
 	else
 	{
@@ -36,14 +36,12 @@ void	child_process(char *argv, char **envp)
 	}
 }
 
-void	here_doc(char *limiter, int argc)
+void	here_doc(char *limiter)
 {
 	pid_t	reader;
 	int		fd[2];
 	char	*line;
 
-	if (argc < 6)
-		usage();
 	if (pipe(fd) == -1)
 		error();
 	reader = fork();
@@ -65,31 +63,33 @@ void	here_doc(char *limiter, int argc)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+int	pipex(t_prompt *prompt)
 {
 	int	i;
 	int	filein;
 	int	fileout;
+	t_cmd *current_node;
 
-	if (argc >= 5)
+	if (prompt->cmds->heredoc == 1)
 	{
-		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-		{
-			i = 3;
-			fileout = open_file(argv[argc - 1], 0);
-			here_doc(argv[2], argc);
-		}
-		else
-		{
-			i = 2;
-			fileout = open_file(argv[argc - 1], 1);
-			filein = open_file(argv[1], 2);
-			dup2(filein, STDIN_FILENO);
-		}
-		while (i < argc - 2)
-			child_process(argv[i++], envp);
-		dup2(fileout, STDOUT_FILENO);
-		execute(argv[argc - 2], envp);
+		i = 3;
+		fileout = open_file(prompt->cmds->outfile, 0);
+		here_doc(prompt->cmds->outfile);
 	}
+	else
+	{
+		i = 2;
+		fileout = open_file(prompt->cmds->outfile, 1);
+		filein = open_file(prompt->cmds->infile, 2);
+		dup2(filein, STDIN_FILENO);
+	}
+	current_node = prompt->cmds;
+	while (current_node->next != NULL)
+	{
+		current_node = current_node->next;
+		child_process(current_node->full_cmd, current_node->full_path, prompt);
+	}
+	dup2(fileout, STDOUT_FILENO);
+	execute(current_node->full_cmd, current_node->full_path, prompt);
 	usage();
 }
