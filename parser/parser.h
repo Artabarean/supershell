@@ -24,6 +24,7 @@ typedef struct s_cmd
 {
 	char			**full_cmd;	//cmd, argumentos, opciones...
 	char			*full_path;
+	pid_t			pid;
 	char			*infile;
 	char 			*outfile;
 	int 			append;

@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/24 12:07:39 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/24 12:24:47 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	here_doc(char *limiter)
 
 void	child_process1(t_cmd *current_node , int	filein, int fileout, t_prompt prompt)
 {
-	pid_t	pid;
 	int		fd[2];
 
 	if (pipe(fd) == -1)
@@ -50,10 +49,10 @@ void	child_process1(t_cmd *current_node , int	filein, int fileout, t_prompt prom
 		fd[0] = filein;
 	if (fileout != -1)
 		fd[1] = fileout;
-	pid = fork();
-	if (pid == -1)
+	current_node->pid = fork();
+	if (current_node->pid == -1)
 		error();
-	if (pid == 0)
+	if (current_node->pid == 0)
 	{
 		dup2(fd[1], 1);
 		execute(current_node->full_cmd, current_node->full_path, prompt);
@@ -62,55 +61,51 @@ void	child_process1(t_cmd *current_node , int	filein, int fileout, t_prompt prom
 	{
 		close(fd[1]);
 		dup2(fd[0], 0);
-		waitpid(pid, NULL, 0);
 	}
 }
 
 void	child_processmid(t_cmd *current_node , t_prompt prompt)
 {
-	pid_t	pid;
 	int		fd[2];
 
 	if (pipe(fd) == -1)
 		error();
-	pid = fork();
-	if (pid == -1)
+	current_node->pid = fork();
+	if (current_node->pid == -1)
 		error();
-	if (pid == 0)
+	if (current_node->pid == 0)
 	{
+		dup2(fd[0], 0);
 		dup2(fd[1], 1);
+		close(fd[0]);
+		close(fd[1]);
 		execute(current_node->full_cmd, current_node->full_path, prompt);
 	}
 	else
 	{
+		close(fd[0]);
 		close(fd[1]);
-		dup2(fd[0], 0);
-		waitpid(pid, NULL, 0);
 	}
 }
 
 void	child_processend(t_cmd *current_node , int	filein, int fileout, t_prompt prompt)
 {
-	pid_t	pid;
-	int		fd[2];
-
-	if (filein != -1)
-		fd[0] = filein;
-	if (fileout != -1)
-		fd[1] = fileout;
-	pid = fork();
-	if (pid == -1)
+	current_node->pid = fork();
+	current_node->pid;
+	if (current_node->pid == -1)
 		error();
-	if (pid == 0)
+	if (current_node->pid == 0)
 	{
-		dup2(fd[1], 1);
+		if (fileout != -1)
+			dup2(fileout, 1);
 		execute(current_node->full_cmd, current_node->full_path, prompt);
 	}
 	else
 	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		waitpid(pid, NULL, 0);
+		if (fileout != -1)
+			close(fileout);
+		if (filein != -1)
+			dup2(filein, 0);
 	}
 }
 
@@ -120,6 +115,7 @@ int	pipex(t_prompt prompt)
 	int		fileout;
 	t_cmd	*current_node;
 	int		i;
+	int		status;
 	int		j;
 
 	j = 0;
@@ -167,5 +163,12 @@ int	pipex(t_prompt prompt)
 			child_processend(current_node, filein, fileout, prompt);
 		current_node = current_node->next;
 	}
+	current_node = prompt.cmds;
+	while (current_node->next != NULL)
+	{
+		waitpid(current_node->pid, &status, NULL);
+		current_node = current_node->next;
+	}
+	//check_status
 	return (0);
 }
