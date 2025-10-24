@@ -6,20 +6,12 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/10/23 14:06:13 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/24 12:08:48 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/pipex.h"
-
-void	usage(void)
-{
-	ft_putstr_fd("Error: Bad argument\n", 2);
-	ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> <...> <file2>\n", 1);
-	ft_putstr_fd("    ./pipex \"here_doc\" <LIMITER> <cmd> <cmd1> <...> <file>\n", 1);
-	exit(EXIT_SUCCESS);
-}
 
 int	open_file(char *argv, int i)
 {
