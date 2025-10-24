@@ -6,35 +6,11 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/23 14:22:20 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/24 12:07:39 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
-void	child_process(char **full_cmd, char *full_path, t_prompt prompt)
-{
-	pid_t	pid;
-	int		fd[2];
-
-	if (pipe(fd) == -1)
-		error();
-	pid = fork();
-	if (pid == -1)
-		error();
-	if (pid == 0)
-	{
-		close(fd[0]);
-		dup2(fd[1], 1);
-		execute(full_cmd, full_path, prompt);
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		waitpid(pid, NULL, 0);
-	}
-}
 
 void	here_doc(char *limiter)
 {
@@ -63,6 +39,81 @@ void	here_doc(char *limiter)
 	}
 }
 
+void	child_process1(t_cmd *current_node , int	filein, int fileout, t_prompt prompt)
+{
+	pid_t	pid;
+	int		fd[2];
+
+	if (pipe(fd) == -1)
+		error();
+	if (filein != -1)
+		fd[0] = filein;
+	if (fileout != -1)
+		fd[1] = fileout;
+	pid = fork();
+	if (pid == -1)
+		error();
+	if (pid == 0)
+	{
+		dup2(fd[1], 1);
+		execute(current_node->full_cmd, current_node->full_path, prompt);
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		waitpid(pid, NULL, 0);
+	}
+}
+
+void	child_processmid(t_cmd *current_node , t_prompt prompt)
+{
+	pid_t	pid;
+	int		fd[2];
+
+	if (pipe(fd) == -1)
+		error();
+	pid = fork();
+	if (pid == -1)
+		error();
+	if (pid == 0)
+	{
+		dup2(fd[1], 1);
+		execute(current_node->full_cmd, current_node->full_path, prompt);
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		waitpid(pid, NULL, 0);
+	}
+}
+
+void	child_processend(t_cmd *current_node , int	filein, int fileout, t_prompt prompt)
+{
+	pid_t	pid;
+	int		fd[2];
+
+	if (filein != -1)
+		fd[0] = filein;
+	if (fileout != -1)
+		fd[1] = fileout;
+	pid = fork();
+	if (pid == -1)
+		error();
+	if (pid == 0)
+	{
+		dup2(fd[1], 1);
+		execute(current_node->full_cmd, current_node->full_path, prompt);
+	}
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		waitpid(pid, NULL, 0);
+	}
+}
+
 int	pipex(t_prompt prompt)
 {
 	int		filein;
@@ -73,6 +124,8 @@ int	pipex(t_prompt prompt)
 
 	j = 0;
 	i = 0;
+	filein = -1;
+	fileout = -1;
 	// if (prompt.cmds->heredoc == 1)
 	// {
 	// 	fileout = open_file(prompt->cmds->outfile, 0);
@@ -91,25 +144,28 @@ int	pipex(t_prompt prompt)
 			fileout = -1;
 			i++;
 		}
-		while (prompt.cmds->infile[j])
+		i = 0;
+		while (prompt.cmds->infile[i])
 		{
-			filein = open_file(prompt.cmds->infile[j], 2);
-			if (prompt.cmds->infile[j++] == NULL)
+			filein = open_file(prompt.cmds->infile[i], 2);
+			if (prompt.cmds->infile[i++] == NULL)
 				break;
 			close(filein);
 			filein = -1;
-			j++;
+			i++;
 		}
-		
 		dup2(filein, 0);
 	}
 	current_node = prompt.cmds;
 	while (current_node->next != NULL)
 	{
+		if (j == 0)
+			child_process1(current_node, filein, fileout, prompt);
+		if (j != 0 && current_node->next != NULL)
+			child_processmid(current_node, prompt);
+		if (current_node->next == NULL)
+			child_processend(current_node, filein, fileout, prompt);
 		current_node = current_node->next;
-		child_process(current_node->full_cmd, current_node->full_path, prompt);
 	}
-	dup2(fileout, 1);
-	execute(current_node->full_cmd, current_node->full_path, prompt);
-	usage();
+	return (0);
 }
