@@ -115,6 +115,7 @@ int	pipex(t_prompt prompt)
 	int		fileout;
 	t_cmd	*current_node;
 	int		i;
+	int		last_status;
 	int		status;
 	int		j;
 
@@ -153,7 +154,7 @@ int	pipex(t_prompt prompt)
 		dup2(filein, 0);
 	}
 	current_node = prompt.cmds;
-	while (current_node->next != NULL)
+	while (current_node)
 	{
 		if (j == 0)
 			child_process1(current_node, filein, fileout, prompt);
@@ -164,11 +165,13 @@ int	pipex(t_prompt prompt)
 		current_node = current_node->next;
 	}
 	current_node = prompt.cmds;
-	while (current_node->next != NULL)
+	while (current_node)
 	{
-		waitpid(current_node->pid, &status, NULL);
+		waitpid(current_node->pid, &status, 0);
+		if (current_node->next == NULL)
+			last_status = status;
 		current_node = current_node->next;
 	}
-	//check_status
+	check_status(last_status);
 	return (0);
 }

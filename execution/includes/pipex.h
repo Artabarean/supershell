@@ -22,14 +22,11 @@
 # include "../libft/libft.h"
 # include "../../parser/parser.h"
 
-/* Mandatory functions */
 void	error(void);
 int		get_next_line(char **line);
 void	execute(char **full_cmd, char *full_path, t_prompt prompt);
 int		pipex(t_prompt prompt);
-
-/* Bonus functions */
 int		open_file(char *argv, int i);
-void	usage(void);
+void    check_status(int status);
 
 #endif

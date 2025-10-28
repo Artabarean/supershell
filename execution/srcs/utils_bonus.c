@@ -13,6 +13,25 @@
 
 #include "../includes/pipex.h"
 
+void	check_status(int status)
+{
+	int exit_code;
+    int signal_num;
+
+    if ((status & 0x7F) == 0)
+    {
+        exit_code = (status >> 8) & 0xFF;
+        printf("Exited with code %d\n", exit_code);
+    }
+    else
+    {
+        signal_num = status & 0x7F;
+        // In Bash, exit code = 128 + signal
+        exit_code = 128 + signal_num;
+        printf("Killed by signal %d\n", signal_num);
+    }
+}
+
 int	open_file(char *argv, int i)
 {
 	int	file;
