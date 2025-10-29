@@ -6,18 +6,18 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/10/29 11:29:29 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/29 11:41:11 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/pipex.h"
 
-int pid_stat(t_cmd *curr_nde, int status, int last_status)
+int pid_stat(t_cmd *curr_nde ,t_prompt prompt, int status, int last_status)
 {
     while (curr_nde)
 	{
-		waitpid(curr_nde->pid, &status, 0);
+		waitpid(prompt.pid, &status, 0);
 		if (curr_nde->next == NULL)
 			last_status = status;
 		curr_nde = curr_nde->next;
