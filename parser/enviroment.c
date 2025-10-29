@@ -20,7 +20,7 @@ void	parse_env(t_env *e, char **env)
 		else if (!ft_strncmp(env[i], "SHELL=", 6))
 			e->shell = ft_strdup(env[i] + 6);
 		else if (!ft_strncmp(env[i], "SHLVL=", 6))
-			e->shlvl = ft_atoi(ft_strdup(env[i] + 6));
+			e->shlvl = ft_atoi(env[i] + 6);
 		else if (!ft_strncmp(env[i], "_=", 2))
 			e->cmdpath = ft_strdup(env[i] + 2);
 		i++;

@@ -1,48 +1,42 @@
 #include "parser.h"
 
-t_cmd	*create_cmd(t_cmd *lst)
+void	parser(t_prompt *prompt, t_cmd *curr, char **tkn)
 {
-	t_cmd	*current;
-
-	current = new_cmd();
-	add_cmd_back(&lst, current);
-	return (current);
-}
-
-void	parser(t_prompt *prompt)
-{
-	int		i;
-	int		j;
-	t_cmd	*curr;
-
-	i = 0;
-	j = 0;
-	curr = create_cmd(prompt->cmds);
-	while (prompt->tkns[i] != NULL)
+	while (*tkn)
 	{
-		if (!ft_strncmp (prompt->tkns[i], "|", 1))
+		if (!ft_strncmp(*tkn, "|", 2))
 		{
-			curr->full_cmd[j] = NULL;
-			curr = create_cmd(prompt->cmds);
-			j = 0;
+			curr->next = create_cmd(prompt);
+			curr = curr->next;
+			tkn++;
 		}
-		else if (!ft_strncmp(prompt->tkns[i], "<", 1))
-			curr->infile = ft_strdup(prompt->tkns[++i]);
-		else if (!ft_strncmp(prompt->tkns[i], ">", 1))
-			curr->outfile = ft_strdup(prompt->tkns[++i]);
-		else if (!ft_strncmp(prompt->tkns[i], ">>", 2))
+		else if (!ft_strncmp(*tkn, ">>", 3) || !ft_strncmp(*tkn, "<<", 3)
+			|| !ft_strncmp(*tkn, "<", 2) || !ft_strncmp(*tkn, ">", 2))
 		{
-			curr->outfile = ft_strdup(prompt->tkns[++i]);
-			curr->append = 1;
-		}
-		else if (!ft_strncmp(prompt->tkns[i], "<<", 2))
-		{
-			curr->infile = ft_strdup(prompt->tkns[++i]);
-			curr->append = 1;
+			if (!create_file(&tkn, curr))
+			{
+				perror("Redirección incorrecta");
+				return ;
+			}
 		}
 		else
-			curr->full_cmd[j++] = ft_strdup(prompt->tkns[i]);
-		i++;
+		{
+			add_arg_to_cmd(*tkn, curr);
+			tkn++;
+		}
 	}
-	curr->full_cmd[j] = NULL;
+	curr->next = NULL;
+}
+
+void	init_parser(t_prompt *prompt)
+{
+	t_cmd	*curr;
+	char	**tkn;
+
+	if (!prompt || !prompt->tkns)
+		return ;
+	curr = create_cmd(prompt);
+	prompt->cmds = curr;
+	tkn = prompt->tkns;
+	parser(prompt, curr, tkn);
 }

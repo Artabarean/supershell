@@ -19,15 +19,22 @@
 
 # define MAX_TOKENS	100
 
+//Valores para controlar las señales
+# define STOP_RESTORE 1
+# define STOP_QUIT 2
+# define EXIT 3
+# define HEREDOC 4
+# define HEREDOC_PAUSE 5
+
 // Estructura para cada comando
 typedef struct s_cmd
 {
 	char			**full_cmd;	//cmd, argumentos, opciones...
 	char			*full_path;
-	pid_t			pid;
-	char			*infile;
-	char 			*outfile;
-	int 			append;
+	char			**infile;
+	char			**outfile;
+	int				append;
+	int				heredoc;
 	struct s_cmd	*next;
 }			t_cmd;
 
@@ -42,13 +49,14 @@ typedef struct s_env
 	char	*shell;
 	int		shlvl;
 	char	*cmdpath;
+	char	**envp;
 }				t_env;
 
 // Estructura general
 typedef struct s_prompt
 {
 	t_cmd	*cmds;	//lista de nodos de la otra estructura con los comandos ya separados
-	char	*imput;
+	char	*input;
 	char	**tkns;
 	t_env	*enviroment;
 	pid_t	pid ;
@@ -56,28 +64,59 @@ typedef struct s_prompt
 
 //Enviroment
 void	parse_env(t_env *e, char **env);
+
 //Init
 void	init_tkns(t_prompt *prompt);
 void	init_env(t_prompt *prompt, char **env);
-void	init_prompt(t_prompt *prompt, char **envp);
+void	init_prompt(t_prompt *prompt, char **envp, int env);
 t_cmd	*new_cmd(void);
+t_cmd	*create_cmd(t_prompt *prompt);
+
 //Lexer utils
-char	*expand_var(char *str,t_env *enviroment);
-char	*expand(char **imput, t_env *enviroment);
-char	*extract_str_quote(char **imput);
-char	*expand_or_empty(char **imput, t_env *env);
-char	*handle_quote_content(char **imput, t_env *env);
+char	*expand_var(char *str, t_env *enviroment);
+char	*expand(char **input, t_env *enviroment);
+char	*extract_str_quote(char **input);
+char	*expand_or_empty(char **input, t_env *env);
+char	*handle_quote_content(char **input, t_env *env);
+
 //lexer
 void	lexer(t_prompt *prompt);
-char	*extract_word(char **imput);
-char	*extract_and_expand(char **imput, t_env *env);
-char	*extract_str(char **imput);
+char	*extract_word(char **input);
+char	*extract_and_expand(char **input, t_env *env);
+char	*extract_str(char **input);
+
 //Utils
 int		ft_chrcmpr( char prompt, char sym);
 char	*ft_strjoin_free(char *s1, char *s2);
 void	add_cmd_back(t_cmd **lst, t_cmd *new);
 
 //parser
-void	parser(t_prompt *prompt);
+void	init_parser(t_prompt *prompt);
+void	new_node(t_cmd *current, int *index, t_prompt *prompt);
+void	add_arg_to_cmd(char *arg, t_cmd *cmd);
+int		create_file(char ***tkn, t_cmd *curr);
+void	add_infile(t_cmd *cmd, char *filename, int heredock);
+void	add_outfile(t_cmd *cmd, char *filename, int append);
+
+//clean
+void	free_all(t_prompt *prompt);
+void	free_lst(t_cmd **lst);
+void	del(t_cmd *tmp);
+void	free_doble_ptr(char **ptr);
+
+//Input
+void	get_user_input(t_prompt *prompt);
+int		is_valid_input(char *input);
+int		correct_input(char *input);
+int		not_only_spaces(char *input);
+
+//Valid comands
+int		cmds_valids(t_prompt prompt);
+
+//Signals
+void	set_signal(int status, t_prompt *prompt);
+
+//Debugging
+void	executer(t_prompt prompt);
 
 #endif

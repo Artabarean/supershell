@@ -1,9 +1,9 @@
 #include "parser.h"
 
-char	*expand_var(char *str,t_env *enviroment)
+char	*expand_var(char *str, t_env *enviroment)
 {
 	char	*exp_str;
-	
+
 	if (!str || !*str)
 		return (ft_strdup(""));
 	if (!ft_strncmp(str, "PATH", 4))
@@ -27,22 +27,22 @@ char	*expand_var(char *str,t_env *enviroment)
 	return (exp_str);
 }
 
-char	*expand(char **imput, t_env *enviroment)
+char	*expand(char **input, t_env *enviroment)
 {
 	int		len;
 	char	*temp;
 	char	*var;
 
 	len = 0;
-	if (**imput == '$')
+	if (**input == '$')
 	{
-		(*imput)++;
-		while (ft_isalnum(**imput) || **imput == '_')
+		(*input)++;
+		while (ft_isalnum(**input) || **input == '_')
 		{
-			(*imput)++;
+			(*input)++;
 			len++;
 		}
-		temp = ft_substr(*imput - len, 0, len);
+		temp = ft_substr(*input - len, 0, len);
 		var = expand_var(temp, enviroment);
 		free(temp);
 		if (!var)
@@ -53,32 +53,32 @@ char	*expand(char **imput, t_env *enviroment)
 		return (NULL);
 }
 
-char	*extract_str_quote(char **imput)
+char	*extract_str_quote(char **input)
 {
-	int	len;
-	char *temp;
-	
+	int		len;
+	char	*temp;
+
 	len = 0;
-	while ((*imput)[len] && (*imput)[len] != '$' && (*imput)[len] != '"')
+	while ((*input)[len] && (*input)[len] != '$' && (*input)[len] != '"')
 		len++;
-	temp = ft_substr(*imput, 0, len);
+	temp = ft_substr(*input, 0, len);
 	if (!temp)
 		return (NULL);
-	(*imput) += len;;
+	(*input) += len;
 	return (temp);
 }
 
-char	*expand_or_empty(char **imput, t_env *env)
+char	*expand_or_empty(char **input, t_env *env)
 {
 	char	*var;
 
-	var = expand(imput, env);
+	var = expand(input, env);
 	if (!var)
 		var = ft_strdup("");
 	return (var);
 }
 
-char	*handle_quote_content(char **imput, t_env *env)
+char	*handle_quote_content(char **input, t_env *env)
 {
 	char	*buffer;
 	char	*temp;
@@ -87,12 +87,12 @@ char	*handle_quote_content(char **imput, t_env *env)
 	buffer = ft_strdup("");
 	if (!buffer)
 		return (NULL);
-	while (**imput && **imput != '"')
+	while (**input && **input != '"')
 	{
-		if (**imput == '$')
-			var = expand_or_empty(imput, env);
+		if (**input == '$')
+			var = expand_or_empty(input, env);
 		else
-			var = extract_str_quote(imput);
+			var = extract_str_quote(input);
 		if (!var)
 			return (free(buffer), NULL);
 		temp = buffer;
@@ -100,9 +100,3 @@ char	*handle_quote_content(char **imput, t_env *env)
 	}
 	return (buffer);
 }
-
-
-
-
-
-

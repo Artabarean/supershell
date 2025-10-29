@@ -1,47 +1,36 @@
 #include "parser.h"
 
+void	start_minishell(t_prompt *prompt)
+{
+	lexer(prompt);
+	init_parser(prompt);
+	executer(*prompt);
+	free_all(prompt);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_prompt	prompt;
-	char		*user;
-	int			i = 0;
-	pid_t child_pid;
-    int stat_loc;
+	int			i;
 
+	i = 0;
 	if (argc != 1 || envp == NULL || *envp == NULL)
 		return (perror("Error en el enviroment"), 1);
 	(void)argc;
 	(void)argv;
-	
 	while (1)
 	{
-		//signals?
-		init_prompt(&prompt, envp);
-		user = ft_strjoin(prompt.enviroment->user, "@minishell: ");
-		prompt.imput = readline(user);
-		if (prompt.imput == NULL)
+		init_prompt(&prompt, envp, 1);
+		get_user_input(&prompt);
+		if (prompt.input && not_only_spaces(prompt.input))
 		{
-			write(1, "\n", 1);
-			return (0);
+			if (correct_input(prompt.input))
+				start_minishell(&prompt);
+			else
+				free_all(&prompt);
 		}
-		add_history(prompt.imput); 
-		lexer(&prompt);
-		parser(&prompt);
- 		while (prompt.cmds->full_cmd)
-		{
- 			child_pid = fork();
-        	if (child_pid == 0) 
-			{
-				execvp(prompt.cmds->full_cmd[0], prompt.cmds->full_cmd);
-            	printf("This won't be printed if execvp is successul\n");
-        	} 
-			else 
-			{
-				waitpid(child_pid, &stat_loc, WUNTRACED);
-			}			
-			prompt.cmds->full_cmd++;	
-		}
-		//free_all(prompt);
+		else
+			set_signal(EXIT, &prompt);
 	}
 	return (0);
 }

@@ -34,7 +34,3 @@ void	add_cmd_back(t_cmd **lst, t_cmd *new)
 		tmp = tmp->next;
 	tmp->next = new;
 }
-
-
-
-

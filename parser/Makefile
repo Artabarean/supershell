@@ -13,6 +13,11 @@ SRC	 =	main.c \
 		init.c \
 		utils.c \
 		parser.c \
+		parser_utils.c \
+		clean.c \
+		signal.c \
+		input.c \
+		debugging.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 
