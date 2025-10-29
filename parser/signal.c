@@ -1,13 +1,34 @@
 #include "parser.h"
 
-void	set_signal(int status, t_prompt *prompt)
+void	reset_shell(int signal)
 {
-	if (status == EXIT)
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+	(void)signal;
+}
+
+void	set_signal(int context, t_prompt *prompt)
+{
+	if (context == PROMPT_RESTART)
 	{
+		signal(SIGINT, reset_shell); // ctrl+C -> reinicia shell
+		signal(SIGQUIT, SIG_IGN); // ctrl+\ -> se ignora
+	}
+	if (context == EXIT) // EOF (ctrl+D) -> se cierra la terminal si la línea está vacía
+	{					// si hay texto se ignora
 		printf("Exit\n");
 		free_all(prompt);
-		exit(EXIT_SUCCESS);
+		exit(EXIT_FAILURE);
 	}
-	else
-		printf("Otras formas de salir según el estado\n");
+	/*if (context == CHILD_EXIT)
+	{
+		signal(SIGINT, close_child); // ctrl+C -> cierra proceso hijo
+		signal(SIGQUIT, core_dump); // ctrl+\ -> cierra con core dumped
+	}
+	if (context == HEREDOC)
+	{
+		signal(SIGINT, close_heredoc); // ctrl+D al leer de heredoc
+	}*/
 }
