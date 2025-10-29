@@ -20,11 +20,7 @@
 # define MAX_TOKENS	100
 
 //Valores para controlar las señales
-# define STOP_RESTORE 1
-# define STOP_QUIT 2
-# define EXIT 3
-# define HEREDOC 4
-# define HEREDOC_PAUSE 5
+# define STOP_RESTORE 1 // Ctrl+d en main, sin input de usuario
 
 // Estructura para cada comando
 typedef struct s_cmd
