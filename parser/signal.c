@@ -18,7 +18,8 @@ void	close_heredoc(int signal) // cierra el heredoc
 {
 	(void)signal;
 	g_exit_status = 130;
-	printf("\n");
+	printf("warning: here-document at line 1 delimited by end-of-file (wanted `EOF')\n");
+	close(fd);
 	exit(g_exit_status);	
 }
 
