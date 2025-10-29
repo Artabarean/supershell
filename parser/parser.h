@@ -20,7 +20,10 @@
 # define MAX_TOKENS	100
 
 //Valores para controlar las señales
-# define STOP_RESTORE 1 // Ctrl+d en main, sin input de usuario
+# define PROMPT_RESTART 1 // ctrl+C o ctrl+\ esperando prompt
+# define CHILD_EXIT 2 // ctrl+C cierra proceso hijo o ctrl+\ cierra con core dumped
+# define EXIT 3 // ctrl+D en línea vacía
+# define HEREDOC 4 // ctrl+D al leer de heredoc
 
 // Estructura para cada comando
 typedef struct s_cmd
