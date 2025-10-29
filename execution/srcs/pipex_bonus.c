@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/24 12:24:47 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/29 11:29:48 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void	child_processmid(t_cmd *current_node , t_prompt prompt)
 void	child_processend(t_cmd *current_node , int	filein, int fileout, t_prompt prompt)
 {
 	current_node->pid = fork();
-	current_node->pid;
 	if (current_node->pid == -1)
 		error();
 	if (current_node->pid == 0)
@@ -114,13 +113,9 @@ int	pipex(t_prompt prompt)
 	int		filein;
 	int		fileout;
 	t_cmd	*current_node;
-	int		i;
 	int		last_status;
 	int		status;
-	int		j;
 
-	j = 0;
-	i = 0;
 	filein = -1;
 	fileout = -1;
 	// if (prompt.cmds->heredoc == 1)
@@ -132,46 +127,13 @@ int	pipex(t_prompt prompt)
 		fileout = open_file(prompt.cmds->outfile, 0);
 	else
 	{
-		while (prompt.cmds->outfile[i])
-		{
-			fileout = open_file(prompt.cmds->outfile[i], 1);
-			if (prompt.cmds->outfile[i++] == NULL)
-				break ;
-			close(fileout);
-			fileout = -1;
-			i++;
-		}
-		i = 0;
-		while (prompt.cmds->infile[i])
-		{
-			filein = open_file(prompt.cmds->infile[i], 2);
-			if (prompt.cmds->infile[i++] == NULL)
-				break;
-			close(filein);
-			filein = -1;
-			i++;
-		}
+		file_opener(prompt.cmds, fileout, filein);
 		dup2(filein, 0);
 	}
 	current_node = prompt.cmds;
-	while (current_node)
-	{
-		if (j == 0)
-			child_process1(current_node, filein, fileout, prompt);
-		if (j != 0 && current_node->next != NULL)
-			child_processmid(current_node, prompt);
-		if (current_node->next == NULL)
-			child_processend(current_node, filein, fileout, prompt);
-		current_node = current_node->next;
-	}
+	childprocess_(current_node, filein, fileout, prompt);
 	current_node = prompt.cmds;
-	while (current_node)
-	{
-		waitpid(current_node->pid, &status, 0);
-		if (current_node->next == NULL)
-			last_status = status;
-		current_node = current_node->next;
-	}
+	last_status = pid_stat(current_node, status, last_status);
 	check_status(last_status);
 	return (0);
 }

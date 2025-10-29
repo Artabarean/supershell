@@ -6,12 +6,68 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/10/24 12:08:48 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/29 11:29:29 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/pipex.h"
+
+int pid_stat(t_cmd *curr_nde, int status, int last_status)
+{
+    while (curr_nde)
+	{
+		waitpid(curr_nde->pid, &status, 0);
+		if (curr_nde->next == NULL)
+			last_status = status;
+		curr_nde = curr_nde->next;
+	}
+    return (last_status);
+}
+
+void    childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt)
+{
+    int i;
+
+    i = 0;
+    while (curr_nde)
+	{
+		if (i == 0)
+			child_process1(curr_nde, filein, fileout, prompt);
+		if (i != 0 && curr_nde->next != NULL)
+			child_processmid(curr_nde, prompt);
+		if (curr_nde->next == NULL)
+			child_processend(curr_nde, filein, fileout, prompt);
+		curr_nde = curr_nde->next;
+        i++;
+	}
+}
+
+void    file_opener(t_prompt prompt, int fileout, int filein)
+{
+    int i;
+
+    i = 0;
+    while (prompt.cmds->outfile[i])
+	{
+		fileout = open_file(prompt.cmds->outfile[i], 1);
+		if (prompt.cmds->outfile[i++] == NULL)
+			break ;
+		close(fileout);
+		fileout = -1;
+		i++;
+	}
+	i = 0;
+	while (prompt.cmds->infile[i])
+	{
+		filein = open_file(prompt.cmds->infile[i], 2);
+		if (prompt.cmds->infile[i++] == NULL)
+			break;
+		close(filein);
+		filein = -1;
+		i++;
+	}
+}
 
 void	check_status(int status)
 {

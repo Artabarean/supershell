@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/23 14:05:54 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/29 10:42:10 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	error(void)
 	perror("Error");
 	exit(EXIT_FAILURE);
 }
-
 
 void	execute(char **full_cmd, char *full_path, t_prompt prompt)
 {
