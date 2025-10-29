@@ -25,6 +25,8 @@
 # define EXIT 3 // ctrl+D en línea vacía
 # define HEREDOC 4 // ctrl+D al leer de heredoc
 
+extern int g_exit_status;
+
 // Estructura para cada comando
 typedef struct s_cmd
 {
@@ -67,7 +69,7 @@ void	parse_env(t_env *e, char **env);
 //Init
 void	init_tkns(t_prompt *prompt);
 void	init_env(t_prompt *prompt, char **env);
-void	init_prompt(t_prompt *prompt, char **envp, int env);
+void	init_prompt(t_prompt *prompt, char **envp);
 t_cmd	*new_cmd(void);
 t_cmd	*create_cmd(t_prompt *prompt);
 
@@ -114,6 +116,10 @@ int		cmds_valids(t_prompt prompt);
 
 //Signals
 void	set_signal(int status, t_prompt *prompt);
+void	close_child(int signal);
+void	core_dump(int signal);
+void	close_heredoc(int signal);
+void	reset_shell(int signal);
 
 //Debugging
 void	executer(t_prompt prompt);

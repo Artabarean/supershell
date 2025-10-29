@@ -7,7 +7,7 @@ void	get_user_input(t_prompt *prompt)
 	if (!prompt)
 		exit(EXIT_FAILURE);
 	user = ft_strjoin(prompt->enviroment->user, "@minishell: ");
-	//set_signal?
+	set_signal(PROMPT_RESTART, NULL);
 	prompt->input = readline(user);
 	if (prompt->input && not_only_spaces(prompt->input))
 		add_history(prompt->input);

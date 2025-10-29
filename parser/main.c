@@ -1,5 +1,7 @@
 #include "parser.h"
 
+int	g_exit_status = 0;
+
 void	start_minishell(t_prompt *prompt)
 {
 	lexer(prompt);
@@ -11,16 +13,14 @@ void	start_minishell(t_prompt *prompt)
 int	main(int argc, char **argv, char **envp)
 {
 	t_prompt	prompt;
-	int			i;
 
-	i = 0;
 	if (argc != 1 || envp == NULL || *envp == NULL)
 		return (perror("Error en el enviroment"), 1);
 	(void)argc;
 	(void)argv;
 	while (1)
 	{
-		init_prompt(&prompt, envp, 1);
+		init_prompt(&prompt, envp);
 		get_user_input(&prompt);
 		if (prompt.input && not_only_spaces(prompt.input))
 		{

@@ -56,14 +56,13 @@ void	init_env(t_prompt *prompt, char **env)
 	parse_env(e, env);
 }
 
-void	init_prompt(t_prompt *prompt, char **envp, int env)
+void	init_prompt(t_prompt *prompt, char **envp)
 {
 	prompt->cmds = NULL;
 	prompt->input = NULL;
 	prompt->tkns = NULL;
 	prompt->pid = 0;
-	if (env)
-		init_env(prompt, envp);
+	init_env(prompt, envp);
 	init_tkns(prompt);
 }
 
