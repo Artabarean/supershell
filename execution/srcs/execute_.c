@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
+/*   execute_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2025/10/30 17:47:51 by atabarea         ###   ########.fr       */
+/*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
+/*   Updated: 2025/10/30 18:13:40 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/pipex.h"
+#include "../includes/pipex.h"
 
-void    executer(t_prompt prompt)
+void	execute_(char **full_cmd, char *full_path, t_prompt prompt)
 {
-	t_cmd	*cmd;
-
-	cmd = prompt.cmds;
-	if (prompt.cmds->infile && prompt.cmds->outfile)
-		pipex(prompt);
-	else
-	{
-		while (cmd)
-		{
-			execute_(prompt.cmds->full_cmd, prompt.cmds->full_path, prompt);
-			cmd = cmd->next;
-		}
-	}
+	pid_t	pid;
 }

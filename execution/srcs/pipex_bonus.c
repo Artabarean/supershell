@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/29 11:43:51 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/30 17:44:58 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	first_proc(t_cmd *curr_node , int filein, int fileout, t_prompt prompt)
 	if (prompt.pid == 0)
 	{
 		dup2(fd[1], 1);
+		if (check_builtins(prompt) == 1)
+			exit(0);
 		execute(curr_node->full_cmd, curr_node->full_path, prompt);
 	}
 	else
@@ -79,6 +81,8 @@ void	child_processmid(t_cmd *curr_node , t_prompt prompt)
 		dup2(fd[1], 1);
 		close(fd[0]);
 		close(fd[1]);
+		if (check_builtins(prompt) == 1)
+			exit(0);
 		execute(curr_node->full_cmd, curr_node->full_path, prompt);
 	}
 	else
@@ -97,6 +101,8 @@ void	child_procend(t_cmd *curr_node , int	filein, int fileout, t_prompt prompt)
 	{
 		if (fileout != -1)
 			dup2(fileout, 1);
+		if (check_builtins(prompt) == 1)
+			exit(0);
 		execute(curr_node->full_cmd, curr_node->full_path, prompt);
 	}
 	else
@@ -127,7 +133,7 @@ int	pipex(t_prompt prompt)
 		fileout = open_file(prompt.cmds->outfile, 0);
 	else
 	{
-		file_opener(prompt.cmds, fileout, filein);
+		file_opener(prompt, fileout, filein);
 		dup2(filein, 0);
 	}
 	current_node = prompt.cmds;
