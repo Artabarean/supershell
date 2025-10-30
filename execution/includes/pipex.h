@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:44:12 by alex              #+#    #+#             */
-/*   Updated: 2025/10/29 12:26:15 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/10/30 19:22:51 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,9 @@ void    check_status(int status);
 void    file_opener(t_prompt prompt, int fileout, int filein);
 void    childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt);
 int		pid_stat(t_cmd *curr_nde ,t_prompt prompt, int status, int last_status);
+void	execute_(char **full_cmd, char *full_path, t_prompt prompt);
+void    executer(t_prompt prompt);
+int		check_builtins(t_prompt prompt);
+int		echo(char **full_cmd);
 
 #endif
