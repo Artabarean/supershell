@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2025/10/30 20:07:36 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/10/31 11:54:33 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	executer(t_prompt prompt)
 	{
 		while (cmd)
 		{
+			
 			execute_(prompt.cmds->full_cmd, prompt.cmds->full_path, prompt);
 			cmd = cmd->next;
 		}

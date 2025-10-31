@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:13:23 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/10/30 20:13:57 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/10/31 12:57:17 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <limits.h>
 # include <stdlib.h>
 # include <string.h>
@@ -92,6 +92,7 @@ typedef struct s_prompt
 	t_cmd	*cmds;	//lista de nodos de la otra estructura con los comandos ya separados
 	char	*input;
 	char	**tkns;
+	int		**pfd;
 	t_env	*enviroment;
 	pid_t	pid ;
 }			t_prompt;
@@ -158,7 +159,7 @@ void	reset_shell(int signal);
 void	debug(t_prompt prompt);
 
 //Execution
-void	error(void);
+void	error(char *s);
 int		get_next_line(char **line);
 void	execute(char **full_cmd, char *full_path, t_prompt prompt);
 int		pipex(t_prompt prompt);
@@ -171,5 +172,9 @@ void	execute_(char **full_cmd, char *full_path, t_prompt prompt);
 void	executer(t_prompt prompt);
 int		check_builtins(t_prompt prompt);
 int		echo(char **full_cmd);
+void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt prompt, int i);
+void	child_processmid(t_cmd *curr_node , t_prompt prompt, int i);
+void	child_processend(t_cmd *curr_node , int	fin, int fout, t_prompt prompt, int i);
+int		pipecount(t_prompt prompt);
 
 #endif

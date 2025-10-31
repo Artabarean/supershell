@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/10/30 20:00:15 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/10/31 13:03:27 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,32 @@ int pid_stat(t_cmd *curr_nde ,t_prompt prompt, int status, int last_status)
 void    childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt)
 {
     int i;
+	int	j;
 
     i = 0;
-    while (curr_nde)
+	j = pipecount(prompt);
+	prompt.pfd = malloc(sizeof(2) * j);
+    while (i < (j + 1))
 	{
+		if (j > 0)
+		{
+			if (pipe(prompt.pfd[i]) == -1)
+				error("pipe");
+		}
 		if (i == 0)
 		{
 			printf("Llamada a la función child_process1\n");
-		//	child_process1(curr_nde, filein, fileout, prompt);
+			child_process1(curr_nde, filein, fileout, prompt, i);
 		}
-		if (i != 0 && curr_nde->next != NULL)
+		if (i != 0 && curr_nde->next)
 		{
 			printf("Llamada a la función child_processmid\n");
-		//	child_processmid(curr_nde, prompt);
+			child_processmid(curr_nde, prompt, i);
 		}
 		if (curr_nde->next == NULL)
 		{
 			printf("Llamada a la función child_processend\n");
-		//	child_processend(curr_nde, filein, fileout, prompt);
+			child_processend(curr_nde, filein, fileout, prompt, i);
 		}
 		curr_nde = curr_nde->next;
         i++;
@@ -108,6 +116,6 @@ int	open_file(char *argv, int i)
 	else if (i == 2)
 		file = open(argv, O_RDONLY, 0777);
 	if (file == -1)
-		error();
+		error("open");
 	return (file);
 }

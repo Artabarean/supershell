@@ -2,9 +2,9 @@ NAME	= minishell
 CC	  = cc -lreadline
 CFLAGS   = -Wall -Wextra -Werror
 
-LFT	 = libft/libft.a
-INC	 = -I ./libft
-LIB	 = -L ./libft -lft -lreadline
+LFT	 = ../libft/libft.a
+INC	 = -I ../libft
+LIB	 = -L ../libft -lft -lreadline
 
 SRC	 =	main.c \
 		enviroment.c \
@@ -20,8 +20,8 @@ SRC	 =	main.c \
 		builtins.c \
 		execute_.c \
 		executer.c \
-		pipex_bonus.c \
-		utils_bonus.c \
+		pipex.c \
+		utils_pipex.c \
 		utils-executor.c \
 		debugging.c \
 
@@ -34,7 +34,7 @@ $(NAME): $(OBJS)
 
 $(LFT):
 	@echo " [ .. ] | Compiling libft.."
-	@make -s -C libft
+	@make -s -C ../libft
 	@echo " [ OK ] | Libft ready!"
 
 obj:
@@ -44,12 +44,12 @@ obj/%.o: %.c
 	$(CC) $(FLAGS) $(INC) -c $< -o $@
 
 clean:
-	@make -s clean -C libft
+	@make -s clean -C ../libft
 	@rm -rf $(OBJS) obj
 	@echo "object files removed."
 
 fclean: clean
-	@make -s fclean -C libft
+	@make -s fclean -C ../libft
 	@rm -rf $(NAME)
 	@echo "binary file removed."
 

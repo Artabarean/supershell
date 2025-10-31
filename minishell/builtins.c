@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2025/10/30 19:55:26 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/10/31 13:09:38 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_builtins(t_prompt prompt)
 	if (ft_strncmp(cmd->full_cmd[0], "echo", 4) == 0)
 	{
 		if (echo(prompt.cmds->full_cmd) == 1)
-			return (error(), 1);
+			return (error("echo"), 1);
 		return (1);
 	}
 	if (ft_strncmp(cmd->full_cmd[0], "export", 6) == 0)

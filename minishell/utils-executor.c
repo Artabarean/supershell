@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/30 20:00:21 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/10/31 12:52:31 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	error(void)
+void	error(char *s)
 {
-	perror("Error");
+	perror(s);
 	exit(EXIT_FAILURE);
 }
 
 void	execute(char **full_cmd, char *full_path, t_prompt prompt)
 {
 	if (!full_path)
-		error();
+		error("full_path");
 	if (execve(full_path, full_cmd, prompt.enviroment->envp) == -1)
-		error();
+		error("execve");
 }
 
 int	get_next_line(char **line)
@@ -51,4 +51,19 @@ int	get_next_line(char **line)
 	*line = buffer;
 	free(buffer);
 	return (r);
+}
+
+int	pipecount(t_prompt prompt)
+{
+	t_cmd	*node_num;
+	int		i;
+
+	i = 0;
+	node_num = prompt.cmds;
+	while (node_num)
+	{
+		node_num = node_num->next;
+		i++;
+	}
+	return (i - 1);
 }

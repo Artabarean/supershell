@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/30 20:23:47 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/10/31 13:08:11 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	here_doc(char *limiter)
 	char	*line;
 
 	if (pipe(fd) == -1)
-		error();
+		error("pipe");
 	reader = fork();
 	set_signal(HEREDOC, NULL); // ctrl+D = EOF ¿como cierro el fd? 
 	if (reader == 0)
@@ -40,78 +40,77 @@ void	here_doc(char *limiter)
 	}
 }
 
-void	first_proc(t_cmd *curr_node , int filein, int fileout, t_prompt prompt)
+void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt prompt, int i)
 {
-	int		fd[2];
+	int	j;
 
-	if (pipe(fd) == -1)
-		error();
-	if (filein != -1)
-		fd[0] = filein;
-	if (fileout != -1)
-		fd[1] = fileout;
+	j = pipecount(prompt);
+	if (j > 0)
+	{
+		if (fin != -1)
+		{
+			dup2(prompt.pfd[i][0], fin);
+			close(prompt.pfd[i][0]);
+		}
+		if (fout != -1)
+		{
+			dup2(prompt.pfd[i][1], fout);
+			close(prompt.pfd[i][1]);
+		}
+	}
 	prompt.pid = fork();
 	if (prompt.pid == -1)
-		error();
+		error("pid");
 	if (prompt.pid == 0)
 	{
-		dup2(fd[1], 1);
+		dup2(fout, 1);
 		if (check_builtins(prompt) == 1)
 			exit(0);
 		execute(curr_node->full_cmd, curr_node->full_path, prompt);
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
 	}
 }
 
-void	child_processmid(t_cmd *curr_node , t_prompt prompt)
+void	child_processmid(t_cmd *curr_node , t_prompt prompt, int i)
 {
-	int		fd[2];
-
-	if (pipe(fd) == -1)
-		error();
 	prompt.pid = fork();
 	if (prompt.pid == -1)
-		error();
+		error("pid");
 	if (prompt.pid == 0)
 	{
-		dup2(fd[0], 0);
-		dup2(fd[1], 1);
-		close(fd[0]);
-		close(fd[1]);
+		dup2(prompt.pfd[i-1][0], 0);
+		dup2(prompt.pfd[i][1], 1);
+		close(prompt.pfd[i-1][0]);
+		close(prompt.pfd[i][1]);
 		if (check_builtins(prompt) == 1)
 			exit(0);
 		execute(curr_node->full_cmd, curr_node->full_path, prompt);
 	}
 	else
 	{
-		close(fd[0]);
-		close(fd[1]);
+		close(prompt.pfd[i-1][0]);
+		close(prompt.pfd[i][1]);
 	}
 }
 
-void	child_procend(t_cmd *curr_node , int	filein, int fileout, t_prompt prompt)
+void	child_processend(t_cmd *curr_node , int	fin, int fout, t_prompt prompt, int i)
 {
 	prompt.pid = fork();
 	if (prompt.pid == -1)
-		error();
+		error("pid");
 	if (prompt.pid == 0)
 	{
-		if (fileout != -1)
-			dup2(fileout, 1);
+		if (fout != -1)
+			dup2(fout, 1);
 		if (check_builtins(prompt) == 1)
 			exit(0);
 		execute(curr_node->full_cmd, curr_node->full_path, prompt);
 	}
 	else
 	{
-		if (fileout != -1)
-			close(fileout);
-		if (filein != -1)
-			dup2(filein, 0);
+		if (fout != -1)
+			close(fout);
+		if (fin != -1)
+			dup2(prompt.pfd[i-1][0], 0);
 	}
 }
 
@@ -125,11 +124,11 @@ int	pipex(t_prompt prompt)
 
 	filein = -1;
 	fileout = -1;
-	if (prompt.cmds->heredoc == 1)
-	{
-	 	fileout = open_file(*prompt.cmds->outfile, 0);
-	 	here_doc(*prompt.cmds->outfile);
-	}
+	// if (prompt.cmds->heredoc == 1)
+	// {
+	//  	fileout = open_file(*prompt.cmds->outfile, 0);
+	//  	here_doc(*prompt.cmds->outfile);
+	// }
 	if (prompt.cmds->append == 1)
 		fileout = open_file(*prompt.cmds->outfile, 0);
 	else
