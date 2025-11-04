@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clean.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 20:06:27 by medel-ca          #+#    #+#             */
+/*   Updated: 2025/11/03 12:51:48 by medel-ca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 void	free_doble_ptr(char **ptr)
@@ -59,19 +71,25 @@ void	free_lst(t_cmd **lst)
 	*lst = NULL;
 }
 
-void	free_env(t_env *e)
+void	free_env(t_env **e)
 {
-	if (e)
+	t_env	*current;
+	t_env	*tmp;
+
+	if (!e || !*e)
+		return ;
+	current = *e;
+	while (current != NULL)
 	{
-		free(e->path);
-		free(e->home);
-		free(e->pwd);
-		free(e->oldpwd);
-		free(e->user);
-		free(e->shell);
-		free(e->cmdpath);
-		free(e);
+		tmp = current->next;
+		if (current->keyword)
+			free(current->keyword);
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = tmp;
 	}
+	*e = NULL;
 }
 
 void	free_all(t_prompt *prompt)
@@ -80,7 +98,7 @@ void	free_all(t_prompt *prompt)
 		return ;
 	if (prompt->enviroment)
 	{
-		free_env(prompt->enviroment);
+		free_env(&prompt->enviroment);
 		prompt->enviroment = NULL;
 	}
 	if (prompt->tkns)

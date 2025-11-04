@@ -1,17 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 19:59:29 by medel-ca          #+#    #+#             */
+/*   Updated: 2025/11/04 09:38:07 by medel-ca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 void	get_user_input(t_prompt *prompt)
 {
 	char	*user;
+	char	*temp;
+	t_env	*env;
 
+	env = prompt->enviroment;
+	temp = NULL;
 	if (!prompt)
 		exit(EXIT_FAILURE);
-	user = ft_strjoin(prompt->enviroment->user, "@minishell: ");
+	while (env && !temp)
+	{
+		if (ft_strnstr(env->keyword, "USER", 4))
+			temp = ft_strdup(env->value);
+		env = env->next;
+	}
+	if (!temp)
+		temp = ft_strdup("guest");
+	user = ft_strjoin(temp, "@minishell: ");
 	set_signal(PROMPT_RESTART, NULL);
 	prompt->input = readline(user);
 	if (prompt->input && not_only_spaces(prompt->input))
 		add_history(prompt->input);
 	free(user);
+	free(temp);
 }
 
 int	is_valid_input(char *input)

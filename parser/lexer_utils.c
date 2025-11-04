@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 19:59:36 by medel-ca          #+#    #+#             */
+/*   Updated: 2025/11/04 09:46:01 by medel-ca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 char	*expand_var(char *str, t_env *enviroment)
@@ -6,24 +18,19 @@ char	*expand_var(char *str, t_env *enviroment)
 
 	if (!str || !*str)
 		return (ft_strdup(""));
-	if (!ft_strncmp(str, "PATH", 4))
-		exp_str = ft_strdup(enviroment->path);
-	else if (!ft_strncmp(str, "HOME", 4))
-		exp_str = ft_strdup(enviroment->home);
-	else if (!ft_strncmp(str, "PWD", 3))
-		exp_str = ft_strdup(enviroment->pwd);
-	else if (!ft_strncmp(str, "OLDPWD", 6))
-		exp_str = ft_strdup(enviroment->oldpwd);
-	else if (!ft_strncmp(str, "USER", 4))
-		exp_str = ft_strdup(enviroment->user);
-	else if (!ft_strncmp(str, "SHELL", 5))
-		exp_str = ft_strdup(enviroment->shell);
-	else if (!ft_strncmp(str, "SHLVL", 5))
-		exp_str = ft_strdup(ft_itoa(enviroment->shlvl));
-	else if (!ft_strncmp(str, "_", 1))
-		exp_str = ft_strdup(enviroment->cmdpath);
-	else
-		exp_str = ft_strdup("");
+	while (enviroment->next)
+	{
+		if (!ft_strncmp(str, enviroment->keyword,
+				ft_strlen(enviroment->keyword)))
+		{
+			exp_str = ft_strdup(enviroment->value);
+			break ;
+		}
+		if (enviroment->next == NULL)
+			return (NULL);
+		else
+			enviroment = enviroment->next;
+	}
 	return (exp_str);
 }
 

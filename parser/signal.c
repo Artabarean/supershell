@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 20:00:09 by medel-ca          #+#    #+#             */
+/*   Updated: 2025/10/30 20:21:42 by medel-ca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 void	close_child(int signal)
@@ -19,8 +31,7 @@ void	close_heredoc(int signal) // cierra el heredoc
 	(void)signal;
 	g_exit_status = 130;
 	printf("warning: here-document at line 1 delimited by end-of-file (wanted `EOF')\n");
-	close(fd);
-	exit(g_exit_status);	
+	exit(g_exit_status);
 }
 
 void	reset_shell(int signal)
@@ -56,4 +67,3 @@ void	set_signal(int context, t_prompt *prompt)
 		signal(SIGINT, close_heredoc); // ctrl+D al leer de heredoc
 	}
 }
- 

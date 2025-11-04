@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 19:59:24 by medel-ca          #+#    #+#             */
+/*   Updated: 2025/11/04 09:31:02 by medel-ca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 t_cmd	*new_cmd(void)
@@ -31,29 +43,6 @@ void	init_tkns(t_prompt *prompt)
 		free_all(prompt);
 		exit (EXIT_FAILURE);
 	}
-}
-
-void	init_env(t_prompt *prompt, char **env)
-{
-	t_env	*e;
-
-	prompt->enviroment = ft_calloc(1, sizeof(t_env));
-	if (!prompt->enviroment)
-	{
-		free_all(prompt);
-		exit (EXIT_FAILURE);
-	}
-	e = prompt->enviroment;
-	e->envp = env;
-	e->path = NULL;
-	e->home = NULL;
-	e->pwd = NULL;
-	e->oldpwd = NULL;
-	e->user = NULL;
-	e->shell = NULL;
-	e->shlvl = 0;
-	e->cmdpath = NULL;
-	parse_env(e, env);
 }
 
 void	init_prompt(t_prompt *prompt, char **envp)

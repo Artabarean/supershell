@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   parser.h										   :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: medel-ca <medel-ca@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2025/10/30 20:00:00 by medel-ca		  #+#	#+#			 */
+/*   Updated: 2025/10/30 20:09:33 by medel-ca		 ###   ########.fr	   */
+/*																			*/
+/* ************************************************************************** */
+
 #ifndef PARSER_H
 # define PARSER_H
 # include <stdio.h>
@@ -5,16 +17,19 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
-# include "libft.h"
+# include "libft/libft.h"
 # include <limits.h>
+# include <stdlib.h>
+# include <string.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 //Macros para printf
-# define RED     "\033[0;31m"
+# define RED	 "\033[0;31m"
 # define GREEN   "\033[0;32m"
 # define YELLOW  "\033[0;33m"
-# define BLUE    "\033[0;34m"
-# define BOLD    "\033[1m"
+# define BLUE	"\033[0;34m"
+# define BOLD	"\033[1m"
 # define RESET   "\033[0m"
 
 # define MAX_TOKENS	100
@@ -25,7 +40,7 @@
 # define EXIT 3 // ctrl+D en línea vacía
 # define HEREDOC 4 // ctrl+D al leer de heredoc
 
-extern int g_exit_status;
+extern int	g_exit_status;
 
 // Estructura para cada comando
 typedef struct s_cmd
@@ -42,15 +57,9 @@ typedef struct s_cmd
 // Enviroment
 typedef struct s_env
 {
-	char	*path;
-	char	*home;
-	char	*pwd;
-	char	*oldpwd;
-	char	*user;
-	char	*shell;
-	int		shlvl;
-	char	*cmdpath;
-	char	**envp;
+	char			*keyword;
+	char			*value;
+	struct s_env	*next;
 }				t_env;
 
 // Estructura general
@@ -64,7 +73,9 @@ typedef struct s_prompt
 }			t_prompt;
 
 //Enviroment
-void	parse_env(t_env *e, char **env);
+void	fill_env(char *env, t_env *e);
+t_env	*new_env(void);
+void	init_env(t_prompt *prompt, char **env);
 
 //Init
 void	init_tkns(t_prompt *prompt);
@@ -96,7 +107,7 @@ void	init_parser(t_prompt *prompt);
 void	new_node(t_cmd *current, int *index, t_prompt *prompt);
 void	add_arg_to_cmd(char *arg, t_cmd *cmd);
 int		create_file(char ***tkn, t_cmd *curr);
-void	add_infile(t_cmd *cmd, char *filename, int heredock);
+void	add_infile(t_cmd *cmd, char *filename, int heredoc);
 void	add_outfile(t_cmd *cmd, char *filename, int append);
 
 //clean
@@ -104,6 +115,7 @@ void	free_all(t_prompt *prompt);
 void	free_lst(t_cmd **lst);
 void	del(t_cmd *tmp);
 void	free_doble_ptr(char **ptr);
+void	free_env(t_env **e);
 
 //Input
 void	get_user_input(t_prompt *prompt);
@@ -122,6 +134,25 @@ void	close_heredoc(int signal);
 void	reset_shell(int signal);
 
 //Debugging
+void	debug(t_prompt prompt);
+
+//Execution
+void	error(void);
+int		get_next_line(char **line);
+void	execute(char **full_cmd, char *full_path, t_prompt prompt);
+int		pipex(t_prompt prompt);
+int		open_file(char *argv, int i);
+void	check_status(int status);
+void	file_opener(t_prompt prompt, int fileout, int filein);
+void	childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt);
+int		pid_stat(t_cmd *curr_nde, t_prompt prompt, int status, int last_status);
+void	execute_(char **full_cmd, char *full_path, t_prompt prompt);
 void	executer(t_prompt prompt);
+int		check_builtins(t_prompt prompt);
+int		echo(char **full_cmd);
+//void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt prompt, int i);
+//void	child_processmid(t_cmd *curr_node , t_prompt prompt, int i);
+//void	child_processend(t_cmd *curr_node , int	fin, int fout, t_prompt prompt, int i);
+// int		pipecount(t_prompt prompt);
 
 #endif

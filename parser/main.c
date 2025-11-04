@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 19:59:45 by medel-ca          #+#    #+#             */
+/*   Updated: 2025/10/30 19:59:45 by medel-ca         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 
 int	g_exit_status = 0;
@@ -6,7 +18,8 @@ void	start_minishell(t_prompt *prompt)
 {
 	lexer(prompt);
 	init_parser(prompt);
-	executer(*prompt);
+	debug(*prompt);
+	//executer(*prompt);
 	free_all(prompt);
 }
 
