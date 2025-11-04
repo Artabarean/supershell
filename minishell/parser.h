@@ -82,8 +82,9 @@ typedef struct s_env
 
 /*typedef struct s_env
 {
-	char	*keyword;
-	char	*value;
+	char			*keyword;
+	char			*value;
+	struct s_env	*next;
 }				t_env;*/
 
 // Estructura general
@@ -130,7 +131,7 @@ void	init_parser(t_prompt *prompt);
 void	new_node(t_cmd *current, int *index, t_prompt *prompt);
 void	add_arg_to_cmd(char *arg, t_cmd *cmd);
 int		create_file(char ***tkn, t_cmd *curr);
-void	add_infile(t_cmd *cmd, char *filename, int heredock);
+void	add_infile(t_cmd *cmd, char *filename, int heredoc);
 void	add_outfile(t_cmd *cmd, char *filename, int append);
 
 //clean
