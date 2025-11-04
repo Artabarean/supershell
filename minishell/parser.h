@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   parser1.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:13:23 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/10/31 12:57:17 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:56:27 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void	execute(char **full_cmd, char *full_path, t_prompt prompt);
 int		pipex(t_prompt prompt);
 int		open_file(char *argv, int i);
 void	check_status(int status);
-void	file_opener(t_prompt prompt, int fileout, int filein);
+void	file_opener(t_prompt prompt, int *fileout, int *filein);
 void	childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt);
 int		pid_stat(t_cmd *curr_nde, t_prompt prompt, int status, int last_status);
 void	execute_(char **full_cmd, char *full_path, t_prompt prompt);
@@ -177,5 +177,6 @@ void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt prompt, int i
 void	child_processmid(t_cmd *curr_node , t_prompt prompt, int i);
 void	child_processend(t_cmd *curr_node , int	fin, int fout, t_prompt prompt, int i);
 int		pipecount(t_prompt prompt);
+void	find_path(t_prompt prompt);
 
 #endif

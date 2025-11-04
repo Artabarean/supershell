@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/10/31 13:08:11 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:04:37 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int	pipex(t_prompt prompt)
 
 	filein = -1;
 	fileout = -1;
+	find_path(prompt);
 	// if (prompt.cmds->heredoc == 1)
 	// {
 	//  	fileout = open_file(*prompt.cmds->outfile, 0);
@@ -133,7 +134,7 @@ int	pipex(t_prompt prompt)
 		fileout = open_file(*prompt.cmds->outfile, 0);
 	else
 	{
-		file_opener(prompt, fileout, filein);
+		file_opener(prompt, &fileout, &filein);
 		dup2(filein, 0);
 	}
 	current_node = prompt.cmds;

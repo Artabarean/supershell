@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/10/31 13:03:27 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:21:34 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void    childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt)
 
     i = 0;
 	j = pipecount(prompt);
-	prompt.pfd = malloc(sizeof(2) * j);
+	prompt.pfd = ft_calloc(sizeof(2), j);
     while (i < (j + 1))
 	{
 		if (j > 0)
@@ -41,15 +41,15 @@ void    childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt)
 		}
 		if (i == 0)
 		{
-			printf("Llamada a la función child_process1\n");
-			child_process1(curr_nde, filein, fileout, prompt, i);
+				printf("Llamada a la función child_process1\n");
+				child_process1(curr_nde, filein, fileout, prompt, i);
 		}
 		if (i != 0 && curr_nde->next)
 		{
 			printf("Llamada a la función child_processmid\n");
 			child_processmid(curr_nde, prompt, i);
 		}
-		if (curr_nde->next == NULL)
+		if (curr_nde->next == NULL && i != 0)
 		{
 			printf("Llamada a la función child_processend\n");
 			child_processend(curr_nde, filein, fileout, prompt, i);
@@ -59,28 +59,28 @@ void    childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt)
 	}
 }
 
-void    file_opener(t_prompt prompt, int fileout, int filein)
+void    file_opener(t_prompt prompt, int *fileout, int *filein)
 {
     int i;
 
     i = 0;
     while (prompt.cmds->outfile[i])
 	{
-		fileout = open_file(prompt.cmds->outfile[i], 1);
-		if (prompt.cmds->outfile[i++] == NULL)
+		*fileout = open_file(prompt.cmds->outfile[i], 1);
+		if (prompt.cmds->outfile[i + 1] == NULL)
 			break ;
-		close(fileout);
-		fileout = -1;
+		close(*fileout);
+		*fileout = -1;
 		i++;
 	}
 	i = 0;
 	while (prompt.cmds->infile[i])
 	{
-		filein = open_file(prompt.cmds->infile[i], 2);
-		if (prompt.cmds->infile[i++] == NULL)
+		*filein = open_file(prompt.cmds->infile[i], 2);
+		if (prompt.cmds->infile[i + 1] == NULL)
 			break;
-		close(filein);
-		filein = -1;
+		close(*filein);
+		*filein = -1;
 		i++;
 	}
 }

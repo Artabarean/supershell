@@ -1,44 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_.c                                         :+:      :+:    :+:   */
+/*   firstinlastout.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/04 12:43:50 by atabarea         ###   ########.fr       */
+/*   Created: 2025/11/04 11:41:39 by atabarea          #+#    #+#             */
+/*   Updated: 2025/11/04 11:53:59 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	execute_(char **full_cmd, char *full_path, t_prompt prompt)
+void	firstinlastout(t_cmd *curr_node , int fin, int fout, t_prompt prompt, int i)
 {
 	int	j;
-	int	i;
 
-	i = 0;
 	j = pipecount(prompt);
+	if (j > 0)
+	{
+		if (fin != -1)
+		{
+			dup2(prompt.pfd[i][0], fin);
+			close(prompt.pfd[i][0]);
+		}
+		if (fout != -1)
+		{
+			dup2(prompt.pfd[i][1], fout);
+			close(prompt.pfd[i][1]);
+		}
+	}
 	prompt.pid = fork();
-	set_signal(CHILD_EXIT, NULL); // ctrl+C cierra proceso hijo o ctrl+\ cierra la terminal con core dumped
 	if (prompt.pid == -1)
 		error("pid");
 	if (prompt.pid == 0)
 	{
-		while (i < (j + 1))
-		{
-			if (j > 0)
-			{
-				if (pipe(prompt.pfd[i]) == -1)
-					error("pipe");
-				dup2(prompt.pfd[i][0], 0);
-				dup2(prompt.pfd[i][1], 1);
-			}
-			if (!full_path)
-				error("full_path");
-			if (execve(full_path, full_cmd, prompt.enviroment->envp) == -1)
-				error("execve");
-			i++;
-		}
+		printf("fout: %d\n", fout);
+		dup2(fout, 1);
+		if (check_builtins(prompt) == 1)
+			exit(0);
+		execute(curr_node->full_cmd, curr_node->full_path, prompt);
 	}
 }

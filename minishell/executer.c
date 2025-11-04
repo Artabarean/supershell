@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2025/10/31 11:54:33 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:43:00 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ void	executer(t_prompt prompt)
 	t_cmd	*cmd;
 
 	cmd = prompt.cmds;
-	if (prompt.cmds->infile && prompt.cmds->outfile)
+	if (prompt.cmds->infile[0] != NULL && prompt.cmds->outfile[0] != NULL)
 		pipex(prompt);
 	else
 	{
+		prompt.pfd = ft_calloc(sizeof(2), pipecount(prompt));
 		while (cmd)
 		{
-			
+			find_path(prompt);
+			printf("Calling execute function\n");
 			execute_(prompt.cmds->full_cmd, prompt.cmds->full_path, prompt);
 			cmd = cmd->next;
 		}

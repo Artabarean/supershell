@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/10/31 12:52:31 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/04 12:46:01 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	error(char *s)
 void	execute(char **full_cmd, char *full_path, t_prompt prompt)
 {
 	if (!full_path)
+	{
+		printf("full_thing:	%s\n", full_path);
 		error("full_path");
+	}
 	if (execve(full_path, full_cmd, prompt.enviroment->envp) == -1)
 		error("execve");
 }

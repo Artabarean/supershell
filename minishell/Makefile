@@ -24,10 +24,11 @@ SRC	 =	main.c \
 		utils_pipex.c \
 		utils-executor.c \
 		debugging.c \
+		find_path.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 
-ll: $(LFT) obj $(NAME)
+all: $(LFT) obj $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $@ $^ $(LIB)
