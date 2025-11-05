@@ -2,9 +2,9 @@ NAME	= minishell
 CC	  = cc -lreadline
 CFLAGS   = -Wall -Wextra -Werror
 
-LFT	 = ../libft/libft.a
-INC	 = -I ../libft
-LIB	 = -L ../libft -lft -lreadline
+LFT	 = ../execution/libft/libft.a
+INC	 = -I ../execution/libft
+LIB	 = -L ../execution/libft -lft -lreadline
 
 SRC	 =	main.c \
 		enviroment.c \
@@ -35,7 +35,7 @@ $(NAME): $(OBJS)
 
 $(LFT):
 	@echo " [ .. ] | Compiling libft.."
-	@make -s -C ../libft
+	@make -s -C ../execution/libft
 	@echo " [ OK ] | Libft ready!"
 
 obj:
@@ -45,12 +45,12 @@ obj/%.o: %.c
 	$(CC) $(FLAGS) $(INC) -c $< -o $@
 
 clean:
-	@make -s clean -C ../libft
+	@make -s clean -C ../execution/libft
 	@rm -rf $(OBJS) obj
 	@echo "object files removed."
 
 fclean: clean
-	@make -s fclean -C ../libft
+	@make -s fclean -C ../execution/libft
 	@rm -rf $(NAME)
 	@echo "binary file removed."
 

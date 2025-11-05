@@ -15,6 +15,8 @@
 void	executer(t_prompt prompt)
 {
 	t_cmd	*cmd;
+	int		last_status;
+	int		status;
 
 	cmd = prompt.cmds;
 	if (prompt.cmds->infile[0] != NULL && prompt.cmds->outfile[0] != NULL)
@@ -29,5 +31,8 @@ void	executer(t_prompt prompt)
 			execute_(prompt.cmds->full_cmd, prompt.cmds->full_path, prompt);
 			cmd = cmd->next;
 		}
+		cmd = prompt.cmds;
+		last_status = pid_stat(cmd ,prompt, status, last_status);
+		check_status(last_status);
 	}
 }

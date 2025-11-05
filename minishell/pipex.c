@@ -114,7 +114,7 @@ void	child_processend(t_cmd *curr_node , int	fin, int fout, t_prompt prompt, int
 	}
 }
 
-int	pipex(t_prompt prompt)
+void	pipex(t_prompt prompt)
 {
 	int		filein;
 	int		fileout;
@@ -142,5 +142,4 @@ int	pipex(t_prompt prompt)
 	current_node = prompt.cmds;
 	last_status = pid_stat(current_node ,prompt, status, last_status);
 	check_status(last_status);
-	return (0);
 }

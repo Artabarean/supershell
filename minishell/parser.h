@@ -29,7 +29,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
-# include "../libft/libft.h"
+# include "../execution/libft/libft.h"
 # include <limits.h>
 # include <stdlib.h>
 # include <string.h>
@@ -163,7 +163,7 @@ void	debug(t_prompt prompt);
 void	error(char *s);
 int		get_next_line(char **line);
 void	execute(char **full_cmd, char *full_path, t_prompt prompt);
-int		pipex(t_prompt prompt);
+void	pipex(t_prompt prompt);
 int		open_file(char *argv, int i);
 void	check_status(int status);
 void	file_opener(t_prompt prompt, int *fileout, int *filein);
