@@ -24,39 +24,48 @@ int pid_stat(t_cmd *curr_nde ,t_prompt prompt, int status, int last_status)
     return (last_status);
 }
 
-void    childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt)
+void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 {
     int i;
-	int	j;
+	int	n_cmds;
 
     i = 0;
-	j = pipecount(prompt);
-	prompt.pfd = ft_calloc(sizeof(2), j);
-    while (i < (j + 1))
+	n_cmds = pipecount(prompt) + 1;
+	prompt.pfd = malloc(sizeof(int[2]) * (n_cmds - 1));
+	while (i < n_cmds - 1)
 	{
-		if (j > 0)
-		{
-			if (pipe(prompt.pfd[i]) == -1)
-				error("pipe");
-		}
-		if (i == 0)
-		{
-				printf("Llamada a la función child_process1\n");
-				child_process1(curr_nde, filein, fileout, prompt, i);
-		}
-		if (i != 0 && curr_nde->next)
-		{
-			printf("Llamada a la función child_processmid\n");
-			child_processmid(curr_nde, prompt, i);
-		}
-		if (curr_nde->next == NULL && i != 0)
-		{
-			printf("Llamada a la función child_processend\n");
-			child_processend(curr_nde, filein, fileout, prompt, i);
-		}
-		curr_nde = curr_nde->next;
-        i++;
+		if (pipe(prompt.pfd[i]) == -1)
+			error("pipe");
+		i++;
 	}
+	i = 0;
+    while (i < n_cmds && cmd)
+	{
+		prompt.pid = fork();
+		if (prompt.pid == -1)
+			error("fork");
+		if (prompt.pid == 0)
+		{
+			if (i == 0)
+			{
+				printf("Llamada a la función child_process1\n");
+				child_process1(cmd, filein, fileout, prompt, i);
+			}
+			if (i > 0 && cmd->next != NULL)
+			{
+				printf("Llamada a la función child_processmid\n");
+				child_processmid(cmd, prompt, i);
+			}
+			if (cmd->next == NULL && i > 0)
+			{
+				printf("Llamada a la función child_processend\n");
+				child_processend(cmd, filein, fileout, prompt, i);
+			}
+			cmd = cmd->next;
+		}
+		i++;
+	}
+	closepfds(n_cmds, prompt);
 }
 
 void    file_opener(t_prompt prompt, int *fileout, int *filein)

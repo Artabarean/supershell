@@ -48,7 +48,7 @@ char	*get_environments(char *name, char **envp)
 	return (NULL);
 }
 
-void	find_path(t_prompt prompt)
+void	find_path(t_cmd *cmd, t_prompt prompt)
 {
 	int		i;
 	char	**paths;
@@ -59,23 +59,23 @@ void	find_path(t_prompt prompt)
 	paths = ft_split(get_environments("PATH", prompt.enviroment->envp), ':');
 	if (!paths)
 	{
-		while(prompt.cmds->full_cmd[j])
+		while(cmd->full_cmd[j])
 		{
-			if (access(prompt.cmds->full_cmd[j], F_OK | X_OK) == 0)
+			if (access(cmd->full_cmd[j], F_OK | X_OK) == 0)
 				return ;
-			printf("error aquí%s\n", prompt.cmds->full_cmd[j]);
+			printf("error aquí%s\n", cmd->full_cmd[j]);
 			return ;
 			j++;
 		}
 	}
 	while (paths[++i])
 	{
-		prompt.cmds->full_path = ft_strjoin(paths[i], "/");
-		prompt.cmds->full_path = ft_strjoin(prompt.cmds->full_path, prompt.cmds->full_cmd[0]);
-		if (access(prompt.cmds->full_path, F_OK | X_OK) == 0)
+		cmd->full_path = ft_strjoin(paths[i], "/");
+		cmd->full_path = ft_strjoin(cmd->full_path, cmd->full_cmd[0]);
+		if (access(cmd->full_path, F_OK | X_OK) == 0)
 			return ;
 	}
-	printf("error aquí%s\n", prompt.cmds->full_cmd[j]);
+	printf("error aquí%s\n", cmd->full_cmd[j]);
 }
 
 

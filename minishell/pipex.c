@@ -40,10 +40,11 @@ void	here_doc(char *limiter)
 	}
 }
 
-void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt prompt, int i)
+void	child_process1(t_cmd *cmd , int fin, int fout, t_prompt prompt, int i)
 {
 	int	j;
 
+	find_path(cmd ,prompt);
 	j = pipecount(prompt);
 	if (j > 0)
 	{
@@ -58,60 +59,32 @@ void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt prompt, int i
 			close(prompt.pfd[i][1]);
 		}
 	}
-	prompt.pid = fork();
-	if (prompt.pid == -1)
-		error("pid");
-	if (prompt.pid == 0)
-	{
+	dup2(fout, 1);
+	if (check_builtins(prompt) == 1)
+		exit(0);
+	execute(cmd->full_cmd, cmd->full_path, prompt);
+}
+
+void	child_processmid(t_cmd *cmd , t_prompt prompt, int i)
+{
+	find_path(cmd ,prompt);
+	dup2(prompt.pfd[i-1][0], 0);
+	dup2(prompt.pfd[i][1], 1);
+	close(prompt.pfd[i-1][0]);
+	close(prompt.pfd[i][1]);
+	if (check_builtins(prompt) == 1)
+		exit(0);
+	execute(cmd->full_cmd, cmd->full_path, prompt);
+}
+
+void	child_processend(t_cmd *cmd , int	fin, int fout, t_prompt prompt, int i)
+{
+	find_path(cmd ,prompt);
+	if (fout != -1)
 		dup2(fout, 1);
-		if (check_builtins(prompt) == 1)
-			exit(0);
-		execute(curr_node->full_cmd, curr_node->full_path, prompt);
-	}
-}
-
-void	child_processmid(t_cmd *curr_node , t_prompt prompt, int i)
-{
-	prompt.pid = fork();
-	if (prompt.pid == -1)
-		error("pid");
-	if (prompt.pid == 0)
-	{
-		dup2(prompt.pfd[i-1][0], 0);
-		dup2(prompt.pfd[i][1], 1);
-		close(prompt.pfd[i-1][0]);
-		close(prompt.pfd[i][1]);
-		if (check_builtins(prompt) == 1)
-			exit(0);
-		execute(curr_node->full_cmd, curr_node->full_path, prompt);
-	}
-	else
-	{
-		close(prompt.pfd[i-1][0]);
-		close(prompt.pfd[i][1]);
-	}
-}
-
-void	child_processend(t_cmd *curr_node , int	fin, int fout, t_prompt prompt, int i)
-{
-	prompt.pid = fork();
-	if (prompt.pid == -1)
-		error("pid");
-	if (prompt.pid == 0)
-	{
-		if (fout != -1)
-			dup2(fout, 1);
-		if (check_builtins(prompt) == 1)
-			exit(0);
-		execute(curr_node->full_cmd, curr_node->full_path, prompt);
-	}
-	else
-	{
-		if (fout != -1)
-			close(fout);
-		if (fin != -1)
-			dup2(prompt.pfd[i-1][0], 0);
-	}
+	if (check_builtins(prompt) == 1)
+		exit(0);
+	execute(cmd->full_cmd, cmd->full_path, prompt);
 }
 
 void	pipex(t_prompt prompt)
@@ -124,7 +97,6 @@ void	pipex(t_prompt prompt)
 
 	filein = -1;
 	fileout = -1;
-	find_path(prompt);
 	// if (prompt.cmds->heredoc == 1)
 	// {
 	//  	fileout = open_file(*prompt.cmds->outfile, 0);

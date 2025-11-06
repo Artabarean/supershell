@@ -19,18 +19,12 @@ void	executer(t_prompt prompt)
 	int		status;
 
 	cmd = prompt.cmds;
-	if (prompt.cmds->infile[0] != NULL && prompt.cmds->outfile[0] != NULL)
+	if (prompt.cmds->infile[0] != NULL || prompt.cmds->outfile[0] != NULL)
 		pipex(prompt);
 	else
 	{
-		prompt.pfd = ft_calloc(sizeof(2), pipecount(prompt));
-		while (cmd)
-		{
-			find_path(prompt);
-			printf("Calling execute function\n");
-			execute_(prompt.cmds->full_cmd, prompt.cmds->full_path, prompt);
-			cmd = cmd->next;
-		}
+		printf("Calling execute function\n");
+		execute_(cmd, prompt);
 		cmd = prompt.cmds;
 		last_status = pid_stat(cmd ,prompt, status, last_status);
 		check_status(last_status);

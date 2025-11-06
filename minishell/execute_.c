@@ -12,33 +12,59 @@
 
 #include "parser.h"
 
-void	execute_(char **full_cmd, char *full_path, t_prompt prompt)
+void	closepfds(int n_cmds, t_prompt prompt)
 {
-	int	j;
 	int	i;
 
 	i = 0;
-	j = pipecount(prompt);
-	prompt.pid = fork();
-	set_signal(CHILD_EXIT, NULL); // ctrl+C cierra proceso hijo o ctrl+\ cierra la terminal con core dumped
-	if (prompt.pid == -1)
-		error("pid");
-	if (prompt.pid == 0)
+	while (i < n_cmds - 1)
 	{
-		while (i < (j + 1))
-		{
-			if (j > 0)
-			{
-				if (pipe(prompt.pfd[i]) == -1)
-					error("pipe");
-				dup2(prompt.pfd[i][0], 0);
-				dup2(prompt.pfd[i][1], 1);
-			}
-			if (!full_path)
-				error("full_path");
-			if (execve(full_path, full_cmd, prompt.enviroment->envp) == -1)
-				error("execve");
-			i++;
-		}
+		close(prompt.pfd[i][0]);
+		close(prompt.pfd[i][1]);
+		i++;
 	}
+}
+void	child_process(t_cmd *cmd, t_prompt prompt, int i, int n_cmds)
+{
+	int	j;
+
+	if (i > 0)
+		dup2(prompt.pfd[i - 1][0], 0);
+	if (i < n_cmds - 1)
+		dup2(prompt.pfd[i][1], 1);
+	closepfds(n_cmds, prompt);
+	find_path(cmd, prompt);
+	execute(cmd->full_cmd, cmd->full_path, prompt);
+	exit(1);
+}
+void	execute_(t_cmd *cmd, t_prompt prompt)
+{
+	int		i;
+	int		n_cmds;
+
+	i = 0;
+	n_cmds = pipecount(prompt) + 1;
+	prompt.pfd = malloc(sizeof(int[2]) * (n_cmds - 1));
+	if (!prompt.pfd)
+		error("malloc");
+	while (i < n_cmds - 1)
+	{
+		if (pipe(prompt.pfd[i]) == -1)
+			error("pipe");
+		i++;
+	}
+	i = 0;
+	while (i < n_cmds && cmd)
+	{
+		prompt.pid = fork();
+		if (prompt.pid == -1)
+			error("fork");
+		if (prompt.pid == 0)
+			child_process(cmd, prompt, i, n_cmds);
+		i++;
+		cmd = cmd->next;
+	}
+	closepfds(n_cmds, prompt);
+	while (wait(NULL) > 0)
+		;
 }
