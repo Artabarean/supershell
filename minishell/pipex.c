@@ -40,51 +40,52 @@ void	here_doc(char *limiter)
 	}
 }
 
-void	child_process1(t_cmd *cmd , int fin, int fout, t_prompt prompt, int i)
+void	child_process1(t_cmd *cmd , int fin, int fout, t_prompt *prompt, int i)
 {
-	int	j;
+	int	n_cmds;
 
-	find_path(cmd ,prompt);
-	j = pipecount(prompt);
-	if (j > 0)
+	find_path(cmd ,*prompt);
+	n_cmds = pipecount(*prompt) + 1;
+	if (fin != -1)
 	{
-		if (fin != -1)
-		{
-			dup2(prompt.pfd[i][0], fin);
-			close(prompt.pfd[i][0]);
-		}
-		if (fout != -1)
-		{
-			dup2(prompt.pfd[i][1], fout);
-			close(prompt.pfd[i][1]);
-		}
+		dup2(fin, 0);
+		close(fin);
 	}
 	dup2(fout, 1);
-	if (check_builtins(prompt) == 1)
+	close(fout);
+	if (check_builtins(*prompt) == 1)
 		exit(0);
-	execute(cmd->full_cmd, cmd->full_path, prompt);
+	execute(cmd->full_cmd, cmd->full_path, *prompt);
 }
 
-void	child_processmid(t_cmd *cmd , t_prompt prompt, int i)
+void	child_processmid(t_cmd *cmd , t_prompt *prompt, int i)
 {
-	find_path(cmd ,prompt);
-	dup2(prompt.pfd[i-1][0], 0);
-	dup2(prompt.pfd[i][1], 1);
-	close(prompt.pfd[i-1][0]);
-	close(prompt.pfd[i][1]);
-	if (check_builtins(prompt) == 1)
+	find_path(cmd ,*prompt);
+	dup2(prompt->pfd[i-1][0], 0);
+	dup2(prompt->pfd[i][1], 1);
+	close(prompt->pfd[i-1][0]);
+	close(prompt->pfd[i][1]);
+	if (check_builtins(*prompt) == 1)
 		exit(0);
-	execute(cmd->full_cmd, cmd->full_path, prompt);
+	execute(cmd->full_cmd, cmd->full_path, *prompt);
 }
 
-void	child_processend(t_cmd *cmd , int	fin, int fout, t_prompt prompt, int i)
+void	child_processend(t_cmd *cmd , int fin, int fout, t_prompt *prompt, int i)
 {
-	find_path(cmd ,prompt);
+	int	n_cmds;
+
+	n_cmds = pipecount(*prompt) + 1;
+	find_path(cmd ,*prompt);
+	dup2(fin, 0);
 	if (fout != -1)
+	{
 		dup2(fout, 1);
-	if (check_builtins(prompt) == 1)
+		close(fout);
+	}
+	closepfds(n_cmds, *prompt);
+	if (check_builtins(*prompt) == 1)
 		exit(0);
-	execute(cmd->full_cmd, cmd->full_path, prompt);
+	execute(cmd->full_cmd, cmd->full_path, *prompt);
 }
 
 void	pipex(t_prompt prompt)

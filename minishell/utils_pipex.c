@@ -26,20 +26,23 @@ int pid_stat(t_cmd *curr_nde ,t_prompt prompt, int status, int last_status)
 
 void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 {
-    int i;
+    int	i;
 	int	n_cmds;
 
-    i = 0;
+	i = 0;
 	n_cmds = pipecount(prompt) + 1;
 	prompt.pfd = malloc(sizeof(int[2]) * (n_cmds - 1));
+	if (!prompt.pfd)
+		error("malloc");
 	while (i < n_cmds - 1)
 	{
 		if (pipe(prompt.pfd[i]) == -1)
 			error("pipe");
 		i++;
 	}
+
 	i = 0;
-    while (i < n_cmds && cmd)
+	while (i < n_cmds && cmd)
 	{
 		prompt.pid = fork();
 		if (prompt.pid == -1)
@@ -49,23 +52,29 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 			if (i == 0)
 			{
 				printf("Llamada a la función child_process1\n");
-				child_process1(cmd, filein, fileout, prompt, i);
+				if (n_cmds > 1)
+					child_process1(cmd, filein, prompt.pfd[0][1], &prompt, i);
+				else
+					child_process1(cmd, filein, fileout, &prompt, i);
 			}
-			if (i > 0 && cmd->next != NULL)
+			else if (i + 1 < n_cmds)
 			{
 				printf("Llamada a la función child_processmid\n");
-				child_processmid(cmd, prompt, i);
+				child_processmid(cmd, &prompt, i);
 			}
-			if (cmd->next == NULL && i > 0)
+			else
 			{
 				printf("Llamada a la función child_processend\n");
-				child_processend(cmd, filein, fileout, prompt, i);
+				child_processend(cmd, prompt.pfd[i - 1][0], fileout, &prompt, i);
 			}
-			cmd = cmd->next;
+			exit(0);
 		}
+		cmd = cmd->next;
 		i++;
 	}
 	closepfds(n_cmds, prompt);
+	while (wait(NULL) > 0)
+		;
 }
 
 void    file_opener(t_prompt prompt, int *fileout, int *filein)
