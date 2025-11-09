@@ -70,13 +70,13 @@ void	child_processmid(t_cmd *cmd , t_prompt *prompt, int i)
 	execute(cmd->full_cmd, cmd->full_path, *prompt);
 }
 
-void	child_processend(t_cmd *cmd , int fin, int fout, t_prompt *prompt, int i)
+void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 {
 	int	n_cmds;
 
 	n_cmds = pipecount(*prompt) + 1;
 	find_path(cmd ,*prompt);
-	dup2(fin, 0);
+	dup2(prompt->pfd[i-1][0], 0);
 	if (fout != -1)
 	{
 		dup2(fout, 1);

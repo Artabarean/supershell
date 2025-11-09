@@ -40,7 +40,6 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 			error("pipe");
 		i++;
 	}
-
 	i = 0;
 	while (i < n_cmds && cmd)
 	{
@@ -65,7 +64,7 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 			else
 			{
 				printf("Llamada a la función child_processend\n");
-				child_processend(cmd, prompt.pfd[i - 1][0], fileout, &prompt, i);
+				child_processend(cmd, fileout, &prompt, i);
 			}
 			exit(0);
 		}
@@ -79,27 +78,37 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 
 void    file_opener(t_prompt prompt, int *fileout, int *filein)
 {
-    int i;
+    int 	i;
+	t_cmd	*cmd;
 
+	cmd = prompt.cmds;
     i = 0;
-    while (prompt.cmds->outfile[i])
+    while (cmd)
 	{
-		*fileout = open_file(prompt.cmds->outfile[i], 1);
-		if (prompt.cmds->outfile[i + 1] == NULL)
-			break ;
-		close(*fileout);
-		*fileout = -1;
-		i++;
-	}
-	i = 0;
-	while (prompt.cmds->infile[i])
-	{
-		*filein = open_file(prompt.cmds->infile[i], 2);
-		if (prompt.cmds->infile[i + 1] == NULL)
-			break;
-		close(*filein);
-		*filein = -1;
-		i++;
+		while (cmd->outfile[i])
+		{
+			printf("outfile aqui\n");
+			*fileout = open_file(cmd->outfile[i], 1);
+			if (cmd->outfile[i + 1] != NULL && cmd->next != NULL)
+			{
+				close(*fileout);
+				*fileout = -1;
+			}
+			i++;
+		}
+		i = 0;
+		while (cmd->infile[i])
+		{
+			*filein = open_file(cmd->infile[i], 2);
+			if (cmd->infile[i + 1] != NULL && cmd->next != NULL)
+			{
+				close(*filein);
+				*filein = -1;
+			}
+			i++;
+		}
+		i = 0;
+		cmd = cmd->next;
 	}
 }
 

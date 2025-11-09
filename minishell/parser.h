@@ -175,7 +175,7 @@ int		check_builtins(t_prompt prompt);
 int		echo(char **full_cmd);
 void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt, int i);
 void	child_processmid(t_cmd *curr_node , t_prompt *prompt, int i);
-void	child_processend(t_cmd *curr_node , int	fin, int fout, t_prompt *prompt, int i);
+void	child_processend(t_cmd *curr_node , int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);
 void	find_path(t_cmd *cmd, t_prompt prompt);
 void	closepfds(int n_cmds, t_prompt prompt);
