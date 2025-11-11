@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser1.h                                          :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:13:23 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/04 12:56:27 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/11 12:12:39 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,8 @@ void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt, int 
 void	child_processmid(t_cmd *curr_node , t_prompt *prompt, int i);
 void	child_processend(t_cmd *curr_node , int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);
-void	find_path(t_cmd *cmd, t_prompt prompt);
+void	find_path(t_cmd *cmd, t_prompt *prompt);
 void	closepfds(int n_cmds, t_prompt prompt);
+void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int fin, int fout);
 
 #endif

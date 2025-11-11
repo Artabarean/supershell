@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/04 12:04:37 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/11 12:12:34 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	child_process1(t_cmd *cmd , int fin, int fout, t_prompt *prompt, int i)
 {
 	int	n_cmds;
 
-	find_path(cmd ,*prompt);
+	find_path(cmd ,prompt);
 	n_cmds = pipecount(*prompt) + 1;
 	if (fin != -1)
 	{
@@ -60,11 +60,11 @@ void	child_process1(t_cmd *cmd , int fin, int fout, t_prompt *prompt, int i)
 
 void	child_processmid(t_cmd *cmd , t_prompt *prompt, int i)
 {
-	find_path(cmd ,*prompt);
+	find_path(cmd ,prompt);
 	dup2(prompt->pfd[i-1][0], 0);
-	dup2(prompt->pfd[i][1], 1);
+	dup2(prompt->pfd[i][0], 1);
 	close(prompt->pfd[i-1][0]);
-	close(prompt->pfd[i][1]);
+	close(prompt->pfd[i][0]);
 	if (check_builtins(*prompt) == 1)
 		exit(0);
 	execute(cmd->full_cmd, cmd->full_path, *prompt);
@@ -75,7 +75,7 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 	int	n_cmds;
 
 	n_cmds = pipecount(*prompt) + 1;
-	find_path(cmd ,*prompt);
+	find_path(cmd ,prompt);
 	dup2(prompt->pfd[i-1][0], 0);
 	if (fout != -1)
 	{

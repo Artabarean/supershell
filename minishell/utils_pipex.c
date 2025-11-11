@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/04 12:21:34 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/11 12:30:07 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,37 +43,17 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 	i = 0;
 	while (i < n_cmds && cmd)
 	{
-		prompt.pid = fork();
-		if (prompt.pid == -1)
-			error("fork");
-		if (prompt.pid == 0)
-		{
-			if (i == 0)
-			{
-				printf("Llamada a la función child_process1\n");
-				if (n_cmds > 1)
-					child_process1(cmd, filein, prompt.pfd[0][1], &prompt, i);
-				else
-					child_process1(cmd, filein, fileout, &prompt, i);
-			}
-			else if (i + 1 < n_cmds)
-			{
-				printf("Llamada a la función child_processmid\n");
-				child_processmid(cmd, &prompt, i);
-			}
-			else
-			{
-				printf("Llamada a la función child_processend\n");
-				child_processend(cmd, fileout, &prompt, i);
-			}
-			exit(0);
-		}
+		selectprocess(&prompt, cmd, i, filein, fileout);
 		cmd = cmd->next;
 		i++;
 	}
 	closepfds(n_cmds, prompt);
-	while (wait(NULL) > 0)
-		;
+	while ((n_cmds) > 0)
+	{
+		wait(NULL);
+		printf("ping\n");
+		n_cmds--;
+	}
 }
 
 void    file_opener(t_prompt prompt, int *fileout, int *filein)
@@ -87,7 +67,6 @@ void    file_opener(t_prompt prompt, int *fileout, int *filein)
 	{
 		while (cmd->outfile[i])
 		{
-			printf("outfile aqui\n");
 			*fileout = open_file(cmd->outfile[i], 1);
 			if (cmd->outfile[i + 1] != NULL && cmd->next != NULL)
 			{

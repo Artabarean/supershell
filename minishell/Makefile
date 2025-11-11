@@ -25,6 +25,7 @@ SRC	 =	main.c \
 		utils-executor.c \
 		debugging.c \
 		find_path.c \
+		selectprocess.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 

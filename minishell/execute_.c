@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/04 12:43:50 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/11 12:13:04 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	closepfds(int n_cmds, t_prompt prompt)
 	int	i;
 
 	i = 0;
-	while (i < n_cmds - 1)
+	while (i < (n_cmds - 1))
 	{
 		close(prompt.pfd[i][0]);
 		close(prompt.pfd[i][1]);
@@ -33,7 +33,7 @@ void	child_process(t_cmd *cmd, t_prompt prompt, int i, int n_cmds)
 	if (i < n_cmds - 1)
 		dup2(prompt.pfd[i][1], 1);
 	closepfds(n_cmds, prompt);
-	find_path(cmd, prompt);
+	find_path(cmd, &prompt);
 	execute(cmd->full_cmd, cmd->full_path, prompt);
 	exit(1);
 }
