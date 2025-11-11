@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/11 12:30:07 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:07:44 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 		i++;
 	}
 	closepfds(n_cmds, prompt);
-	while ((n_cmds) > 0)
+	while (n_cmds > 0)
 	{
 		wait(NULL);
 		printf("ping\n");

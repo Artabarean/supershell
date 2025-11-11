@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/11 12:12:34 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/11 14:10:50 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void	child_processmid(t_cmd *cmd , t_prompt *prompt, int i)
 {
 	find_path(cmd ,prompt);
 	dup2(prompt->pfd[i-1][0], 0);
-	dup2(prompt->pfd[i][0], 1);
+	dup2(prompt->pfd[i][1], 1);
 	close(prompt->pfd[i-1][0]);
-	close(prompt->pfd[i][0]);
+	close(prompt->pfd[i][1]);
 	if (check_builtins(*prompt) == 1)
 		exit(0);
 	execute(cmd->full_cmd, cmd->full_path, *prompt);
