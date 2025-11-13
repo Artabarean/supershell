@@ -67,7 +67,10 @@ void    file_opener(t_prompt prompt, int *fileout, int *filein)
 	{
 		while (cmd->outfile[i])
 		{
-			*fileout = open_file(cmd->outfile[i], 1);
+			if (cmd->append == 1)
+				*fileout = open_file(cmd->outfile[i], 0);
+			else
+				*fileout = open_file(cmd->outfile[i], 1);
 			if (cmd->outfile[i + 1] != NULL && cmd->next != NULL)
 			{
 				close(*fileout);
@@ -115,6 +118,7 @@ int	open_file(char *argv, int i)
 	int	file;
 
 	file = 0;
+	printf("openfile:%d\n", i);
 	if (i == 0)
 		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else if (i == 1)
