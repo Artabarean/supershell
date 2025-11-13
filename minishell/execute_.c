@@ -34,6 +34,8 @@ void	child_process(t_cmd *cmd, t_prompt prompt, int i, int n_cmds)
 		dup2(prompt.pfd[i][1], 1);
 	closepfds(n_cmds, prompt);
 	find_path(cmd, &prompt);
+	if (check_builtins(prompt) == 1)
+		exit(0);
 	execute(cmd->full_cmd, cmd->full_path, prompt);
 	exit(1);
 }

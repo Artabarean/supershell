@@ -17,7 +17,7 @@ SRC	 =	main.c \
 		clean.c \
 		signal.c \
 		input.c \
-		builtins.c \
+		builtins/builtins.c \
 		execute_.c \
 		executer.c \
 		pipex.c \
@@ -26,6 +26,8 @@ SRC	 =	main.c \
 		debugging.c \
 		find_path.c \
 		selectprocess.c \
+		builtins/echo.c \
+		
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 
