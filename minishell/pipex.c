@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/11 14:10:50 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/14 11:13:20 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,11 @@ void	child_process1(t_cmd *cmd , int fin, int fout, t_prompt *prompt, int i)
 	dup2(fout, 1);
 	close(fout);
 	closepfds(n_cmds, *prompt);
-	if (check_builtins(*prompt) == 1)
-		exit(0);
+	if (is_builtin(cmd))
+	{
+    	run_builtin_child(cmd, prompt);
+    	exit(0);
+	}
 	execute(cmd->full_cmd, cmd->full_path, *prompt);
 }
 
@@ -68,8 +71,11 @@ void	child_processmid(t_cmd *cmd , t_prompt *prompt, int i)
 	dup2(prompt->pfd[i-1][0], 0);
 	dup2(prompt->pfd[i][1], 1);
 	closepfds(n_cmds, *prompt);
-	if (check_builtins(*prompt) == 1)
-		exit(0);
+	if (is_builtin(cmd))
+	{
+    	run_builtin_child(cmd, prompt);
+    	exit(0);
+	}
 	execute(cmd->full_cmd, cmd->full_path, *prompt);
 }
 
@@ -86,8 +92,11 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 		close(fout);
 	}
 	closepfds(n_cmds, *prompt);
-	if (check_builtins(*prompt) == 1)
-		exit(0);
+	if (is_builtin(cmd))
+	{
+    	run_builtin_child(cmd, prompt);
+    	exit(0);
+	}
 	execute(cmd->full_cmd, cmd->full_path, *prompt);
 }
 

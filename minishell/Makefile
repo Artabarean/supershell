@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/11/14 10:40:04 by codespace         #+#    #+#              #
+#    Updated: 2025/11/14 10:46:11 by codespace        ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME	= minishell
 CC	  = cc -lreadline
 CFLAGS   = -Wall -Wextra -Werror
@@ -17,7 +29,6 @@ SRC	 =	main.c \
 		clean.c \
 		signal.c \
 		input.c \
-		builtins/builtins.c \
 		execute_.c \
 		executer.c \
 		pipex.c \
@@ -26,8 +37,9 @@ SRC	 =	main.c \
 		debugging.c \
 		find_path.c \
 		selectprocess.c \
-		builtins/echo.c \
-		
+		echo.c \
+		pwd.c \
+		builtins.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 

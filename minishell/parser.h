@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:13:23 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/11 12:12:39 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/14 11:25:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,26 @@ typedef struct s_cmd
 }			t_cmd;
 
 // Enviroment
-typedef struct s_env
-{
-	char	*path;
-	char	*home;
-	char	*pwd;
-	char	*oldpwd;
-	char	*user;
-	char	*shell;
-	int		shlvl;
-	char	*cmdpath;
-	char	**envp;
-}				t_env;
+// typedef struct s_env
+// {
+// 	char	*path;
+// 	char	*home;
+// 	char	*pwd;
+// 	char	*oldpwd;
+// 	char	*user;
+// 	char	*shell;
+// 	int		shlvl;
+// 	char	*cmdpath;
+// 	char	**envp;
+// }				t_env;
 
-/*typedef struct s_env
+typedef struct s_env
 {
 	char			*keyword;
 	char			*value;
 	struct s_env	*next;
-}				t_env;*/
+	char			**envp
+}				t_env;
 
 // Estructura general
 typedef struct s_prompt
@@ -171,8 +172,7 @@ void	childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt);
 int		pid_stat(t_cmd *curr_nde, t_prompt prompt, int status, int last_status);
 void	execute_(t_cmd *cmd, t_prompt prompt);
 void	executer(t_prompt prompt);
-int		check_builtins(t_prompt prompt);
-int		echo(char **full_cmd);
+
 void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt, int i);
 void	child_processmid(t_cmd *curr_node , t_prompt *prompt, int i);
 void	child_processend(t_cmd *curr_node , int fout, t_prompt *prompt, int i);
@@ -180,5 +180,13 @@ int		pipecount(t_prompt prompt);
 void	find_path(t_cmd *cmd, t_prompt *prompt);
 void	closepfds(int n_cmds, t_prompt prompt);
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int fin, int fout);
+
+
+//Built-ins
+int		is_builtin(t_cmd *cmd);
+void 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
+int		pwd(void);
+int		echo(char **full_cmd);
+// int		export(t_prompt prompt);
 
 #endif

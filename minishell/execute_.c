@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/11 12:13:04 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/14 11:13:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ void	child_process(t_cmd *cmd, t_prompt prompt, int i, int n_cmds)
 		dup2(prompt.pfd[i][1], 1);
 	closepfds(n_cmds, prompt);
 	find_path(cmd, &prompt);
-	if (check_builtins(prompt) == 1)
-		exit(0);
+	if (is_builtin(cmd))
+	{
+    	run_builtin_child(cmd, &prompt);
+    	exit(0);
+	}
 	execute(cmd->full_cmd, cmd->full_path, prompt);
 	exit(1);
 }

@@ -6,18 +6,17 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:44:43 by codespace         #+#    #+#             */
-/*   Updated: 2025/11/13 09:45:37 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/14 10:46:21 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../parser.h"
+#include "parser.h"
 
 int	echo(char **full_cmd)
 {
 	int	i;
 
 	i = 1;
-	printf("echoaqui\n");
 	while (full_cmd[i])
 	{
 		if (full_cmd[0][0] == '-')
