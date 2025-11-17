@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/14 11:13:29 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/17 11:38:34 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,25 @@ void	closepfds(int n_cmds, t_prompt prompt)
 		i++;
 	}
 }
-void	child_process(t_cmd *cmd, t_prompt prompt, int i, int n_cmds)
+void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 {
 	int	j;
 
 	if (i > 0)
-		dup2(prompt.pfd[i - 1][0], 0);
+		dup2(prompt->pfd[i - 1][0], 0);
 	if (i < n_cmds - 1)
-		dup2(prompt.pfd[i][1], 1);
-	closepfds(n_cmds, prompt);
-	find_path(cmd, &prompt);
+		dup2(prompt->pfd[i][1], 1);
+	closepfds(n_cmds, *prompt);
+	if (!ft_strchr(cmd->full_cmd[0], '/'))
+		find_path(cmd ,prompt);
+	else
+		cmd->full_path = cmd->full_cmd[0];
 	if (is_builtin(cmd))
 	{
-    	run_builtin_child(cmd, &prompt);
+    	run_builtin_child(cmd, prompt);
     	exit(0);
 	}
-	execute(cmd->full_cmd, cmd->full_path, prompt);
+	execute(cmd->full_cmd, cmd->full_path, *prompt);
 	exit(1);
 }
 void	execute_(t_cmd *cmd, t_prompt prompt)
@@ -65,7 +68,7 @@ void	execute_(t_cmd *cmd, t_prompt prompt)
 		if (prompt.pid == -1)
 			error("fork");
 		if (prompt.pid == 0)
-			child_process(cmd, prompt, i, n_cmds);
+			child_process(cmd, &prompt, i, n_cmds);
 		i++;
 		cmd = cmd->next;
 	}

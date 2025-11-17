@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/11 12:12:14 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/17 11:31:45 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	find_path(t_cmd *cmd, t_prompt *prompt)
 	int		i;
 	char	**paths;
 	int		j;
-
+	
 	j = 0;
 	i = -1;
 	paths = ft_split(get_environments("PATH", prompt->enviroment->envp), ':');
@@ -63,7 +63,6 @@ void	find_path(t_cmd *cmd, t_prompt *prompt)
 		{
 			if (access(cmd->full_cmd[j], F_OK | X_OK) == 0)
 				return ;
-			printf("error aquí%s\n", cmd->full_cmd[j]);
 			return ;
 			j++;
 		}
@@ -75,7 +74,6 @@ void	find_path(t_cmd *cmd, t_prompt *prompt)
 		if (access(cmd->full_path, F_OK | X_OK) == 0)
 			return ;
 	}
-	printf("error aquí%s\n", cmd->full_cmd[j]);
 }
 
 

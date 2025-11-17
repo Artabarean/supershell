@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:13:23 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/14 11:25:50 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/17 10:58:40 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,27 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }			t_cmd;
 
-// Enviroment
-// typedef struct s_env
-// {
-// 	char	*path;
-// 	char	*home;
-// 	char	*pwd;
-// 	char	*oldpwd;
-// 	char	*user;
-// 	char	*shell;
-// 	int		shlvl;
-// 	char	*cmdpath;
-// 	char	**envp;
-// }				t_env;
-
+//Enviroment
 typedef struct s_env
 {
-	char			*keyword;
-	char			*value;
-	struct s_env	*next;
-	char			**envp
+	char	*path;
+	char	*home;
+	char	*pwd;
+	char	*oldpwd;
+	char	*user;
+	char	*shell;
+	int		shlvl;
+	char	*cmdpath;
+	char	**envp;
 }				t_env;
+
+// typedef struct s_env
+// {
+// 	char			*keyword;
+// 	char			*value;
+// 	struct s_env	*next;
+// 	char			**envp
+// }				t_env;
 
 // Estructura general
 typedef struct s_prompt

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/14 11:13:20 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/17 11:35:13 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	child_process1(t_cmd *cmd , int fin, int fout, t_prompt *prompt, int i)
 {
 	int	n_cmds;
 
-	find_path(cmd ,prompt);
+	if (!ft_strchr(cmd->full_cmd[0], '/'))
+		find_path(cmd ,prompt);
+	else
+		cmd->full_path = cmd->full_cmd[0];
 	n_cmds = pipecount(*prompt) + 1;
 	if (fin != -1)
 	{
@@ -67,7 +70,11 @@ void	child_processmid(t_cmd *cmd , t_prompt *prompt, int i)
 	int	n_cmds;
 
 	n_cmds = pipecount(*prompt) + 1;
-	find_path(cmd ,prompt);
+	printf("cmd->full_cmd[0]:%s\n", cmd->full_cmd[0]);
+	if (!ft_strchr(cmd->full_cmd[0], '/'))
+		find_path(cmd ,prompt);
+	else
+		cmd->full_path = cmd->full_cmd[0];
 	dup2(prompt->pfd[i-1][0], 0);
 	dup2(prompt->pfd[i][1], 1);
 	closepfds(n_cmds, *prompt);
@@ -84,7 +91,10 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 	int	n_cmds;
 
 	n_cmds = pipecount(*prompt) + 1;
-	find_path(cmd ,prompt);
+	if (!ft_strchr(cmd->full_cmd[0], '/'))
+		find_path(cmd ,prompt);
+	else
+		cmd->full_path = cmd->full_cmd[0];
 	dup2(prompt->pfd[i-1][0], 0);
 	if (fout != -1)
 	{
