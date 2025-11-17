@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:13:23 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/17 12:30:54 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/17 14:10:07 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ void	debug(t_prompt prompt);
 
 //Execution
 void	error(char *s);
+void	here_doc(t_prompt prompt, char *limiter);
 int		get_next_line(char **line);
 void	execute(char **full_cmd, char *full_path, t_prompt prompt);
 void	pipex(t_prompt prompt);

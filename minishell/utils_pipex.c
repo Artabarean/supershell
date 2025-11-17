@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/14 10:52:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/17 14:24:06 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	check_status(int status)
 	int exit_code;
     int signal_num;
 
+	printf("status:%d\n", status);
     if ((status & 0x7F) == 0)
     {
         exit_code = (status >> 8) & 0xFF;
@@ -106,7 +107,6 @@ void	check_status(int status)
     else
     {
         signal_num = status & 0x7F;
-        // In Bash, exit code = 128 + signal
         exit_code = 128 + signal_num;
         printf("Killed by signal %d\n", signal_num);
     }

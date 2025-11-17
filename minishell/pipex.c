@@ -6,13 +6,13 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/17 12:33:23 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/17 14:22:40 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	here_doc(char *limiter)
+void	here_doc(t_prompt prompt, char *limiter)
 {
 	pid_t	reader;
 	int		fd[2];
@@ -117,17 +117,22 @@ void	pipex(t_prompt prompt)
 	int		last_status;
 	int		status;
 
+	last_status = 0;
 	filein = -1;
 	fileout = -1;
-	// if (prompt.cmds->heredoc == 1)
-	// {
-	//  	fileout = open_file(*prompt.cmds->outfile, 0);
-	//  	here_doc(*prompt.cmds->outfile);
-	// }
-	current_node = prompt.cmds;
-	file_opener(prompt, &fileout, &filein);
-	childprocess_(current_node, filein, fileout, prompt);
-	current_node = prompt.cmds;
+	if (prompt.cmds->heredoc == 1)
+	{
+		if (prompt.cmds->outfile[0])
+	 		fileout = open_file(prompt.cmds->outfile[0], 0);
+	 	here_doc(prompt, prompt.cmds->infile[0]);
+	}
+	else
+	{
+		current_node = prompt.cmds;
+		file_opener(prompt, &fileout, &filein);
+		childprocess_(current_node, filein, fileout, prompt);
+		current_node = prompt.cmds;
+	}
 	last_status = pid_stat(current_node ,prompt, status, last_status);
 	check_status(last_status);
 }
