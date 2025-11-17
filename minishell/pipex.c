@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/17 11:35:13 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:33:23 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	child_processmid(t_cmd *cmd , t_prompt *prompt, int i)
 	int	n_cmds;
 
 	n_cmds = pipecount(*prompt) + 1;
-	printf("cmd->full_cmd[0]:%s\n", cmd->full_cmd[0]);
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 		find_path(cmd ,prompt);
 	else
@@ -127,7 +126,6 @@ void	pipex(t_prompt prompt)
 	// }
 	current_node = prompt.cmds;
 	file_opener(prompt, &fileout, &filein);
-	dup2(filein, 0);
 	childprocess_(current_node, filein, fileout, prompt);
 	current_node = prompt.cmds;
 	last_status = pid_stat(current_node ,prompt, status, last_status);

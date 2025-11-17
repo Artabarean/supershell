@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:13:23 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/17 10:58:40 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/17 12:30:54 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <errno.h>
 
 //Macros para printf
 # define RED	 "\033[0;31m"
