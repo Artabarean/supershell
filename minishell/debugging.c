@@ -62,8 +62,19 @@ void	print_cmds(t_cmd *cmds)
 	}
 }
 
+void	print_env(t_env *enviroment)
+{
+	while (enviroment->next)
+	{
+		printf("Keyword: %s\n", enviroment->keyword);
+		printf("Value: %s\n", enviroment->value);
+		enviroment = enviroment->next;
+	}
+}
+
 void	debug(t_prompt prompt)
 {
 	print_tokens(prompt.tkns);
 	print_cmds(prompt.cmds);
+//	print_env(prompt.enviroment);
 }
