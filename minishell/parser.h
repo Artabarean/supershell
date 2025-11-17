@@ -68,7 +68,7 @@ typedef struct s_cmd
 }			t_cmd;
 
 //Enviroment
-typedef struct s_env
+/* typedef struct s_env
 {
 	char	*path;
 	char	*home;
@@ -79,15 +79,15 @@ typedef struct s_env
 	int		shlvl;
 	char	*cmdpath;
 	char	**envp;
-}				t_env;
+}				t_env; */
 
-// typedef struct s_env
-// {
-// 	char			*keyword;
-// 	char			*value;
-// 	struct s_env	*next;
-// 	char			**envp
-// }				t_env;
+typedef struct s_env
+{
+	char			*keyword;
+	char			*value;
+	struct s_env	*next;
+	char			**envp
+}				t_env;
 
 // Estructura general
 typedef struct s_prompt
@@ -101,7 +101,9 @@ typedef struct s_prompt
 }			t_prompt;
 
 //Enviroment
-void	parse_env(t_env *e, char **env);
+void	fill_env(char *env, t_env *e);
+t_env	*new_env(void);
+void	init_env(t_prompt *prompt, char **env);
 
 //Init
 void	init_tkns(t_prompt *prompt);
@@ -141,6 +143,7 @@ void	free_all(t_prompt *prompt);
 void	free_lst(t_cmd **lst);
 void	del(t_cmd *tmp);
 void	free_doble_ptr(char **ptr);
+void	free_env(t_env **e);
 
 //Input
 void	get_user_input(t_prompt *prompt);
