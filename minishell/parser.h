@@ -68,18 +68,18 @@ typedef struct s_cmd
 }			t_cmd;
 
 //Enviroment
-/* typedef struct s_env
-{
-	char	*path;
-	char	*home;
-	char	*pwd;
-	char	*oldpwd;
-	char	*user;
-	char	*shell;
-	int		shlvl;
-	char	*cmdpath;
-	char	**envp;
-}				t_env; */
+// typedef struct s_env
+// {
+// 	char	*path;
+// 	char	*home;
+// 	char	*pwd;
+// 	char	*oldpwd;
+// 	char	*user;
+// 	char	*shell;
+// 	int		shlvl;
+// 	char	*cmdpath;
+// 	char	**envp;
+//	}				t_env;
 
 typedef struct s_env
 {
@@ -87,7 +87,7 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 	char			**envp
-}				t_env;
+}			t_env;
 
 // Estructura general
 typedef struct s_prompt
@@ -97,7 +97,7 @@ typedef struct s_prompt
 	char	**tkns;
 	int		(*pfd)[2];
 	t_env	*enviroment;
-	pid_t	pid ;
+	pid_t	*pid;
 }			t_prompt;
 
 //Enviroment

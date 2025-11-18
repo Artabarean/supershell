@@ -24,28 +24,19 @@ void	freer(char **paths)
 	}
 }
 
-char	*get_environments(char *name, char **envp)
+char	*get_environments(char *name, t_prompt *prompt)
 {
-	int		i;
-	int		j;
-	char	*comp;
+	t_env 	*curr_env;
+	char	*path;
 
-	i = 0;
-	while (envp[i])
+	curr_env = prompt->enviroment; 
+	while (curr_env)
 	{
-		j = 0;
-		while (envp[i][j] && envp[i][j] != '=')
-			j++;
-		comp = ft_substr(envp[i], 0, j);
-		if (ft_strcmp(comp, name) == 0)
-		{
-			free(comp);
-			return (envp[i] + j + 1);
-		}
-		free(comp);
-		i++;
+		if (!ft_strcmp(name, curr_env->keyword))
+			path = curr_env->value;
+		curr_env = curr_env->next;
 	}
-	return (NULL);
+	return (path);
 }
 
 void	find_path(t_cmd *cmd, t_prompt *prompt)
@@ -56,7 +47,7 @@ void	find_path(t_cmd *cmd, t_prompt *prompt)
 	
 	j = 0;
 	i = -1;
-	paths = ft_split(get_environments("PATH", prompt->enviroment->envp), ':');
+	paths = ft_split(get_environments("PATH", prompt), ':');
 	if (!paths)
 	{
 		while(cmd->full_cmd[j])

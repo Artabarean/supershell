@@ -115,26 +115,3 @@ int	correct_input(char *input)
 	else
 		return (0);
 }
-
-int	not_only_spaces(char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] != ' ' && input[i] != '\t')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	correct_input(char *input)
-{
-	if (input && is_valid_input(input)
-		&& not_only_spaces(input) && closed_quotes(input))
-		return (1);
-	else
-		return (0);
-}

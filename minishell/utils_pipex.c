@@ -14,12 +14,18 @@
 
 int pid_stat(t_cmd *curr_nde ,t_prompt prompt, int status, int last_status)
 {
-    while (curr_nde)
+	int	i;
+	int	n_cmds;
+
+	i = 0;
+	n_cmds = pipecount(prompt);
+    while (i < n_cmds && curr_nde)
 	{
-		waitpid(prompt.pid, &status, 0);
+		waitpid(prompt.pid[i], &status, 0);
 		if (curr_nde->next == NULL)
 			last_status = status;
 		curr_nde = curr_nde->next;
+		i++;
 	}
     return (last_status);
 }

@@ -17,10 +17,10 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int fin, int fout)
 	int	n_cmds;
 
 	n_cmds = pipecount(*prompt) + 1;
-	prompt->pid = fork();
-	if (prompt->pid == -1)
+	prompt->pid[i] = fork();
+	if (prompt->pid[i] == -1)
 		error("fork");
-	if (prompt->pid == 0)
+	if (prompt->pid[i] == 0)
 	{
 		if (i == 0)
 		{

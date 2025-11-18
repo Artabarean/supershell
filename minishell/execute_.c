@@ -52,6 +52,7 @@ void	execute_(t_cmd *cmd, t_prompt prompt)
 
 	i = 0;
 	n_cmds = pipecount(prompt) + 1;
+	prompt.pid = malloc(sizeof(pid_t) * n_cmds);
 	prompt.pfd = malloc(sizeof(int[2]) * (n_cmds - 1));
 	if (!prompt.pfd)
 		error("malloc");
@@ -64,10 +65,10 @@ void	execute_(t_cmd *cmd, t_prompt prompt)
 	i = 0;
 	while (i < n_cmds && cmd)
 	{
-		prompt.pid = fork();
-		if (prompt.pid == -1)
+		prompt.pid[i] = fork();
+		if (prompt.pid[i] == -1)
 			error("fork");
-		if (prompt.pid == 0)
+		if (prompt.pid[i] == 0)
 			child_process(cmd, &prompt, i, n_cmds);
 		i++;
 		cmd = cmd->next;
