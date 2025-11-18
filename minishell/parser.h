@@ -98,6 +98,7 @@ typedef struct s_prompt
 	int		(*pfd)[2];
 	t_env	*enviroment;
 	pid_t	*pid;
+	int		error;
 }			t_prompt;
 
 //Enviroment
@@ -175,15 +176,16 @@ void	check_status(int status);
 void	file_opener(t_prompt prompt, int *fileout, int *filein);
 void	childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt);
 int		pid_stat(t_cmd *curr_nde, t_prompt prompt, int status, int last_status);
-void	execute_(t_cmd *cmd, t_prompt prompt);
+void	execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt prompt);
+void	pfd_alloc(t_prompt *prompt, int n_cmds);
 
 void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt, int i);
 void	child_processmid(t_cmd *curr_node , t_prompt *prompt, int i);
 void	child_processend(t_cmd *curr_node , int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);
 void	find_path(t_cmd *cmd, t_prompt *prompt);
-void	closepfds(int n_cmds, t_prompt prompt);
+void	closepfds(int n_cmds, t_prompt *prompt);
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int fin, int fout);
 
 

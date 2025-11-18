@@ -34,8 +34,8 @@ void	executer(t_prompt prompt)
 	if (pipex_executed == 0)
 	{
 		cmd = prompt.cmds;
-		printf("Calling execute function\n");
-		execute_(cmd, prompt);
+		prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
+		execute_(cmd, &prompt);
 		last_status = pid_stat(cmd ,prompt, status, last_status);
 		check_status(last_status);
 	}

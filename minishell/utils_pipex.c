@@ -37,9 +37,7 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 
 	i = 0;
 	n_cmds = pipecount(prompt) + 1;
-	prompt.pfd = malloc(sizeof(int[2]) * (n_cmds - 1));
-	if (!prompt.pfd)
-		error("malloc");
+	pfd_alloc(&prompt, n_cmds);
 	while (i < n_cmds - 1)
 	{
 		if (pipe(prompt.pfd[i]) == -1)
@@ -53,7 +51,7 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 		cmd = cmd->next;
 		i++;
 	}
-	closepfds(n_cmds, prompt);
+	closepfds(n_cmds, &prompt);
 	while (n_cmds > 0)
 	{
 		wait(NULL);
@@ -123,7 +121,6 @@ int	open_file(char *argv, int i)
 	int	file;
 
 	file = 0;
-	printf("openfile:%d\n", i);
 	if (i == 0)
 		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else if (i == 1)

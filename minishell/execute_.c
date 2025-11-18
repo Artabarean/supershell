@@ -12,15 +12,22 @@
 
 #include "parser.h"
 
-void	closepfds(int n_cmds, t_prompt prompt)
+void	pfd_alloc(t_prompt *prompt, int n_cmds)
+{
+	prompt->pfd = malloc(sizeof(int[2]) * (n_cmds - 1));
+	if (!prompt->pfd)
+		error("pfd failed");
+}
+
+void	closepfds(int n_cmds, t_prompt *prompt)
 {
 	int	i;
 
 	i = 0;
 	while (i < (n_cmds - 1))
 	{
-		close(prompt.pfd[i][0]);
-		close(prompt.pfd[i][1]);
+		close(prompt->pfd[i][0]);
+		close(prompt->pfd[i][1]);
 		i++;
 	}
 }
@@ -32,7 +39,7 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 		dup2(prompt->pfd[i - 1][0], 0);
 	if (i < n_cmds - 1)
 		dup2(prompt->pfd[i][1], 1);
-	closepfds(n_cmds, *prompt);
+	closepfds(n_cmds, prompt);
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 		find_path(cmd ,prompt);
 	else
@@ -45,31 +52,28 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 	execute(cmd->full_cmd, cmd->full_path, *prompt);
 	exit(1);
 }
-void	execute_(t_cmd *cmd, t_prompt prompt)
+void	execute_(t_cmd *cmd, t_prompt *prompt)
 {
 	int		i;
 	int		n_cmds;
 
 	i = 0;
-	n_cmds = pipecount(prompt) + 1;
-	prompt.pid = malloc(sizeof(pid_t) * n_cmds);
-	prompt.pfd = malloc(sizeof(int[2]) * (n_cmds - 1));
-	if (!prompt.pfd)
-		error("malloc");
+	n_cmds = pipecount(*prompt) + 1;
+	pfd_alloc(prompt, n_cmds);
 	while (i < n_cmds - 1)
 	{
-		if (pipe(prompt.pfd[i]) == -1)
+		if (pipe(prompt->pfd[i]) == -1)
 			error("pipe");
 		i++;
 	}
 	i = 0;
 	while (i < n_cmds && cmd)
 	{
-		prompt.pid[i] = fork();
-		if (prompt.pid[i] == -1)
+		prompt->pid[i] = fork();
+		if (prompt->pid[i] == -1)
 			error("fork");
-		if (prompt.pid[i] == 0)
-			child_process(cmd, &prompt, i, n_cmds);
+		if (prompt->pid[i] == 0)
+			child_process(cmd, prompt, i, n_cmds);
 		i++;
 		cmd = cmd->next;
 	}

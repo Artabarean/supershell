@@ -56,7 +56,7 @@ void	child_process1(t_cmd *cmd , int fin, int fout, t_prompt *prompt, int i)
 	}
 	dup2(fout, 1);
 	close(fout);
-	closepfds(n_cmds, *prompt);
+	closepfds(n_cmds, prompt);
 	if (is_builtin(cmd))
 	{
     	run_builtin_child(cmd, prompt);
@@ -76,7 +76,7 @@ void	child_processmid(t_cmd *cmd , t_prompt *prompt, int i)
 		cmd->full_path = cmd->full_cmd[0];
 	dup2(prompt->pfd[i-1][0], 0);
 	dup2(prompt->pfd[i][1], 1);
-	closepfds(n_cmds, *prompt);
+	closepfds(n_cmds, prompt);
 	if (is_builtin(cmd))
 	{
     	run_builtin_child(cmd, prompt);
@@ -100,7 +100,7 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 		dup2(fout, 1);
 		close(fout);
 	}
-	closepfds(n_cmds, *prompt);
+	closepfds(n_cmds, prompt);
 	if (is_builtin(cmd))
 	{
     	run_builtin_child(cmd, prompt);

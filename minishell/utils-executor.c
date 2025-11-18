@@ -12,6 +12,12 @@
 
 #include "parser.h"
 
+void	set_error(t_prompt *prompt, char *s)
+{
+	perror(s);
+	prompt->error = errno;
+}
+
 void	error(char *s)
 {
 	perror(s);
