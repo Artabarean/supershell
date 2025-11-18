@@ -120,7 +120,7 @@ void	pipex(t_prompt prompt)
 	last_status = 0;
 	filein = -1;
 	fileout = -1;
-	prompt.pid = malloc(sizeof(pid_t) * pipecount(prompt) + 1);
+	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
 	if (prompt.cmds->heredoc == 1)
 	{
 		if (prompt.cmds->outfile[0])
