@@ -24,6 +24,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <stdbool.h>
 
 //Macros para printf
 # define RED	 "\033[0;31m"

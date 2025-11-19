@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/19 12:19:06 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/19 14:05:23 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void run_builtin_child(t_cmd *cmd, t_prompt *prompt)
     //     unset(cmd->full_cmd);
     // else if (!strcmp(cmd->full_cmd[0], "cd"))
     // 	cd(cmd->full_cmd, prompt);
-    // else if (!strcmp(cmd->full_cmd[0], "exit"))
-    //    exit_builtin(cmd);
+    else if (!strcmp(cmd->full_cmd[0], "exit"))
+       exit_builtin(cmd);
     exit(0);
 }
