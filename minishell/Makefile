@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: codespace <codespace@student.42.fr>        +#+  +:+       +#+         #
+#    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/14 10:40:04 by codespace         #+#    #+#              #
-#    Updated: 2025/11/14 10:46:11 by codespace        ###   ########.fr        #
+#    Updated: 2025/11/19 12:42:18 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 CC	  = cc -lreadline
-CFLAGS   = -Wall -Wextra -Werror
+CFLAGS   = -Wall -Wextra -Werror -Wuninitialized
 
 LFT	 = ../execution/libft/libft.a
 INC	 = -I ../execution/libft
@@ -39,7 +39,9 @@ SRC	 =	main.c \
 		selectprocess.c \
 		echo.c \
 		pwd.c \
+		env.c \
 		builtins.c \
+		find_inorout.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 

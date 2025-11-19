@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/17 14:24:06 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/19 12:42:52 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 	while (i < n_cmds - 1)
 	{
 		if (pipe(prompt.pfd[i]) == -1)
-			error("pipe");
+			error("Pipe failed");
 		i++;
 	}
 	i = 0;
@@ -70,26 +70,13 @@ void    file_opener(t_prompt prompt, int *fileout, int *filein)
 	{
 		while (cmd->outfile[i])
 		{
-			if (cmd->append == 1)
-				*fileout = open_file(cmd->outfile[i], 0);
-			else
-				*fileout = open_file(cmd->outfile[i], 1);
-			if (cmd->outfile[i + 1] != NULL && cmd->next != NULL)
-			{
-				close(*fileout);
-				*fileout = -1;
-			}
+			find_outfile(cmd, i, fileout);
 			i++;
 		}
 		i = 0;
 		while (cmd->infile[i])
 		{
-			*filein = open_file(cmd->infile[i], 2);
-			if (cmd->infile[i + 1] != NULL && cmd->next != NULL)
-			{
-				close(*filein);
-				*filein = -1;
-			}
+			find_infile(cmd, i, filein);
 			i++;
 		}
 		i = 0;
@@ -102,7 +89,6 @@ void	check_status(int status)
 	int exit_code;
     int signal_num;
 
-	printf("status:%d\n", status);
     if ((status & 0x7F) == 0)
     {
         exit_code = (status >> 8) & 0xFF;
@@ -128,6 +114,6 @@ int	open_file(char *argv, int i)
 	else if (i == 2)
 		file = open(argv, O_RDONLY, 0777);
 	if (file == -1)
-		error("open");
+		error("Open failed");
 	return (file);
 }

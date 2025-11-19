@@ -1,25 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 20:13:23 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/17 14:10:07 by atabarea         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   parser.h										   :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: medel-ca <medel-ca@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2025/10/30 20:00:00 by medel-ca		  #+#	#+#			 */
-/*   Updated: 2025/10/30 20:09:33 by medel-ca		 ###   ########.fr	   */
-/*																			*/
+/*																			  */
+/*														:::	  ::::::::        */
+/*   parser.h										   :+:	  :+:	:+:       */
+/*													+:+ +:+		 +:+	      */
+/*   By: medel-ca <medel-ca@student.42.fr>		  +#+  +:+	   +#+		      */
+/*												+#+#+#+#+#+   +#+		      */
+/*   Created: 2025/10/30 20:00:00 by medel-ca		  #+#	#+#			      */
+/*   Updated: 2025/10/30 20:09:33 by medel-ca		 ###   ########.fr	      */
+/*																			  */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
@@ -86,7 +74,7 @@ typedef struct s_env
 	char			*keyword;
 	char			*value;
 	struct s_env	*next;
-	char			**envp
+	char			**envp;
 }			t_env;
 
 // Estructura general
@@ -169,7 +157,7 @@ void	debug(t_prompt prompt);
 void	error(char *s);
 void	here_doc(t_prompt prompt, char *limiter);
 int		get_next_line(char **line);
-void	execute(char **full_cmd, char *full_path, t_prompt prompt);
+void	execute(char **full_cmd, char *full_path, t_prompt *prompt);
 void	pipex(t_prompt prompt);
 int		open_file(char *argv, int i);
 void	check_status(int status);
@@ -179,12 +167,14 @@ int		pid_stat(t_cmd *curr_nde, t_prompt prompt, int status, int last_status);
 void	execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
+void	find_outfile(t_cmd *cmd, int i, int	*fileout);
+void	find_infile(t_cmd *cmd, int i, int *filein);
 
 void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt, int i);
 void	child_processmid(t_cmd *curr_node , t_prompt *prompt, int i);
 void	child_processend(t_cmd *curr_node , int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);
-void	find_path(t_cmd *cmd, t_prompt *prompt);
+int		find_path(t_cmd *cmd, t_prompt *prompt);
 void	closepfds(int n_cmds, t_prompt *prompt);
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int fin, int fout);
 
@@ -192,6 +182,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int fin, int fout);
 //Built-ins
 int		is_builtin(t_cmd *cmd);
 void 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
+int 	env(t_prompt *prompt, char **args);
 int		pwd(void);
 int		echo(char **full_cmd);
 // int		export(t_prompt prompt);

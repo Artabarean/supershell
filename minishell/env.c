@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 11:23:29 by codespace         #+#    #+#             */
-/*   Updated: 2025/11/14 11:28:13 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/19 12:01:42 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ int env(t_prompt *prompt, char **args)
         write(2, ": No such file or directory\n", 29);
         return (127);
     }
-    env = prompt->env;
+    env = prompt->enviroment;
     while (env)
     {
         if (env->value != NULL)
         {
-            write(1, env->key, ft_strlen(env->key));
+            write(1, env->keyword, ft_strlen(env->keyword));
             write(1, "=", 1);
             write(1, env->value, ft_strlen(env->value));
             write(1, "\n", 1);

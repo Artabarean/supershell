@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/17 11:38:34 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/19 12:39:48 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	pfd_alloc(t_prompt *prompt, int n_cmds)
 {
 	prompt->pfd = malloc(sizeof(int[2]) * (n_cmds - 1));
 	if (!prompt->pfd)
-		error("pfd failed");
+		error("Malloc failed");
 }
 
 void	closepfds(int n_cmds, t_prompt *prompt)
@@ -41,7 +41,13 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 		dup2(prompt->pfd[i][1], 1);
 	closepfds(n_cmds, prompt);
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
-		find_path(cmd ,prompt);
+	{
+		if (find_path(cmd ,prompt) == 1)
+		{
+			closepfds(n_cmds, prompt);
+			exit(EXIT_FAILURE);
+		}
+	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
 	if (is_builtin(cmd))
@@ -49,7 +55,7 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
     	run_builtin_child(cmd, prompt);
     	exit(0);
 	}
-	execute(cmd->full_cmd, cmd->full_path, *prompt);
+	execute(cmd->full_cmd, cmd->full_path, prompt);
 	exit(1);
 }
 void	execute_(t_cmd *cmd, t_prompt *prompt)
@@ -63,7 +69,7 @@ void	execute_(t_cmd *cmd, t_prompt *prompt)
 	while (i < n_cmds - 1)
 	{
 		if (pipe(prompt->pfd[i]) == -1)
-			error("pipe");
+			error("Pipe failed");
 		i++;
 	}
 	i = 0;
@@ -71,7 +77,7 @@ void	execute_(t_cmd *cmd, t_prompt *prompt)
 	{
 		prompt->pid[i] = fork();
 		if (prompt->pid[i] == -1)
-			error("fork");
+			error("Fork failed");
 		if (prompt->pid[i] == 0)
 			child_process(cmd, prompt, i, n_cmds);
 		i++;

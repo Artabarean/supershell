@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:44:43 by codespace         #+#    #+#             */
-/*   Updated: 2025/11/14 10:46:21 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/19 11:59:44 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ int	echo(char **full_cmd)
 			if (full_cmd[i][0] == '-' || full_cmd[i] == NULL)
 				return (1);
 			else
-			{
-				printf("%s", full_cmd[i]);
-				return (0);
-			}
+				return (printf("%s", full_cmd[i]), 0);
 		}
 		else
 		{
