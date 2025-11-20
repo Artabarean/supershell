@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/20 13:10:18 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:21:14 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,4 @@ void	execute_(t_cmd *cmd, t_prompt *prompt)
 		cmd = cmd->next;
 	}
 	closepfds(n_cmds, prompt);
-	while (n_cmds > 0)
-	{
-		wait(prompt->exit_stat)
-		;
-	}
 }

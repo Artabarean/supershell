@@ -6,24 +6,24 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/20 13:10:56 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:20:40 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	pid_stat(t_cmd *curr_nde, t_prompt prompt, int status, int last_status)
+int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 {
 	int	i;
 	int	n_cmds;
 
 	i = 0;
-	n_cmds = pipecount(prompt);
+	n_cmds = (pipecount(*prompt) + 1);
 	while (i < n_cmds && curr_nde)
 	{
-		waitpid(prompt.pid[i], &status, 0);
+		waitpid(prompt->pid[i], &prompt->exit_stat, 0);
 		if (curr_nde->next == NULL)
-			last_status = status;
+			last_status = prompt->exit_stat;
 		curr_nde = curr_nde->next;
 		i++;
 	}
@@ -52,11 +52,6 @@ void	childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt *prompt)
 		i++;
 	}
 	closepfds(n_cmds, prompt);
-	while (n_cmds > 0)
-	{
-		wait(NULL);
-		n_cmds--;
-	}
 }
 
 void	file_opener(t_prompt prompt, int *fileout, int *filein)
@@ -84,19 +79,19 @@ void	file_opener(t_prompt prompt, int *fileout, int *filein)
 	}
 }
 
-void	check_status(t_prompt *prompt)
+void	check_status(int exit_stat)
 {
 	int	exit_code;
 	int	signal_num;
 
-	if ((prompt->exit_stat & 0x7F) == 0)
+	if ((exit_stat & 0x7F) == 0)
 	{
-		exit_code = (prompt->exit_stat >> 8) & 0xFF;
+		exit_code = (exit_stat >> 8) & 0xFF;
 		printf("Exited with code %d\n", exit_code);
 	}
 	else
 	{
-		signal_num = prompt->exit_stat & 0x7F;
+		signal_num = exit_stat & 0x7F;
 		exit_code = 128 + signal_num;
 		printf("Killed by signal %d\n", signal_num);
 	}

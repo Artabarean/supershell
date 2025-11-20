@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/20 13:09:51 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:03:43 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,6 @@ void	pipex(t_prompt prompt)
 		childprocess_(current_node, filein, fileout, &prompt);
 		current_node = prompt.cmds;
 	}
-	last_status = pid_stat(current_node, prompt, prompt.exit_stat, last_status);
-	check_status(last_status, &prompt);
+	last_status = pid_stat(current_node, &prompt, last_status);
+	check_status(last_status);
 }

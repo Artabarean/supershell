@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 14:05:50 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/20 12:44:55 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:05:47 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	exit_builtin(t_cmd *cmd, t_prompt *prompt)
 
 	printf("exit\n");
 	if (!cmd->full_cmd[1])
-		exit(pid_stat(cmd, *prompt, 0, 0));
+		exit(pid_stat(cmd, prompt, 0));
 	if (!is_numeric(cmd->full_cmd[1]))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", cmd->full_cmd[1]);

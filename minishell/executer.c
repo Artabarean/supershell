@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2025/11/20 12:26:22 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:04:48 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	executer(t_prompt prompt)
 		cmd = prompt.cmds;
 		prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
 		execute_(cmd, &prompt);
-		last_status = pid_stat(cmd ,prompt, status, last_status);
-		check_status(last_status, &prompt);
+		last_status = pid_stat(cmd ,&prompt, last_status);
+		check_status(last_status);
 	}
 }

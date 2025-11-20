@@ -6,16 +6,17 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/11/20 13:10:13 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/20 14:27:44 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	set_error(t_prompt *prompt, char *s)
+void	no_command(char *s)
 {
-	perror(s);
-	prompt->exit_stat = errno;
+	ft_putstr_fd(s, 2);
+	ft_putstr_fd(": command not found\n", 2);
+	exit(EXIT_FAILURE);
 }
 
 void	error(char *s)
@@ -27,9 +28,9 @@ void	error(char *s)
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 {
 	if (!full_path)
-		error(full_cmd[0]);
+		no_command(full_cmd[0]);
 	if (execve(full_path, full_cmd, prompt->enviroment->envp) == -1)
-		set_error(prompt, full_cmd[0]);
+		error(full_cmd[0]);
 }
 
 int	get_next_line(char **line)
