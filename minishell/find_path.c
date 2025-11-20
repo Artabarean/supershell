@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/19 11:55:32 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/20 11:48:01 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	freer(char **paths)
 
 char	*get_environments(char *name, t_prompt *prompt)
 {
-	t_env 	*curr_env;
+	t_env	*curr_env;
 	char	*path;
 
 	path = NULL;
-	curr_env = prompt->enviroment; 
+	curr_env = prompt->enviroment;
 	while (curr_env)
 	{
 		if (!ft_strcmp(name, curr_env->keyword))
@@ -40,17 +40,17 @@ char	*get_environments(char *name, t_prompt *prompt)
 	return (path);
 }
 
-int		find_path(t_cmd *cmd, t_prompt *prompt)
+int	find_path(t_cmd *cmd, t_prompt *prompt)
 {
 	int		i;
 	char	**paths;
 	int		j;
-	
+
 	i = -1;
 	paths = ft_split(get_environments("PATH", prompt), ':');
 	if (!paths)
 	{
-		if(cmd->full_cmd[0])
+		if (cmd->full_cmd[0])
 		{
 			if (access(cmd->full_cmd[0], F_OK | X_OK) == 0)
 				return (0);

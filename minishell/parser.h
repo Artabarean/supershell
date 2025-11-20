@@ -87,7 +87,7 @@ typedef struct s_prompt
 	int		(*pfd)[2];
 	t_env	*enviroment;
 	pid_t	*pid;
-	int		error;
+	int		exit_stat;
 }			t_prompt;
 
 //Enviroment
@@ -161,9 +161,9 @@ int		get_next_line(char **line);
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt);
 void	pipex(t_prompt prompt);
 int		open_file(char *argv, int i);
-void	check_status(int status);
+void	check_status(t_prompt *prompt);
 void	file_opener(t_prompt prompt, int *fileout, int *filein);
-void	childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt prompt);
+void	childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt *prompt);
 int		pid_stat(t_cmd *curr_nde, t_prompt prompt, int status, int last_status);
 void	execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt prompt);
@@ -178,11 +178,14 @@ int		pipecount(t_prompt prompt);
 int		find_path(t_cmd *cmd, t_prompt *prompt);
 void	closepfds(int n_cmds, t_prompt *prompt);
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int fin, int fout);
+void	forker(t_prompt *prompt, int i);
 
 
 //Built-ins
 int		is_builtin(t_cmd *cmd);
+int		check_single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
+int 	exit_builtin(t_cmd *cmd, t_prompt *prompt);
 int 	env(t_prompt *prompt, char **args);
 int		pwd(void);
 int		echo(char **full_cmd);

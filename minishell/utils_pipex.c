@@ -6,20 +6,20 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/19 12:42:52 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/20 13:10:56 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int pid_stat(t_cmd *curr_nde ,t_prompt prompt, int status, int last_status)
+int	pid_stat(t_cmd *curr_nde, t_prompt prompt, int status, int last_status)
 {
 	int	i;
 	int	n_cmds;
 
 	i = 0;
 	n_cmds = pipecount(prompt);
-    while (i < n_cmds && curr_nde)
+	while (i < n_cmds && curr_nde)
 	{
 		waitpid(prompt.pid[i], &status, 0);
 		if (curr_nde->next == NULL)
@@ -27,31 +27,31 @@ int pid_stat(t_cmd *curr_nde ,t_prompt prompt, int status, int last_status)
 		curr_nde = curr_nde->next;
 		i++;
 	}
-    return (last_status);
+	return (last_status);
 }
 
-void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
+void	childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt *prompt)
 {
-    int	i;
+	int	i;
 	int	n_cmds;
 
-	i = 0;
-	n_cmds = pipecount(prompt) + 1;
-	pfd_alloc(&prompt, n_cmds);
-	while (i < n_cmds - 1)
+	i = -1;
+	n_cmds = pipecount(*prompt) + 1;
+	pfd_alloc(prompt, n_cmds);
+	check_single_builtin(pipecount(*prompt), cmd, prompt);
+	while (++i < n_cmds)
 	{
-		if (pipe(prompt.pfd[i]) == -1)
+		if (pipe(prompt->pfd[i]) == -1)
 			error("Pipe failed");
-		i++;
 	}
 	i = 0;
 	while (i < n_cmds && cmd)
 	{
-		selectprocess(&prompt, cmd, i, filein, fileout);
+		selectprocess(prompt, cmd, i, filein, fileout);
 		cmd = cmd->next;
 		i++;
 	}
-	closepfds(n_cmds, &prompt);
+	closepfds(n_cmds, prompt);
 	while (n_cmds > 0)
 	{
 		wait(NULL);
@@ -59,14 +59,14 @@ void    childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt prompt)
 	}
 }
 
-void    file_opener(t_prompt prompt, int *fileout, int *filein)
+void	file_opener(t_prompt prompt, int *fileout, int *filein)
 {
-    int 	i;
+	int		i;
 	t_cmd	*cmd;
 
 	cmd = prompt.cmds;
-    i = 0;
-    while (cmd)
+	i = 0;
+	while (cmd)
 	{
 		while (cmd->outfile[i])
 		{
@@ -84,22 +84,22 @@ void    file_opener(t_prompt prompt, int *fileout, int *filein)
 	}
 }
 
-void	check_status(int status)
+void	check_status(t_prompt *prompt)
 {
-	int exit_code;
-    int signal_num;
+	int	exit_code;
+	int	signal_num;
 
-    if ((status & 0x7F) == 0)
-    {
-        exit_code = (status >> 8) & 0xFF;
-        printf("Exited with code %d\n", exit_code);
-    }
-    else
-    {
-        signal_num = status & 0x7F;
-        exit_code = 128 + signal_num;
-        printf("Killed by signal %d\n", signal_num);
-    }
+	if ((prompt->exit_stat & 0x7F) == 0)
+	{
+		exit_code = (prompt->exit_stat >> 8) & 0xFF;
+		printf("Exited with code %d\n", exit_code);
+	}
+	else
+	{
+		signal_num = prompt->exit_stat & 0x7F;
+		exit_code = 128 + signal_num;
+		printf("Killed by signal %d\n", signal_num);
+	}
 }
 
 int	open_file(char *argv, int i)

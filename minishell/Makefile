@@ -6,12 +6,12 @@
 #    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/14 10:40:04 by codespace         #+#    #+#              #
-#    Updated: 2025/11/19 14:09:10 by atabarea         ###   ########.fr        #
+#    Updated: 2025/11/20 12:23:25 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
-CC	  = cc -lreadline
+CC	  = cc
 CFLAGS   = -Wall -Wextra -Werror -Wuninitialized
 
 LFT	 = ../execution/libft/libft.a

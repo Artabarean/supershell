@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/11/19 11:46:27 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/20 13:10:13 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	set_error(t_prompt *prompt, char *s)
 {
 	perror(s);
-	prompt->error = errno;
+	prompt->exit_stat = errno;
 }
 
 void	error(char *s)
