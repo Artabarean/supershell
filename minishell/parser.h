@@ -170,6 +170,7 @@ void	executer(t_prompt prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
 void	find_outfile(t_cmd *cmd, int i, int	*fileout);
 void	find_infile(t_cmd *cmd, int i, int *filein);
+void	check_command(t_cmd *cmd, t_prompt *prompt);
 
 void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt, int i);
 void	child_processmid(t_cmd *curr_node , t_prompt *prompt, int i);
@@ -188,7 +189,7 @@ void 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
 int 	exit_builtin(t_cmd *cmd, t_prompt *prompt);
 int 	env(t_prompt *prompt, char **args);
 int		pwd(void);
-int		echo(char **full_cmd);
+void	echo(char **full_cmd);
 // int		export(t_prompt prompt);
 
 #endif

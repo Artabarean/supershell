@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/20 14:20:40 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/21 11:02:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,16 @@ void	childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt *prompt)
 	int	i;
 	int	n_cmds;
 
-	i = -1;
+	i = 0;
 	n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, n_cmds);
-	check_single_builtin(pipecount(*prompt), cmd, prompt);
-	while (++i < n_cmds)
+	check_single_builtin(pipecount(*prompt) + 1, cmd, prompt);
+	check_command(cmd, prompt);
+	while (i < n_cmds - 1)
 	{
 		if (pipe(prompt->pfd[i]) == -1)
 			error("Pipe failed");
+		i++;
 	}
 	i = 0;
 	while (i < n_cmds && cmd)

@@ -3,20 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/11/20 14:27:44 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/21 10:31:54 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	no_command(char *s)
+void	check_command(t_cmd *cmd, t_prompt *prompt)
 {
-	ft_putstr_fd(s, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	exit(EXIT_FAILURE);
+	t_cmd *copy;
+
+	copy = cmd;
+	while (copy)
+	{
+		if (!ft_strchr(copy->full_cmd[0], '/'))
+			find_path(copy, prompt);
+		copy = copy->next;
+	}
 }
 
 void	error(char *s)
@@ -28,7 +34,7 @@ void	error(char *s)
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 {
 	if (!full_path)
-		no_command(full_cmd[0]);
+		exit(EXIT_FAILURE);
 	if (execve(full_path, full_cmd, prompt->enviroment->envp) == -1)
 		error(full_cmd[0]);
 }

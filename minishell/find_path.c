@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/20 11:48:01 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/21 10:29:14 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,5 @@ int	find_path(t_cmd *cmd, t_prompt *prompt)
 		if (access(cmd->full_path, F_OK | X_OK) == 0)
 			return (freer(paths), 0);
 	}
-	return (printf("Command not found: %s\n", cmd->full_cmd[0]), 1);
+	return (printf("%s: command not found\n", cmd->full_cmd[0]), 1);
 }
