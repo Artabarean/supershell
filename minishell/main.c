@@ -19,7 +19,7 @@ void	start_minishell(t_prompt *prompt)
 	lexer(prompt);
 	init_parser(prompt);
 	debug(*prompt);
-	executer(*prompt);
+	executer(prompt);
 	free_all(prompt);
 }
 

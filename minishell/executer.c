@@ -6,36 +6,36 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2025/11/21 10:41:40 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/24 14:06:22 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	executer(t_prompt prompt)
+void	executer(t_prompt *prompt)
 {
 	t_cmd	*cmd;
 	int		last_status;
-	int		pipex_executed;
 
-	pipex_executed = 0;
-	cmd = prompt.cmds;
+	prompt->pip_exec = 0;
+	cmd = prompt->cmds;
 	while (cmd)
 	{
-		if (pipex_executed == 0)
+		printf("pipex_exec: %d\n", prompt->pip_exec);
+		if (prompt->pip_exec == 0)
 			if (cmd->infile[0] != NULL || cmd->outfile[0] != NULL)
 			{
-				pipex(prompt);
-				pipex_executed = 1;
+				pipex(*prompt);
+				prompt->pip_exec = 1;
 			}
 		cmd = cmd->next;
 	}
-	if (pipex_executed == 0)
+	if (prompt->pip_exec == 0)
 	{
-		cmd = prompt.cmds;
-		prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
-		execute_(cmd, &prompt);
-		last_status = pid_stat(cmd ,&prompt, last_status);
+		cmd = prompt->cmds;
+		prompt->pid = malloc(sizeof(pid_t) * (pipecount(*prompt) + 1));
+		execute_(cmd, prompt);
+		last_status = pid_stat(cmd ,prompt, last_status);
 		check_status(last_status);
 	}
 }

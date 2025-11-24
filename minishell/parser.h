@@ -87,6 +87,7 @@ typedef struct s_prompt
 	int		(*pfd)[2];
 	t_env	*enviroment;
 	pid_t	*pid;
+	int		pip_exec;
 	int		exit_stat;
 }			t_prompt;
 
@@ -166,7 +167,7 @@ void	file_opener(t_prompt prompt, int *fileout, int *filein);
 void	childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt *prompt);
 int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
 void	execute_(t_cmd *cmd, t_prompt *prompt);
-void	executer(t_prompt prompt);
+void	executer(t_prompt *prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
 void	find_outfile(t_cmd *cmd, int i, int	*fileout);
 void	find_infile(t_cmd *cmd, int i, int *filein);

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/21 11:00:13 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/24 14:01:53 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 void	here_doc(t_prompt prompt, char *limiter)
 {
-	pid_t	reader;
 	int		fd[2];
 	char	*line;
 
 	if (pipe(fd) == -1)
 		error("Pipe failed");
-	reader = fork();
+	prompt.pid[0] = fork();
 	set_signal(HEREDOC, NULL);
-	if (reader == 0)
+	if (prompt.pid[0] == 0)
 	{
 		close(fd[0]);
 		while (get_next_line(&line))
