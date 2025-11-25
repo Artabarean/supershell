@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/21 10:55:58 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/25 12:59:41 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	execute_(t_cmd *cmd, t_prompt *prompt)
 	i = 0;
 	n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, n_cmds);
-	if (check_single_builtin(pipecount(*prompt), cmd, prompt) == 1)
+	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)
 		return ;
 	check_command(cmd, prompt);
 	while (i < n_cmds - 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 14:05:50 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/21 11:04:50 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/25 11:57:08 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,14 @@ int	exit_builtin(t_cmd *cmd, t_prompt *prompt)
 	if (!is_numeric(cmd->full_cmd[1]))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", cmd->full_cmd[1]);
+		free_all(prompt);
 		exit(2);
 	}
 	code = ft_atoll(cmd->full_cmd[1], &overflow);
 	if (overflow)
 	{
 		printf("minishell: exit: %s: numeric argument required\n", cmd->full_cmd[1]);
+		free_all(prompt);
 		exit(2);
 	}
 	if (cmd->full_cmd[2])
@@ -82,5 +84,6 @@ int	exit_builtin(t_cmd *cmd, t_prompt *prompt)
 		printf("minishell: exit: too many arguments\n");
 		return (1);
 	}
+	free_all(prompt);
 	exit((unsigned char)code);
 }

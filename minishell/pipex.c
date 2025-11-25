@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/24 14:01:53 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/25 13:52:47 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt, int i)
 	int	n_cmds;
 
 	n_cmds = pipecount(*prompt) + 1;
+	printf("fin: %d\n", fin);
 	if (fin != -1)
 	{
 		dup2(fin, 0);
@@ -110,14 +111,12 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 
 void	pipex(t_prompt prompt)
 {
-	int		filein;
-	int		fileout;
 	t_cmd	*current_node;
 	int		last_status;
+	int		fileout;
 
-	last_status = 0;
-	filein = -1;
 	fileout = -1;
+	last_status = 0;
 	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
 	if (prompt.cmds->heredoc == 1)
 	{
@@ -128,8 +127,7 @@ void	pipex(t_prompt prompt)
 	else
 	{
 		current_node = prompt.cmds;
-		file_opener(prompt, &fileout, &filein);
-		childprocess_(current_node, filein, fileout, &prompt);
+		childprocess_(current_node, &prompt);
 		current_node = prompt.cmds;
 	}
 	last_status = pid_stat(current_node, &prompt, last_status);

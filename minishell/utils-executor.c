@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/11/21 10:31:54 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/25 13:18:12 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,20 @@ void	check_command(t_cmd *cmd, t_prompt *prompt)
 	copy = cmd;
 	while (copy)
 	{
-		if (!ft_strchr(copy->full_cmd[0], '/'))
-			find_path(copy, prompt);
+		if (copy->full_cmd[0] != NULL)
+		{
+			if (!ft_strchr(copy->full_cmd[0], '/'))
+				find_path(copy, prompt);
+		}
+		if (copy->full_cmd[0] == NULL)
+			exit(0);
 		copy = copy->next;
 	}
 }
 
 void	error(char *s)
 {
+	ft_putstr_fd("Minishell: ", 2);
 	perror(s);
 	exit(EXIT_FAILURE);
 }

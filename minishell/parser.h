@@ -163,8 +163,8 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt);
 void	pipex(t_prompt prompt);
 int		open_file(char *argv, int i);
 void	check_status(int last_status);
-void	file_opener(t_prompt prompt, int *fileout, int *filein);
-void	childprocess_(t_cmd *curr_nde, int filein, int fileout, t_prompt *prompt);
+void	file_opener(t_prompt *prompt, int *fileout, int *filein);
+void	childprocess_(t_cmd *curr_nde, t_prompt *prompt);
 int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
 void	execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt *prompt);
@@ -179,13 +179,15 @@ void	child_processend(t_cmd *curr_node , int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);
 int		find_path(t_cmd *cmd, t_prompt *prompt);
 void	closepfds(int n_cmds, t_prompt *prompt);
-void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int fin, int fout);
+void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout);
 void	forker(t_prompt *prompt, int i);
 
 
 //Built-ins
 int		is_builtin(t_cmd *cmd);
-int		check_single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt);
+int		single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int filein, int fileout);
+int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
+void	run_builtin_son(t_cmd *cmd, t_prompt *prompt, int fin, int fout);
 void 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
 int 	exit_builtin(t_cmd *cmd, t_prompt *prompt);
 int 	env(t_prompt *prompt, char **args);

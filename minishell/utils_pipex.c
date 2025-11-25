@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/21 11:02:32 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/25 13:52:02 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,19 @@ int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 	return (last_status);
 }
 
-void	childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt *prompt)
+void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 {
 	int	i;
 	int	n_cmds;
+	int	fin;
+	int	fout;
 
+	fin = -1;
+	fout = -1;
 	i = 0;
 	n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, n_cmds);
-	check_single_builtin(pipecount(*prompt) + 1, cmd, prompt);
-	check_command(cmd, prompt);
+	single_builtin(pipecount(*prompt) + 1, cmd, prompt, fin, fout);
 	while (i < n_cmds - 1)
 	{
 		if (pipe(prompt->pfd[i]) == -1)
@@ -49,33 +52,35 @@ void	childprocess_(t_cmd *cmd, int filein, int fileout, t_prompt *prompt)
 	i = 0;
 	while (i < n_cmds && cmd)
 	{
-		selectprocess(prompt, cmd, i, filein, fileout);
+		selectprocess(prompt, cmd, i, &fin, &fout);
 		cmd = cmd->next;
 		i++;
 	}
 	closepfds(n_cmds, prompt);
 }
 
-void	file_opener(t_prompt prompt, int *fileout, int *filein)
+void	file_opener(t_prompt *prompt, int *fileout, int *filein)
 {
 	int		i;
 	t_cmd	*cmd;
 
-	cmd = prompt.cmds;
+	cmd = prompt->cmds;
 	i = 0;
 	while (cmd)
 	{
-		while (cmd->outfile[i])
-		{
-			find_outfile(cmd, i, fileout);
-			i++;
-		}
+		if (cmd->outfile)
+			while (cmd->outfile[i])
+			{
+				find_outfile(cmd, i, fileout);
+				i++;
+			}
 		i = 0;
-		while (cmd->infile[i])
-		{
-			find_infile(cmd, i, filein);
-			i++;
-		}
+		if (cmd->infile)
+			while (cmd->infile[i])
+			{
+				find_infile(cmd, i, filein);
+				i++;
+			}
 		i = 0;
 		cmd = cmd->next;
 	}
@@ -111,6 +116,6 @@ int	open_file(char *argv, int i)
 	else if (i == 2)
 		file = open(argv, O_RDONLY, 0777);
 	if (file == -1)
-		error("Open failed");
+		error(argv);
 	return (file);
 }
