@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/25 13:52:02 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/26 10:37:58 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,22 @@ int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 	int	n_cmds;
 
 	i = 0;
-	n_cmds = (pipecount(*prompt) + 1);
-	while (i < n_cmds && curr_nde)
+	if (prompt->cmds->heredoc == 0)
+	{
+		n_cmds = (pipecount(*prompt) + 1);
+		while (i < n_cmds && curr_nde)
+		{
+			waitpid(prompt->pid[i], &prompt->exit_stat, 0);
+			if (curr_nde->next == NULL)
+				last_status = prompt->exit_stat;
+			curr_nde = curr_nde->next;
+			i++;
+		}
+	}
+	else
 	{
 		waitpid(prompt->pid[i], &prompt->exit_stat, 0);
-		if (curr_nde->next == NULL)
-			last_status = prompt->exit_stat;
-		curr_nde = curr_nde->next;
-		i++;
+		last_status = prompt->exit_stat;
 	}
 	return (last_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/25 12:59:41 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/26 12:49:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 		if (find_path(cmd, prompt) == 1)
 		{
 			closepfds(n_cmds, prompt);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 	}
 	else

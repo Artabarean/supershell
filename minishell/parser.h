@@ -19,6 +19,7 @@
 # include <sys/types.h>
 # include "../execution/libft/libft.h"
 # include <limits.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
@@ -157,7 +158,7 @@ void	debug(t_prompt prompt);
 
 //Execution
 void	error(char *s);
-void	here_doc(t_prompt prompt, char *limiter);
+void	here_doc(t_prompt *prompt, char *limiter);
 int		get_next_line(char **line);
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt);
 void	pipex(t_prompt prompt);
@@ -181,6 +182,7 @@ int		find_path(t_cmd *cmd, t_prompt *prompt);
 void	closepfds(int n_cmds, t_prompt *prompt);
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout);
 void	forker(t_prompt *prompt, int i);
+int		find_path_no_print(t_cmd *cmd, t_prompt *prompt);
 
 
 //Built-ins

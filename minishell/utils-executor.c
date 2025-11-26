@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/11/25 13:18:12 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/26 12:53:39 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	check_command(t_cmd *cmd, t_prompt *prompt)
 		if (copy->full_cmd[0] != NULL)
 		{
 			if (!ft_strchr(copy->full_cmd[0], '/'))
-				find_path(copy, prompt);
+				find_path_no_print(copy, prompt);
 		}
 		if (copy->full_cmd[0] == NULL)
 			exit(0);

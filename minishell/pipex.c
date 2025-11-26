@@ -3,38 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/25 13:52:47 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/26 13:17:05 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	here_doc(t_prompt prompt, char *limiter)
+void	here_doc(t_prompt *prompt, char *limiter)
 {
-	int		fd[2];
 	char	*line;
 
-	if (pipe(fd) == -1)
+	prompt->pfd = malloc(sizeof(int[2]) * 2);
+	if (pipe(prompt->pfd[0]) == -1)
 		error("Pipe failed");
-	prompt.pid[0] = fork();
-	set_signal(HEREDOC, NULL);
-	if (prompt.pid[0] == 0)
+	prompt->pid[0] = fork();
+	set_signal(HEREDOC, prompt);
+	if (prompt->pid[0] == 0)
 	{
-		close(fd[0]);
+		ft_putstr_fd("> ", 1);
+		close(prompt->pfd[0][0]);
 		while (get_next_line(&line))
 		{
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
+			ft_putstr_fd("> ", 1);
+			if (ft_strncmp(line, limiter, ft_strlen(limiter) - 1) == 0)
+			{
+				// free(line);
+				close(prompt->pfd[0][1]);
 				exit(EXIT_SUCCESS);
-			write(fd[1], line, ft_strlen(line));
+			}
+			write(prompt->pfd[0][1], line, ft_strlen(line));
+			// free(line);
 		}
+		close(prompt->pfd[0][1]);
 	}
 	else
 	{
-		close(fd[1]);
-		dup2(fd[0], 0);
+		close(prompt->pfd[0][1]);
+		dup2(prompt->pfd[0][0], 0);
+		close(prompt->pfd[0][0]);
 		wait(NULL);
 	}
 }
@@ -44,7 +53,6 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt, int i)
 	int	n_cmds;
 
 	n_cmds = pipecount(*prompt) + 1;
-	printf("fin: %d\n", fin);
 	if (fin != -1)
 	{
 		dup2(fin, 0);
@@ -58,7 +66,7 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt, int i)
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path(cmd, prompt) == 1)
-			exit(EXIT_FAILURE);
+			exit(127);
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
@@ -78,7 +86,7 @@ void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path(cmd, prompt) == 1)
-			exit(EXIT_FAILURE);
+			exit(127);
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
@@ -102,7 +110,7 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path(cmd, prompt) == 1)
-			exit(EXIT_FAILURE);
+			exit(127);
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
@@ -122,7 +130,7 @@ void	pipex(t_prompt prompt)
 	{
 		if (prompt.cmds->outfile[0])
 			fileout = open_file(prompt.cmds->outfile[0], 0);
-		here_doc(prompt, prompt.cmds->infile[0]);
+		here_doc(&prompt, prompt.cmds->infile[0]);
 	}
 	else
 	{
