@@ -28,9 +28,12 @@ t_cmd	*new_cmd(void)
 	c->outfile = ft_calloc(MAX_TOKENS, sizeof(char *));
 	if (!c->outfile)
 		return (free(c->infile), free(c->full_cmd), free(c), NULL);
+	c->heredoc = ft_calloc(MAX_TOKENS, sizeof(char *));
+	if (!c->heredoc)
+		return (free(c->infile), free(c->outfile), free(c->full_cmd), free(c), NULL);
 	c->full_path = NULL;
 	c->append = 0;
-	c->heredoc = 0;
+	c->redir = 0;
 	c->next = NULL;
 	return (c);
 }
