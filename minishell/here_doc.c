@@ -19,7 +19,7 @@ void	here_doc(t_cmd *cmds)
 	current = cmds;
 	while (current)
 	{
-		if (current->heredoc == 1)
+		if (current->redir == 1)
 		current->next;
 	}
 }
