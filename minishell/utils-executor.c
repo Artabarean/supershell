@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/11/26 12:53:39 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/27 12:43:44 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	check_command(t_cmd *cmd, t_prompt *prompt)
 
 void	error(char *s)
 {
-	ft_putstr_fd("Minishell: ", 2);
+	s = ft_strjoin("minishell: ", s);
 	perror(s);
 	exit(EXIT_FAILURE);
 }
@@ -84,5 +84,8 @@ int	pipecount(t_prompt prompt)
 		node_num = node_num->next;
 		i++;
 	}
-	return (i - 1);
+	if (i == 0)
+		return (i);
+	else
+		return (i - 1);
 }

@@ -6,7 +6,7 @@
 #    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/14 10:40:04 by codespace         #+#    #+#              #
-#    Updated: 2025/11/20 12:23:25 by atabarea         ###   ########.fr        #
+#    Updated: 2025/11/27 11:57:26 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRC	 =	main.c \
 		builtins.c \
 		find_inorout.c \
 		exit_builtin.c \
+		here_doc.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 

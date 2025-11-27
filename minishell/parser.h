@@ -54,6 +54,7 @@ typedef struct s_cmd
 	char			**outfile;
 	int				append;
 	int				heredoc;
+	char			**here_docs;
 	struct s_cmd	*next;
 }			t_cmd;
 
@@ -158,13 +159,13 @@ void	debug(t_prompt prompt);
 
 //Execution
 void	error(char *s);
-void	here_doc(t_prompt *prompt, char *limiter);
+void	here_doc(t_cmd *cmds);
 int		get_next_line(char **line);
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt);
 void	pipex(t_prompt prompt);
 int		open_file(char *argv, int i);
 void	check_status(int last_status);
-void	file_opener(t_prompt *prompt, int *fileout, int *filein);
+void	file_opener(t_cmd *cmd, int *fileout, int *filein);
 void	childprocess_(t_cmd *curr_nde, t_prompt *prompt);
 int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
 void	execute_(t_cmd *cmd, t_prompt *prompt);
@@ -174,7 +175,7 @@ void	find_outfile(t_cmd *cmd, int i, int	*fileout);
 void	find_infile(t_cmd *cmd, int i, int *filein);
 void	check_command(t_cmd *cmd, t_prompt *prompt);
 
-void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt, int i);
+void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt);
 void	child_processmid(t_cmd *curr_node , t_prompt *prompt, int i);
 void	child_processend(t_cmd *curr_node , int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);

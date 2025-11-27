@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/25 13:06:37 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/27 12:11:21 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ int	builtin_no_in_out (int n_cmds, t_cmd *cmd, t_prompt *prompt)
 {
 	if (n_cmds == 0)
 	{
-		if (!strcmp(cmd->full_cmd[0], "exit"))
+		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
         {
 			exit_builtin(cmd, prompt);
             return (1);
@@ -54,7 +54,7 @@ int	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
 	if (n_cmds == 0)
 	{
-		if (!strcmp(cmd->full_cmd[0], "exit"))
+		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
         {
 			run_builtin_son(cmd, prompt, fin, fout);
             return (1);

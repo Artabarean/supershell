@@ -3,52 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/26 13:17:05 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/27 13:04:51 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	here_doc(t_prompt *prompt, char *limiter)
-{
-	char	*line;
-
-	prompt->pfd = malloc(sizeof(int[2]) * 2);
-	if (pipe(prompt->pfd[0]) == -1)
-		error("Pipe failed");
-	prompt->pid[0] = fork();
-	set_signal(HEREDOC, prompt);
-	if (prompt->pid[0] == 0)
-	{
-		ft_putstr_fd("> ", 1);
-		close(prompt->pfd[0][0]);
-		while (get_next_line(&line))
-		{
-			ft_putstr_fd("> ", 1);
-			if (ft_strncmp(line, limiter, ft_strlen(limiter) - 1) == 0)
-			{
-				// free(line);
-				close(prompt->pfd[0][1]);
-				exit(EXIT_SUCCESS);
-			}
-			write(prompt->pfd[0][1], line, ft_strlen(line));
-			// free(line);
-		}
-		close(prompt->pfd[0][1]);
-	}
-	else
-	{
-		close(prompt->pfd[0][1]);
-		dup2(prompt->pfd[0][0], 0);
-		close(prompt->pfd[0][0]);
-		wait(NULL);
-	}
-}
-
-void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt, int i)
+void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 {
 	int	n_cmds;
 
@@ -126,18 +90,9 @@ void	pipex(t_prompt prompt)
 	fileout = -1;
 	last_status = 0;
 	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
-	if (prompt.cmds->heredoc == 1)
-	{
-		if (prompt.cmds->outfile[0])
-			fileout = open_file(prompt.cmds->outfile[0], 0);
-		here_doc(&prompt, prompt.cmds->infile[0]);
-	}
-	else
-	{
-		current_node = prompt.cmds;
-		childprocess_(current_node, &prompt);
-		current_node = prompt.cmds;
-	}
+	current_node = prompt.cmds;
+	childprocess_(current_node, &prompt);
+	current_node = prompt.cmds;
 	last_status = pid_stat(current_node, &prompt, last_status);
 	check_status(last_status);
 }

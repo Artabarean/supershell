@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2025/11/26 11:20:14 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/27 11:56:52 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	executer(t_prompt *prompt)
 
 	prompt->pip_exec = 0;
 	cmd = prompt->cmds;
+	// here_doc(prompt->cmds);
 	while (cmd)
 	{
-		printf("pipex_exec: %d\n", prompt->pip_exec);
 		if (prompt->pip_exec == 0)
 			if (cmd->infile[0] != NULL || cmd->outfile[0] != NULL)
 			{

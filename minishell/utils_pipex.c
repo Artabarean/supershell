@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/26 10:37:58 by codespace        ###   ########.fr       */
+/*   Updated: 2025/11/27 12:33:30 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,27 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	closepfds(n_cmds, prompt);
 }
 
-void	file_opener(t_prompt *prompt, int *fileout, int *filein)
+void	file_opener(t_cmd *cmd, int *fileout, int *filein)
 {
 	int		i;
-	t_cmd	*cmd;
 
-	cmd = prompt->cmds;
 	i = 0;
-	while (cmd)
+	if (cmd->outfile)
 	{
-		if (cmd->outfile)
-			while (cmd->outfile[i])
-			{
-				find_outfile(cmd, i, fileout);
-				i++;
-			}
-		i = 0;
-		if (cmd->infile)
-			while (cmd->infile[i])
-			{
-				find_infile(cmd, i, filein);
-				i++;
-			}
-		i = 0;
-		cmd = cmd->next;
+		while (cmd->outfile[i])
+		{
+			find_outfile(cmd, i, fileout);
+			i++;
+		}
+	}
+	i = 0;
+	if (cmd->infile)
+	{
+		while (cmd->infile[i])
+		{
+			find_infile(cmd, i, filein);
+			i++;
+		}
 	}
 }
 
