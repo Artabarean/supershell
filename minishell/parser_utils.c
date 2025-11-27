@@ -72,10 +72,18 @@ void	add_infile(t_cmd *cmd, char *filename, int heredock)
 	if (!cmd || !filename)
 		return ;
 	if (heredock)
-		cmd->heredoc = 1;
-	while (cmd->infile[i])
-		i++;
-	cmd->infile[i] = ft_strdup(filename);
+	{
+		while (cmd->infile[i])
+			i++;
+		cmd->heredoc[i] = ft_strdup(filename);
+		cmd->redir = 1;
+	}
+	else
+	{
+		while (cmd->infile[i])
+			i++;
+		cmd->infile[i] = ft_strdup(filename);
+	}
 }
 
 void	add_outfile(t_cmd *cmd, char *filename, int append)
