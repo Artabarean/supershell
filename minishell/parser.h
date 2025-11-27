@@ -52,8 +52,9 @@ typedef struct s_cmd
 	char			*full_path;
 	char			**infile;
 	char			**outfile;
+	char			**heredoc;
 	int				append;
-	int				heredoc;
+	int				redir;
 	char			**here_docs;
 	struct s_cmd	*next;
 }			t_cmd;
