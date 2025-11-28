@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:39:14 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/28 13:10:55 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:20:56 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void    erase_in_env(t_prompt *prompt, char *name)
     while (prompt->enviroment->envp[i])
     {
         if (!ft_strcmp(prompt->enviroment->envp[i], name))
+        {
             prompt->enviroment->envp[i] = NULL;
+        }
         i++;
     }
 }

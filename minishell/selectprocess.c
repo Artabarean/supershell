@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selectprocess.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/27 13:05:05 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:23:29 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 		check_command(cmd, prompt);
 		if (i == 0 || cmd->infile[0] != NULL)
 		{
-			if (n_cmds > 1)
+			if (n_cmds > 1 && i == 0)
 				child_process1(cmd, *fin, prompt->pfd[0][1], prompt);
 			else
 				child_process1(cmd, *fin, *fout, prompt);
