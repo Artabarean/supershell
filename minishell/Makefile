@@ -6,7 +6,7 @@
 #    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/14 10:40:04 by codespace         #+#    #+#              #
-#    Updated: 2025/11/27 11:57:26 by atabarea         ###   ########.fr        #
+#    Updated: 2025/11/28 11:46:36 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC	 =	main.c \
 		echo.c \
 		pwd.c \
 		env.c \
+		unset.c \
 		builtins.c \
 		find_inorout.c \
 		exit_builtin.c \
