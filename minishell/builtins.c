@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/28 12:38:10 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/01 11:07:31 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 int	builtin_no_in_out (int n_cmds, t_cmd *cmd, t_prompt *prompt)
 {
-	if (n_cmds == 0)
+	if (n_cmds == 1)
 	{
 		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 		{
@@ -57,7 +57,7 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 
 int	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
-	if (n_cmds == 0)
+	if (n_cmds == 1)
 	{
 		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
         {
@@ -123,6 +123,5 @@ void	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 	// 	cd(cmd->full_cmd, prompt);
 	else if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 		exit_builtin(cmd, prompt);
-    printf("going to exit\n");
 	exit(0);
 }

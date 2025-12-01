@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/01 10:40:43 by codespace        ###   ########.fr       */
+/*   Updated: 2025/12/01 10:56:59 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void cleanup_heredoc_files(t_cmd *cmds)
 	}
 }
 
-int	do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
+char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 {
 	char	*line;
 	char	*expanded;
@@ -108,24 +108,24 @@ int	do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 	return (ft_strdup(filename));
 }
 
-int	process_heredocs(t_cmd *cmd, t_env *env)
-{
-	int i;
-	int count;
+// int	process_heredocs(t_cmd *cmd, t_env *env)
+// {
+// 	int i;
+// 	int count;
 
-	if (!cmd->heredoc)
-		return (0);
-	count = count_strs(cmd->heredoc);
-	cmd->heredoc = malloc(sizeof(char *) * (count + 1));
-	if (!cmd->heredoc)
-		error("malloc heredoc");
-	i = 0;
-	while (cmd->heredoc[i])
-	{
-		cmd->heredoc[i] = do_single_heredoc(cmd->heredoc[i], env, i, cmd);
-		i++;
-	}
-	cmd->heredoc[i] = NULL;
-	return (1);
-}
+// 	if (!cmd->heredoc)
+// 		return (0);
+// 	count = count_strs(cmd->heredoc);
+// 	cmd->heredoc = malloc(sizeof(char *) * (count + 1));
+// 	if (!cmd->heredoc)
+// 		error("malloc heredoc");
+// 	i = 0;
+// 	while (cmd->heredoc[i])
+// 	{
+// 		cmd->heredoc[i] = do_single_heredoc(cmd->heredoc[i], env, i, cmd);
+// 		i++;
+// 	}
+// 	cmd->heredoc[i] = NULL;
+// 	return (1);
+// }
 

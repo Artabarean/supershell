@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/12/01 10:36:12 by codespace        ###   ########.fr       */
+/*   Updated: 2025/12/01 11:08:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 {
 	int	n_cmds;
 
-	ft_putstr_fd("process1\n", 2);
 	n_cmds = pipecount(*prompt) + 1;
 	if (fin != -1)
 	{
@@ -42,7 +41,6 @@ void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 {
 	int	n_cmds;
 
-	ft_putstr_fd("processmid\n", 2);
 	n_cmds = pipecount(*prompt) + 1;
 	dup2(prompt->pfd[i - 1][0], 0);
 	dup2(prompt->pfd[i][1], 1);
@@ -63,7 +61,6 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 {
 	int	n_cmds;
 
-	ft_putstr_fd("processend\n", 2);
 	n_cmds = pipecount(*prompt) + 1;
 	dup2(prompt->pfd[i - 1][0], 0);
 	if (fout != -1)
