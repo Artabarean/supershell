@@ -55,7 +55,6 @@ typedef struct s_cmd
 	char			**heredoc;
 	int				append;
 	int				redir;
-	char			**here_docs;
 	struct s_cmd	*next;
 }			t_cmd;
 
@@ -186,6 +185,9 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout);
 void	forker(t_prompt *prompt, int i);
 int		find_path_no_print(t_cmd *cmd, t_prompt *prompt);
 
+//Here_doc
+int  	process_heredocs(t_cmd *cmd, t_env *env);
+void 	cleanup_heredoc_files(t_cmd *cmds);
 
 //Built-ins
 int		is_builtin(t_cmd *cmd);

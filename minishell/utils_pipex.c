@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/11/27 12:33:30 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/01 10:25:38 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	i = 0;
 	while (i < n_cmds && cmd)
 	{
+		if (cmd->heredoc)
+        	process_heredocs(cmd, prompt->enviroment);
 		selectprocess(prompt, cmd, i, &fin, &fout);
 		cmd = cmd->next;
 		i++;

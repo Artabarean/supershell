@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/11/28 19:22:42 by codespace        ###   ########.fr       */
+/*   Updated: 2025/12/01 10:36:12 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ void	pipex(t_prompt prompt)
 	current_node = prompt.cmds;
 	last_status = pid_stat(current_node, &prompt, last_status);
 	check_status(last_status);
+	cleanup_heredoc_files(prompt.cmds);
 }
