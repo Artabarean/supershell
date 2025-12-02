@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:40 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/10/30 19:59:40 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:56:57 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,18 @@
 char	*extract_str(char **input)
 {
 	int		len;
-	char	*start;
-	char	*word;
+	char	*temp;
 
 	len = 0;
-	if (**input == '\'')
-	{
-		(*input)++;
-		start = *input;
-		while (**input != '\'')
-		{
-			len++;
-			(*input)++;
-		}
-		word = ft_substr(start, 0, len);
-		if (!word)
-			return (NULL);
-		if (**input == '\'')
-			(*input)++;
-	}
-	return (word);
+	while ((*input)[len] && (*input)[len] != '\'')
+		len++;
+	while ((*input)[len] && (*input)[len] != ' ' )
+		len++;
+	temp = ft_substr_quotes(*input, 0, len);
+	if (!temp)
+		return (NULL);
+	(*input) += len;
+	return (temp);
 }
 
 char	*extract_and_expand(char **input, t_env *env)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:36 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/04 09:46:01 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/02 13:11:12 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char	*expand(char **input, t_env *enviroment)
 	if (**input == '$')
 	{
 		(*input)++;
+		if (**input == '"' || **input == ' ')
+			return (ft_strdup("$"));
 		while (ft_isalnum(**input) || **input == '_')
 		{
 			(*input)++;
@@ -56,8 +58,7 @@ char	*expand(char **input, t_env *enviroment)
 			return (NULL);
 		return (var);
 	}
-	else
-		return (NULL);
+	return (NULL);
 }
 
 char	*extract_str_quote(char **input)
@@ -68,7 +69,9 @@ char	*extract_str_quote(char **input)
 	len = 0;
 	while ((*input)[len] && (*input)[len] != '$' && (*input)[len] != '"')
 		len++;
-	temp = ft_substr(*input, 0, len);
+	while ((*input)[len] && (*input)[len] != ' ' )
+		len++;
+	temp = ft_substr_quotes(*input, 0, len);
 	if (!temp)
 		return (NULL);
 	(*input) += len;
@@ -96,7 +99,7 @@ char	*handle_quote_content(char **input, t_env *env)
 		return (NULL);
 	while (**input && **input != '"')
 	{
-		if (**input == '$')
+		while (**input == '$')
 			var = expand_or_empty(input, env);
 		else
 			var = extract_str_quote(input);
