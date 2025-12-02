@@ -99,7 +99,7 @@ char	*handle_quote_content(char **input, t_env *env)
 		return (NULL);
 	while (**input && **input != '"')
 	{
-		while (**input == '$')
+		if (**input == '$')
 			var = expand_or_empty(input, env);
 		else
 			var = extract_str_quote(input);
