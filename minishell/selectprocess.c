@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/02 11:50:04 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:00:15 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 			hd_fd = open(cmd->here_doc[last], O_RDONLY);
 			if (hd_fd == -1)
 				error("heredoc open failed");
-			dup2(hd_fd, STDIN_FILENO);
+			dup2(hd_fd, 0);
 			close(hd_fd);
-			*fin = STDIN_FILENO;
+			dup2(0, *fin);
 		}
 		check_command(cmd, prompt);
 		if (i == 0 || cmd->infile[0] != NULL)
