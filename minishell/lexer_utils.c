@@ -41,12 +41,18 @@ char	*expand(char **input, t_env *enviroment)
 	char	*var;
 
 	len = 0;
+	
 	if (**input == '$')
 	{
 		(*input)++;
 		if (**input == '"' || **input == ' ')
 			return (ft_strdup("$"));
-		while (ft_isalnum(**input) || **input == '_')
+		if (**input == '$')
+		{	
+			(*input)++;
+			return (expand_var("SYSTEMD_EXEC_PID", enviroment));
+		}
+		while (ft_isalnum(**input) || **input == '_' || **input == '$')
 		{
 			(*input)++;
 			len++;
