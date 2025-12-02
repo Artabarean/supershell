@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:44:43 by codespace         #+#    #+#             */
-/*   Updated: 2025/12/02 13:07:00 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/02 16:04:56 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,12 @@ void	echo(char **full_cmd)
 				i++;
 			if (full_cmd[i] == NULL)
 				return ;
-			else
-				(printf("%s", full_cmd[i]));
 		}
-		else
-		{
-			printf("%s\n", full_cmd[i]);
-			return ;
-		}
-		i++;
+		(printf("%s", full_cmd[i]));
+		i++;	
+		if (full_cmd[i] && full_cmd[i - 1][0] != '$')
+			printf(" ");
 	}
+	if (ft_strncmp(full_cmd[1], "-n", 2) != 0)
+		printf("\n");
 }

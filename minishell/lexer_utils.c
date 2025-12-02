@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:36 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/02 13:11:12 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/02 16:13:22 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,30 +41,25 @@ char	*expand(char **input, t_env *enviroment)
 	char	*var;
 
 	len = 0;
-	
+	(*input)++;
+	if (**input == '"' || **input == ' ' || **input == '\'')
+		return (ft_strdup("$"));
 	if (**input == '$')
 	{
 		(*input)++;
-		if (**input == '"' || **input == ' ')
-			return (ft_strdup("$"));
-		if (**input == '$')
-		{	
-			(*input)++;
-			return (expand_var("SYSTEMD_EXEC_PID", enviroment));
-		}
-		while (ft_isalnum(**input) || **input == '_' || **input == '$')
-		{
-			(*input)++;
-			len++;
-		}
-		temp = ft_substr(*input - len, 0, len);
-		var = expand_var(temp, enviroment);
-		free(temp);
-		if (!var)
-			return (NULL);
-		return (var);
+		return (expand_var("SYSTEMD_EXEC_PID", enviroment));
 	}
-	return (NULL);
+	while (ft_isalnum(**input) || **input == '_' || **input == '$')
+	{
+		(*input)++;
+		len++;
+	}
+	temp = ft_substr(*input - len, 0, len);
+	var = expand_var(temp, enviroment);
+	free(temp);
+	if (!var)
+		return (NULL);
+	return (var);
 }
 
 char	*extract_str_quote(char **input)
