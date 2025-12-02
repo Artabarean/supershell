@@ -53,6 +53,7 @@ typedef struct s_cmd
 	char			**infile;
 	char			**outfile;
 	char			**heredoc;
+	char			**here_doc;
 	int				append;
 	int				redir;
 	struct s_cmd	*next;
@@ -187,6 +188,7 @@ int		find_path_no_print(t_cmd *cmd, t_prompt *prompt);
 
 //Here_doc
 int  	process_heredocs(t_cmd *cmd, t_env *env);
+int		count_strs(char	**str);
 void 	cleanup_heredoc_files(t_cmd *cmds);
 
 //Built-ins

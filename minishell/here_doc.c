@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/01 10:56:59 by codespace        ###   ########.fr       */
+/*   Updated: 2025/12/02 11:51:20 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,16 @@ void cleanup_heredoc_files(t_cmd *cmds)
 
 	while (c)
 	{
-		if (c->heredoc)
+		if (c->here_doc)
 		{
 			i = 0;
-			while (c->heredoc[i])
+			while (c->here_doc[i])
 			{
-				unlink(c->heredoc[i]);
-				free(c->heredoc[i]);
+				unlink(c->here_doc[i]);
+				free(c->here_doc[i]);
 				i++;
 			}
-			free(c->heredoc);
+			free(c->here_doc);
 		}
 		c = c->next;
 	}
@@ -108,24 +108,23 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 	return (ft_strdup(filename));
 }
 
-// int	process_heredocs(t_cmd *cmd, t_env *env)
-// {
-// 	int i;
-// 	int count;
+int	process_heredocs(t_cmd *cmd, t_env *env)
+{
+	int i;
+	int count;
 
-// 	if (!cmd->heredoc)
-// 		return (0);
-// 	count = count_strs(cmd->heredoc);
-// 	cmd->heredoc = malloc(sizeof(char *) * (count + 1));
-// 	if (!cmd->heredoc)
-// 		error("malloc heredoc");
-// 	i = 0;
-// 	while (cmd->heredoc[i])
-// 	{
-// 		cmd->heredoc[i] = do_single_heredoc(cmd->heredoc[i], env, i, cmd);
-// 		i++;
-// 	}
-// 	cmd->heredoc[i] = NULL;
-// 	return (1);
-// }
-
+	if (!cmd->heredoc)
+		return (0);
+	count = count_strs(cmd->heredoc);
+	cmd->here_doc = malloc(sizeof(char *) * (count + 1));
+	if (!cmd->here_doc)
+		error("malloc heredoc");
+	i = 0;
+	while (cmd->heredoc[i])
+	{
+		cmd->here_doc[i] = do_single_heredoc(cmd->heredoc[i], env, i, cmd);
+		i++;
+	}
+	cmd->heredoc[i] = NULL;
+	return (1);
+}

@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2025/11/27 11:56:52 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/02 10:52:16 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ void	executer(t_prompt *prompt)
 
 	prompt->pip_exec = 0;
 	cmd = prompt->cmds;
-	// here_doc(prompt->cmds);
 	while (cmd)
 	{
 		if (prompt->pip_exec == 0)
-			if (cmd->infile[0] != NULL || cmd->outfile[0] != NULL)
+			if (cmd->infile[0] != NULL || cmd->outfile[0] != NULL || cmd->heredoc[0])
 			{
 				pipex(*prompt);
 				prompt->pip_exec = 1;

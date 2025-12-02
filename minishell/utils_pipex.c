@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/12/01 10:53:54 by codespace        ###   ########.fr       */
+/*   Updated: 2025/12/02 11:48:31 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	i = 0;
 	n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, n_cmds);
-	single_builtin(pipecount(*prompt) + 1, cmd, prompt, fin, fout);
+	single_builtin(n_cmds, cmd, prompt, fin, fout);
 	while (i < n_cmds - 1)
 	{
 		if (pipe(prompt->pfd[i]) == -1)
@@ -60,8 +60,8 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	i = 0;
 	while (i < n_cmds && cmd)
 	{
-		// if (cmd->heredoc)
-        // 	process_heredocs(cmd, prompt->enviroment);
+		if (cmd->heredoc)
+        	process_heredocs(cmd, prompt->enviroment);
 		selectprocess(prompt, cmd, i, &fin, &fout);
 		cmd = cmd->next;
 		i++;
