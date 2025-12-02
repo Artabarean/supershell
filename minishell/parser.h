@@ -184,6 +184,7 @@ int		find_path(t_cmd *cmd, t_prompt *prompt);
 void	closepfds(int n_cmds, t_prompt *prompt);
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout);
 void	forker(t_prompt *prompt, int i);
+void	free_double(char *str1, char *str2);
 int		find_path_no_print(t_cmd *cmd, t_prompt *prompt);
 
 //Here_doc

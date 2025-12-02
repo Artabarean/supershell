@@ -6,11 +6,23 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/02 11:51:20 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:36:34 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+char	*createfile(char *filename, int index)
+{
+	filename = ft_strjoin("heredoc_", ft_itoa(index));
+	while (access(filename, F_OK) == 0)
+	{
+		free(filename);
+		index++;
+		filename = ft_strjoin("heredoc_", ft_itoa(index));
+	}
+	return (filename);
+}
 
 char	*expand_variables(char *line, t_env *env)
 {
@@ -81,9 +93,9 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 {
 	char	*line;
 	char	*expanded;
-	char	filename[128];
+	char	*filename;
 
-	snprintf(filename, sizeof(filename), ".heredoc_%p_%d", cmd, index);
+	filename = createfile(filename, index);
 	int fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		error("heredoc tmpfile");
@@ -99,10 +111,8 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 			break;
 		}
 		expanded = expand_variables(line, env);
-		write(fd, expanded, ft_strlen(expanded));
-		write(fd, "\n", 1);
-		free(expanded);
-		free(line);
+		ft_putendl_fd(expanded, fd);
+		free_double(expanded, line);
 	}
 	close(fd);
 	return (ft_strdup(filename));

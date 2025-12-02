@@ -6,11 +6,17 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/02 12:00:15 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/02 12:29:55 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+void	free_double(char *str1, char *str2)
+{
+	free(str1);
+	free(str2);
+}
 
 int	count_strs(char	**str)
 {
