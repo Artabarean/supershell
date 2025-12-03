@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/03 13:03:07 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:16:26 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,10 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 	char	*line;
 	char	*expanded;
 	char	*filename;
+	int		fd;
 
 	filename = createfile(filename, index);
-	int fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		error("heredoc tmpfile");
 	signal(SIGINT, SIG_DFL);
@@ -117,8 +118,7 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 		ft_putendl_fd(expanded, fd);
 		free_double(expanded, line);
 	}
-	close(fd);
-	return (ft_strdup(filename));
+	return (close(fd), ft_strdup(filename));
 }
 
 int	process_heredocs(t_cmd *cmd, t_env *env)
