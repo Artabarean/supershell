@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/02 12:36:34 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:03:07 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,38 +26,40 @@ char	*createfile(char *filename, int index)
 
 char	*expand_variables(char *line, t_env *env)
 {
-	int		i = 0;
-	char	*res = ft_strdup("");
+	int		i;
+	char	*res;
+	char 	*var;
 	char	*tmp;
+	char 	c[2];
+	int		j;
 	t_env	*e;
 
+	i = 0;
+	res	= ft_strdup("");
 	while (line[i])
 	{
 		if (line[i] == '$' && ft_isalnum(line[i + 1]))
 		{
-			int j = i + 1;
+			j = i + 1;
 			while (ft_isalnum(line[j]))
 				j++;
-
-			char *var = ft_substr(line, i + 1, j - (i + 1));
-
+			var = ft_substr(line, i + 1, j - (i + 1));
 			e = env;
 			while (e && ft_strcmp(e->keyword, var) != 0)
 				e = e->next;
-
 			tmp = res;
 			if (e)
 				res = ft_strjoin(res, e->value);
 			else
 				res = ft_strjoin(res, "");
-
 			free(tmp);
 			free(var);
 			i = j;
 		}
 		else
 		{
-			char c[2] = { line[i], 0 };
+			c[0] = line[i];
+			c[1] = 0;
 			tmp = res;
 			res = ft_strjoin(res, c);
 			free(tmp);
@@ -69,9 +71,10 @@ char	*expand_variables(char *line, t_env *env)
 
 void cleanup_heredoc_files(t_cmd *cmds)
 {
-	t_cmd *c = cmds;
-	int i;
+	t_cmd	*c; 
+	int 	i;
 
+	c = cmds;
 	while (c)
 	{
 		if (c->here_doc)
@@ -132,9 +135,10 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	i = 0;
 	while (cmd->heredoc[i])
 	{
+		printf("heredoc[%d]: %s\n", i, cmd->heredoc[i]);
 		cmd->here_doc[i] = do_single_heredoc(cmd->heredoc[i], env, i, cmd);
 		i++;
 	}
-	cmd->heredoc[i] = NULL;
+	cmd->here_doc[i] = NULL;
 	return (1);
 }

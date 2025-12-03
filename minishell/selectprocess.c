@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/02 12:29:55 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/03 12:24:44 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	count_strs(char	**str)
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 {
 	int	n_cmds;
-	int last;
 	int hd_fd;
 
 	n_cmds = pipecount(*prompt) + 1;
@@ -43,17 +42,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 	if (prompt->pid[i] == 0)
 	{
 		file_opener(cmd, fout, fin);
-		if (cmd->heredoc && cmd->heredoc[0])
-		{
-			last = count_strs(cmd->here_doc) - 1;
-			printf("cmd->heredoc[%d]: %s\n", last, cmd->here_doc[last]);
-			hd_fd = open(cmd->here_doc[last], O_RDONLY);
-			if (hd_fd == -1)
-				error("heredoc open failed");
-			dup2(hd_fd, 0);
-			close(hd_fd);
-			dup2(0, *fin);
-		}
+		here_doc_check(cmd->here_doc, cmd->heredoc, hd_fd, fin);
 		check_command(cmd, prompt);
 		if (i == 0 || cmd->infile[0] != NULL)
 		{

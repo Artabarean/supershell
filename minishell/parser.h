@@ -112,6 +112,8 @@ char	*expand(char **input, t_env *enviroment);
 char	*extract_str_quote(char **input);
 char	*expand_or_empty(char **input, t_env *env);
 char	*handle_quote_content(char **input, t_env *env);
+char	*ft_substr_quotes(char const *s, unsigned int start, size_t len);
+char	*stract_str(char const *s, unsigned int start, size_t len, size_t quote);
 
 //lexer
 void	lexer(t_prompt *prompt);
@@ -191,6 +193,7 @@ int		find_path_no_print(t_cmd *cmd, t_prompt *prompt);
 int  	process_heredocs(t_cmd *cmd, t_env *env);
 int		count_strs(char	**str);
 void 	cleanup_heredoc_files(t_cmd *cmds);
+void	here_doc_check(char **here_doc, char **heredoc, int hd_fd, int *fin);
 
 //Built-ins
 int		is_builtin(t_cmd *cmd);
