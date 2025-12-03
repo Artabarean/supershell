@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/03 12:24:44 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:28:46 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 	if (prompt->pid[i] == 0)
 	{
 		file_opener(cmd, fout, fin);
-		here_doc_check(cmd->here_doc, cmd->heredoc, hd_fd, fin);
+		here_doc_check(cmd->tmp_doc, cmd->heredoc, hd_fd, fin);
 		check_command(cmd, prompt);
 		if (i == 0 || cmd->infile[0] != NULL)
 		{

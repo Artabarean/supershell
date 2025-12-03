@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/03 14:16:26 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/03 14:30:01 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,16 @@ void cleanup_heredoc_files(t_cmd *cmds)
 	c = cmds;
 	while (c)
 	{
-		if (c->here_doc)
+		if (c->tmp_doc)
 		{
 			i = 0;
-			while (c->here_doc[i])
+			while (c->tmp_doc[i])
 			{
-				unlink(c->here_doc[i]);
-				free(c->here_doc[i]);
+				unlink(c->tmp_doc[i]);
+				free(c->tmp_doc[i]);
 				i++;
 			}
-			free(c->here_doc);
+			free(c->tmp_doc);
 		}
 		c = c->next;
 	}
@@ -129,16 +129,17 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	if (!cmd->heredoc)
 		return (0);
 	count = count_strs(cmd->heredoc);
-	cmd->here_doc = malloc(sizeof(char *) * (count + 1));
-	if (!cmd->here_doc)
+	cmd->tmp_doc = malloc(sizeof(char *) * (count + 1));
+	if (!cmd->tmp_doc)
 		error("malloc heredoc");
 	i = 0;
 	while (cmd->heredoc[i])
 	{
 		printf("heredoc[%d]: %s\n", i, cmd->heredoc[i]);
-		cmd->here_doc[i] = do_single_heredoc(cmd->heredoc[i], env, i, cmd);
+		cmd->tmp_doc[i] = do_single_heredoc(cmd->heredoc[i], env, i, cmd);
+		printf("tmp_doc[%d]: %s\n", i, cmd->tmp_doc[i]);
 		i++;
 	}
-	cmd->here_doc[i] = NULL;
+	cmd->tmp_doc[i] = NULL;
 	return (1);
 }
