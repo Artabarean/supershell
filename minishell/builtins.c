@@ -24,8 +24,8 @@ int	builtin_no_in_out (int n_cmds, t_cmd *cmd, t_prompt *prompt)
 		//export(cmd->full_cmd);
 		else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
 	    	return (builtin_unset(cmd->full_cmd, prompt));
-		//else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
-		//cd(cmd->full_cmd, prompt);
+		else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
+		cd(cmd->full_cmd, prompt);
 	}
     return (0);
 }
@@ -65,12 +65,12 @@ int	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 			exit_builtin(cmd, prompt);
             return (1);
         }
-		// if (!ft_strcmp(cmd->full_cmd[0], "cd"))
-		// {
-		// 	run_builtin_son(cmd, fin, fout);
-		// 	// 	cd(cmd->full_cmd, prompt);
-		// 	return (1);
-		// }
+		if (!ft_strcmp(cmd->full_cmd[0], "cd"))
+		{
+			run_builtin_son(cmd, fin, fout);
+			// 	cd(cmd->full_cmd, prompt);
+			return (1);
+		}
 		if (!ft_strcmp(cmd->full_cmd[0], "unset"))
 		{
 			run_builtin_son(cmd, fin, fout);
@@ -119,8 +119,8 @@ void	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 	//     export(cmd->full_cmd);
 	else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
 	    exit (builtin_unset(cmd->full_cmd, prompt));
-	// else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
-	// 	cd(cmd->full_cmd, prompt);
+	else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
+		cd(cmd->full_cmd, prompt);
 	else if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 		exit_builtin(cmd, prompt);
 	exit(0);

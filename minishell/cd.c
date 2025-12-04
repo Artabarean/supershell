@@ -12,6 +12,40 @@
 
 #include "parser.h"
 
+int set_env_value(t_env *env, const char *key, const char *value)
+{
+	while (env)
+	{
+		if (strcmp(env->keyword, key) == 0)
+		{
+			free(env->value);
+			env->value = strdup(value);
+			return (0);
+		}
+		env = env->next;
+	}
+	return (1);
+}
+
+void	update_pwd_vars(t_prompt *prompt, const char *oldpwd)
+{
+	char	newpwd[4096];
+
+	if (!getcwd(newpwd, sizeof(newpwd)))
+		return ;
+	set_env_value(prompt->enviroment, "OLDPWD", oldpwd);
+	set_env_value(prompt->enviroment, "PWD", newpwd);
+}
+
+void	cd_error(const char *path)
+{
+	write(2, "minishell: cd: ", 15);
+	write(2, path, strlen(path));
+	write(2, ": ", 2);
+	write(2, strerror(errno), strlen(strerror(errno)));
+	write(2, "\n", 1);
+}
+
 char	*get_env_value(t_env *env, const char *name)
 {
 	while (env)

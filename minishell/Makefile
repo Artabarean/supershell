@@ -41,6 +41,7 @@ SRC	 =	main.c \
 		echo.c \
 		pwd.c \
 		env.c \
+		cd.c \
 		unset.c \
 		builtins.c \
 		find_inorout.c \

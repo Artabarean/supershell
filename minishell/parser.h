@@ -206,6 +206,7 @@ int 	builtin_unset(char **args, t_prompt *prompt);
 int 	env(t_prompt *prompt, char **args);
 int		pwd(void);
 void	echo(char **full_cmd);
+int		cd(char **args, t_prompt *prompt);
 // int		export(t_prompt prompt);
 
 #endif
