@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:50 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/10/30 19:59:50 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/05 10:02:05 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,18 @@ int	create_file(char ***tkn, t_cmd *curr)
 	return (1);
 }
 
-void	add_infile(t_cmd *cmd, char *filename, int heredock)
+void	add_infile(t_cmd *cmd, char *filename, int heredoc)
 {
 	int	i;
 
 	i = 0;
 	if (!cmd || !filename)
 		return ;
-	if (heredock)
+	if (heredoc)
 	{
-		while (cmd->infile[i])
+		while (cmd->heredoc[i])
 			i++;
 		cmd->heredoc[i] = ft_strdup(filename);
-		cmd->redir = 1;
 	}
 	else
 	{
@@ -94,8 +93,16 @@ void	add_outfile(t_cmd *cmd, char *filename, int append)
 	if (!cmd || !filename)
 		return ;
 	if (append)
+	{
+		while (cmd->tmp_doc[i])
+			i++;
+		cmd->tmp_doc[i] = ft_strdup(filename);
 		cmd->append = 1;
-	while (cmd->outfile[i])
-		i++;
-	cmd->outfile[i] = ft_strdup(filename);
+	}
+	else
+	{
+		while (cmd->outfile[i])
+			i++;
+		cmd->outfile[i] = ft_strdup(filename);
+	}
 }

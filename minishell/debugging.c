@@ -40,8 +40,17 @@ void	print_cmds(t_cmd *cmds)
 				printf("\"%s\" ", cmds->infile[i]);
 				i++;
 			}
-			if (cmds->heredoc)
-				printf("(heredoc)");
+		}
+		printf("\n");
+		printf("Heredoc: ");
+		if (cmds->heredoc)
+		{
+			i = 0;
+			while (cmds->heredoc[i])
+			{
+				printf("\"%s\" ", cmds->heredoc[i]);
+				i++;
+			}
 		}
 		printf("\n");
 		printf("Outfiles: ");
@@ -53,9 +62,18 @@ void	print_cmds(t_cmd *cmds)
 				printf("\"%s\" ", cmds->outfile[i]);
 				i++;
 			}
-			if (cmds->append)
-				printf("(append)");
 		}
+		printf("\n");
+		printf("Append: ");
+		if (cmds->tmp_doc)
+		{
+			i = 0;
+			while (cmds->tmp_doc[i])
+			{
+				printf("\"%s\" ", cmds->tmp_doc[i]);
+				i++;
+			}
+		}printf("\n");
 		printf("\n");
 		printf(GREEN"---------------\n"RESET);
 		cmds = cmds->next;

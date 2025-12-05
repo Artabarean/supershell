@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:24 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/04 09:31:02 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/05 10:01:35 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ t_cmd	*new_cmd(void)
 	c->heredoc = ft_calloc(MAX_TOKENS, sizeof(char *));
 	if (!c->heredoc)
 		return (free(c->infile), free(c->outfile), free(c->full_cmd), free(c), NULL);
+	c->tmp_doc = ft_calloc(MAX_TOKENS, sizeof(char *));
+	if (!c->tmp_doc)
+		return (free(c->heredoc), free(c->infile), free(c->outfile), free(c->full_cmd), free(c), NULL);
 	c->full_path = NULL;
 	c->append = 0;
-	c->redir = 0;
 	c->next = NULL;
 	return (c);
 }

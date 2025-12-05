@@ -55,23 +55,8 @@ typedef struct s_cmd
 	char			**heredoc;
 	char			**tmp_doc;
 	int				append;
-	int				redir;
 	struct s_cmd	*next;
 }			t_cmd;
-
-//Enviroment
-// typedef struct s_env
-// {
-// 	char	*path;
-// 	char	*home;
-// 	char	*pwd;
-// 	char	*oldpwd;
-// 	char	*user;
-// 	char	*shell;
-// 	int		shlvl;
-// 	char	*cmdpath;
-// 	char	**envp;
-//	}				t_env;
 
 typedef struct s_env
 {
