@@ -22,7 +22,8 @@ void	executer(t_prompt *prompt)
 	while (cmd)
 	{
 		if (prompt->pip_exec == 0)
-			if (cmd->infile[0] != NULL || cmd->outfile[0] != NULL || cmd->heredoc[0])
+			if (cmd->infile[0] != NULL || cmd->outfile[0] != NULL 
+				|| cmd->heredoc[0] != NULL)
 			{
 				pipex(*prompt);
 				prompt->pip_exec = 1;

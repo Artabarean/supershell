@@ -129,9 +129,6 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	if (!cmd->heredoc)
 		return (0);
 	count = count_strs(cmd->heredoc);
-	cmd->tmp_doc = malloc(sizeof(char *) * (count + 1));
-	if (!cmd->tmp_doc)
-		error("malloc heredoc");
 	i = 0;
 	while (cmd->heredoc[i])
 	{

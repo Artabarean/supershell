@@ -84,8 +84,5 @@ int	pipecount(t_prompt prompt)
 		node_num = node_num->next;
 		i++;
 	}
-	if (i == 0)
-		return (i);
-	else
-		return (i - 1);
+	return (i - 1);
 }
