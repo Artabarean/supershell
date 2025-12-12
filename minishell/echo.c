@@ -12,25 +12,30 @@
 
 #include "parser.h"
 
-void	echo(char **full_cmd)
+void	echo(char **full_cmd, t_env *env)
 {
-	int	i;
+	int		i; 
+	int		no_newline;
+	char	*arg;
 
+	no_newline = 0;
 	i = 1;
-	while (full_cmd[i])
-	{
-		if (ft_strncmp(full_cmd[i], "-n", 2) == 0)
-		{
-			while (full_cmd[i] != NULL && ft_strncmp(full_cmd[i], "-n", 2) == 0)
-				i++;
-			if (full_cmd[i] == NULL)
-				return ;
-		}
-		(printf("%s", full_cmd[i]));
-		i++;	
-		if (full_cmd[i] && full_cmd[i - 1][0] != '$')
-			printf(" ");
-	}
-	if (ft_strncmp(full_cmd[1], "-n", 2) != 0)
-		printf("\n");
+    while (full_cmd[i] && ft_strncmp(full_cmd[i], "-n", 2) == 0)
+    {
+        no_newline = 1;
+        i++;
+    }
+    while (full_cmd[i])
+    {
+        arg = full_cmd[i];
+        if (arg[0] == '$')
+            printf("%s", expand_var(arg, env));
+        else
+            printf("%s", arg);
+        if (full_cmd[i + 1])
+            printf(" ");
+        i++;
+    }
+    if (!no_newline)
+        printf("\n");
 }

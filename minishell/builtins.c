@@ -110,7 +110,7 @@ int	is_builtin(t_cmd *cmd)
 void	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 {
 	if (!ft_strcmp(cmd->full_cmd[0], "echo"))
-		echo(cmd->full_cmd);
+		echo(cmd->full_cmd, prompt->enviroment);
 	else if (!ft_strcmp(cmd->full_cmd[0], "pwd"))
 		pwd();
 	else if (!ft_strcmp(cmd->full_cmd[0], "env"))

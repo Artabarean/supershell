@@ -24,51 +24,6 @@ char	*createfile(char *filename, int index)
 	return (filename);
 }
 
-char	*expand_variables(char *line, t_env *env)
-{
-	int		i;
-	char	*res;
-	char 	*var;
-	char	*tmp;
-	char 	c[2];
-	int		j;
-	t_env	*e;
-
-	i = 0;
-	res	= ft_strdup("");
-	while (line[i])
-	{
-		if (line[i] == '$' && ft_isalnum(line[i + 1]))
-		{
-			j = i + 1;
-			while (ft_isalnum(line[j]))
-				j++;
-			var = ft_substr(line, i + 1, j - (i + 1));
-			e = env;
-			while (e && ft_strcmp(e->keyword, var) != 0)
-				e = e->next;
-			tmp = res;
-			if (e)
-				res = ft_strjoin(res, e->value);
-			else
-				res = ft_strjoin(res, "");
-			free(tmp);
-			free(var);
-			i = j;
-		}
-		else
-		{
-			c[0] = line[i];
-			c[1] = 0;
-			tmp = res;
-			res = ft_strjoin(res, c);
-			free(tmp);
-			i++;
-		}
-	}
-	return (res);
-}
-
 void cleanup_heredoc_files(t_cmd *cmds)
 {
 	t_cmd	*c; 
@@ -108,15 +63,15 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 	{
 		line = readline("> ");
 		if (!line)
-			break;
+			break ;
 		if (ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
-		expanded = expand_variables(line, env);
+		expanded = expand_var(line, env);
 		ft_putendl_fd(expanded, fd);
-		free_double(expanded, line);
+		free(line);
 	}
 	return (close(fd), ft_strdup(filename));
 }
