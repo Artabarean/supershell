@@ -132,9 +132,7 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	i = 0;
 	while (cmd->heredoc[i])
 	{
-		printf("heredoc[%d]: %s\n", i, cmd->heredoc[i]);
 		cmd->tmp_doc[i] = do_single_heredoc(cmd->heredoc[i], env, i, cmd);
-		printf("tmp_doc[%d]: %s\n", i, cmd->tmp_doc[i]);
 		i++;
 	}
 	cmd->tmp_doc[i] = NULL;

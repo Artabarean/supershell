@@ -173,6 +173,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout);
 void	forker(t_prompt *prompt, int i);
 void	free_double(char *str1, char *str2);
 int		find_path_no_print(t_cmd *cmd, t_prompt *prompt);
+void	create_pipes(t_prompt *prompt, int n_cmds);
 
 //Here_doc
 int  	process_heredocs(t_cmd *cmd, t_env *env);

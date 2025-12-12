@@ -51,13 +51,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, n_cmds);
 	single_builtin(n_cmds, cmd, prompt, fin, fout);
-	while (i < n_cmds - 1)
-	{
-		if (pipe(prompt->pfd[i]) == -1)
-			error("Pipe failed");
-		i++;
-	}
-	i = 0;
+	create_pipes(prompt, n_cmds);
 	while (i < n_cmds && cmd)
 	{
 		if (cmd->heredoc)

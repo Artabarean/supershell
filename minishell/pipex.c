@@ -12,6 +12,19 @@
 
 #include "parser.h"
 
+void	create_pipes(t_prompt *prompt, int n_cmds)
+{
+	int	i;
+
+	i = 0;
+	while (i < n_cmds - 1)
+	{
+		if (pipe(prompt->pfd[i]) == -1)
+			error("Pipe failed");
+		i++;
+	}
+}
+
 void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 {
 	int	n_cmds;
