@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/12/03 14:16:57 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/15 14:17:47 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 		if (cmd->heredoc)
         	process_heredocs(cmd, prompt->enviroment);
 		selectprocess(prompt, cmd, i, &fin, &fout);
+		check_error(prompt);
 		cmd = cmd->next;
 		i++;
 	}

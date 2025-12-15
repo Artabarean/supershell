@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/12/03 11:38:18 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/15 14:26:15 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	pipex(t_prompt prompt)
 	fileout = -1;
 	last_status = 0;
 	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
+	prompt.error = malloc(sizeof(char) * (pipecount(prompt) + 1));
 	current_node = prompt.cmds;
 	childprocess_(current_node, &prompt);
 	current_node = prompt.cmds;

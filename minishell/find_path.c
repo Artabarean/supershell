@@ -6,17 +6,21 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/27 12:19:24 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/15 14:26:53 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	printerr(char *full_cmd)
+void	printerr(t_prompt *prompt, char *full_cmd)
 {
-	ft_putstr_fd("Minishell: ", 2); 
-	ft_putstr_fd(full_cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	int	i;
+
+	while (prompt->error[i] != NULL)
+		i++;
+	ft_strjoin("Minishell: ", prompt->error[i]); 
+	ft_strjoin(full_cmd, prompt->error[i]);
+	ft_strjoin(": command not found\n", prompt->error[i]);
 }
 
 void	freer(char **paths)
@@ -78,7 +82,7 @@ int	find_path(t_cmd *cmd, t_prompt *prompt)
 		i++;
 	}
 	freer(paths);
-	return (printerr(cmd->full_cmd[0]), 1);
+	return (printerr(prompt, cmd->full_cmd[0]), 1);
 }
 
 int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)

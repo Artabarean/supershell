@@ -77,6 +77,7 @@ typedef struct s_prompt
 	pid_t	*pid;
 	int		pip_exec;
 	int		exit_stat;
+	char	**error;
 }			t_prompt;
 
 //Enviroment
@@ -174,6 +175,7 @@ void	forker(t_prompt *prompt, int i);
 void	free_double(char *str1, char *str2);
 int		find_path_no_print(t_cmd *cmd, t_prompt *prompt);
 void	create_pipes(t_prompt *prompt, int n_cmds);
+void	check_error(t_prompt *prompt);
 
 //Here_doc
 int  	process_heredocs(t_cmd *cmd, t_env *env);
