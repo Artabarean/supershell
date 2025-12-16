@@ -55,6 +55,6 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 			child_processmid(cmd, prompt, i);
 		else if (i > 0 && (i + 1) == n_cmds)
 			child_processend(cmd, *fout, prompt, i);
-		exit(0);
+		exit(prompt->exit_stat);
 	}
 }

@@ -39,7 +39,7 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 	close(fout);
 	closepfds(n_cmds, prompt);
 	if (is_builtin(cmd))
-		run_builtin_child(cmd, prompt);
+		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path(cmd, prompt) == 1)
@@ -59,7 +59,7 @@ void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 	dup2(prompt->pfd[i][1], 1);
 	closepfds(n_cmds, prompt);
 	if (is_builtin(cmd))
-		run_builtin_child(cmd, prompt);
+		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path(cmd, prompt) == 1)
@@ -83,7 +83,7 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 	}
 	closepfds(n_cmds, prompt);
 	if (is_builtin(cmd))
-		run_builtin_child(cmd, prompt);
+		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path(cmd, prompt) == 1)
@@ -103,7 +103,7 @@ void	pipex(t_prompt prompt)
 	fileout = -1;
 	last_status = 0;
 	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
-	prompt.error = malloc(sizeof(char) * (pipecount(prompt) + 1));
+	prompt.error_msg = malloc(sizeof(char *) * (pipecount(prompt) + 1));
 	current_node = prompt.cmds;
 	childprocess_(current_node, &prompt);
 	current_node = prompt.cmds;

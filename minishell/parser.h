@@ -76,8 +76,8 @@ typedef struct s_prompt
 	t_env	*enviroment;
 	pid_t	*pid;
 	int		pip_exec;
+	char	**error_msg;
 	int		exit_stat;
-	char	**error;
 }			t_prompt;
 
 //Enviroment
@@ -188,7 +188,7 @@ int		is_builtin(t_cmd *cmd);
 int		single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int filein, int fileout);
 int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void	run_builtin_son(t_cmd *cmd, int fin, int fout);
-void 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
+int 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
 int 	exit_builtin(t_cmd *cmd, t_prompt *prompt);
 int 	builtin_unset(char **args, t_prompt *prompt);
 int 	env(t_prompt *prompt, char **args);

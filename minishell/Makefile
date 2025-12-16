@@ -48,7 +48,6 @@ SRC	 =	main.c \
 		exit_builtin.c \
 		here_doc.c \
 		here_doc_check.c \
-		check_error.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 

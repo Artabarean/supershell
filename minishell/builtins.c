@@ -107,7 +107,7 @@ int	is_builtin(t_cmd *cmd)
 	return (0);
 }
 
-void	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
+int	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 {
 	if (!ft_strcmp(cmd->full_cmd[0], "echo"))
 		echo(cmd->full_cmd, prompt->enviroment);
@@ -123,5 +123,5 @@ void	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 		cd(cmd->full_cmd, prompt);
 	else if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 		exit_builtin(cmd, prompt);
-	exit(0);
+	return (0);
 }

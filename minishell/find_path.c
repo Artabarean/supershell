@@ -14,13 +14,12 @@
 
 void	printerr(t_prompt *prompt, char *full_cmd)
 {
-	int	i;
+	char	*msg;
 
-	while (prompt->error[i] != NULL)
-		i++;
-	ft_strjoin("Minishell: ", prompt->error[i]); 
-	ft_strjoin(full_cmd, prompt->error[i]);
-	ft_strjoin(": command not found\n", prompt->error[i]);
+	msg = ft_strdup("Minishell: ");
+	msg = ft_strjoin(msg, full_cmd);
+	msg = ft_strjoin(msg," : command not found\n");
+	write(2, msg, ft_strlen(msg));
 }
 
 void	freer(char **paths)
