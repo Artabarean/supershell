@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:36 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/02 16:13:22 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/16 16:48:06 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,13 @@ char	*expand_var(char *str, t_env *enviroment)
 
 	if (!str || !*str)
 		return (ft_strdup(""));
-	while (enviroment->next)
+	while (enviroment)
 	{
-		if (!ft_strncmp(str, enviroment->keyword,
-				ft_strlen(enviroment->keyword)))
-		{
-			exp_str = ft_strdup(enviroment->value);
-			break ;
-		}
-		if (enviroment->next == NULL)
-			return (NULL);
-		else
-			enviroment = enviroment->next;
+		if (!ft_strcmp(str, enviroment->keyword))
+			return (ft_strdup(enviroment->value));
+		enviroment = enviroment->next;
 	}
-	return (exp_str);
+	return (NULL);
 }
 
 char	*expand(char **input, t_env *enviroment)
@@ -49,7 +42,7 @@ char	*expand(char **input, t_env *enviroment)
 		(*input)++;
 		return (expand_var("SYSTEMD_EXEC_PID", enviroment));
 	}
-	while (ft_isalnum(**input) || **input == '_' || **input == '$')
+	while (ft_isalnum(**input) || **input == '_')
 	{
 		(*input)++;
 		len++;
@@ -67,12 +60,14 @@ char	*extract_str_quote(char **input)
 	int		len;
 	char	*temp;
 
+	if (!input || !*input || !**input)
+		return (NULL);
 	len = 0;
 	while ((*input)[len] && (*input)[len] != '$' && (*input)[len] != '"')
 		len++;
-	while ((*input)[len] && (*input)[len] != ' ' )
-		len++;
-	temp = ft_substr_quotes(*input, 0, len);
+	if (len == 0)
+		return (ft_strdup(""));
+	temp = ft_substr(*input, 0, len);
 	if (!temp)
 		return (NULL);
 	(*input) += len;
@@ -92,7 +87,6 @@ char	*expand_or_empty(char **input, t_env *env)
 char	*handle_quote_content(char **input, t_env *env)
 {
 	char	*buffer;
-	char	*temp;
 	char	*var;
 
 	buffer = ft_strdup("");
@@ -106,8 +100,9 @@ char	*handle_quote_content(char **input, t_env *env)
 			var = extract_str_quote(input);
 		if (!var)
 			return (free(buffer), NULL);
-		temp = buffer;
 		buffer = ft_strjoin_free(buffer, var);
 	}
+	if (**input == '"')
+		(*input)++;
 	return (buffer);
 }

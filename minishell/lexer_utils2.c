@@ -3,51 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 12:48:13 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/02 16:18:44 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/16 16:50:03 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-char	*stract_str(char const *s, unsigned int start, size_t len, size_t quote)
+char	*extract_single_quote(char **input)
 {
-	size_t	z;
-	char	*subs;
+	int		len;
+	char	*temp;
 
-	z = 0;
-	subs = ft_calloc (len + 1 - quote, sizeof(char));
-	if (subs == NULL)
+	len = 0;
+	if (!input || !*input || **input != '\'')
 		return (NULL);
-	while (z < len && s[start + z])
-	{
-		if (s[start + z] != '\'' && s[start + z] != '"')
-		{
-			subs[z] = s[start + z];
-			z++;
-		}
-		else
-			start++;
-	}
-	return (subs);
+	(*input)++;
+	while ((*input)[len] && (*input)[len] != '\'')
+		len++;
+	if (!(*input)[len])
+		return (NULL);
+	temp = ft_substr(*input, 0, len);
+	if (!temp)
+		return (NULL);
+	(*input) += len + 1;
+	return (temp);
 }
 
-char	*ft_substr_quotes(char const *s, unsigned int start, size_t len)
+char	*extract_double_quote(char **input, t_env *env)
 {
-	char	*subs;
-	size_t	quote;
+	int		len;
+	char	*result;
+	char	*part;
 
-	quote = 0;
-	if (!(s))
+	len = 0;
+	if (**input != '"')
 		return (NULL);
-	if (start > ft_strlen(s))
-		return (ft_strdup (""));
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	if (strchr(s, '\'') || strchr(s, '"'))
-		quote = 1;
-	subs = stract_str(s, start, len, quote);
-	return (subs);
+	(*input)++;
+	result = handle_quote_content(input, env);
+	return (result);
+}
+
+char	*extract_and_expand(char **input, t_env *env)
+{
+	char	*buffer;
+
+	if (!input || !*input)
+		return (NULL);
+	if (**input == '$')
+		return (expand_or_empty(input, env));
+	if (**input == '"')
+		(*input)++;
+	buffer = handle_quote_content(input, env);
+	if (**input == '"')
+		(*input)++;
+	return (buffer);
+}
+
+char	*extract_word(char **input)
+{
+	int		len;
+	char	*start;
+	char	*word;
+
+	if (!input || !*input)
+		return (NULL);
+	start = *input;
+	len = 0;
+	while ((**input && **input != ' ')
+		|| **input == '|' || **input == '<' || **input == '>')
+	{
+		len++;
+		(*input)++;
+	}
+	word = ft_substr(start, 0, len);
+	if (!word)
+		return (NULL);
+	while (**input == ' ')
+		(*input)++;
+	return (word);
 }

@@ -3,71 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:40 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/02 12:56:57 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/16 16:46:30 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-char	*extract_str(char **input)
-{
-	int		len;
-	char	*temp;
-
-	len = 0;
-	while ((*input)[len] && (*input)[len] != '\'')
-		len++;
-	while ((*input)[len] && (*input)[len] != ' ' )
-		len++;
-	temp = ft_substr_quotes(*input, 0, len);
-	if (!temp)
-		return (NULL);
-	(*input) += len;
-	return (temp);
-}
-
-char	*extract_and_expand(char **input, t_env *env)
-{
-	char	*buffer;
-
-	if (!input || !*input)
-		return (NULL);
-	if (**input == '$')
-		return (expand_or_empty(input, env));
-	if (**input == '"')
-		(*input)++;
-	buffer = handle_quote_content(input, env);
-	if (**input == '"')
-		(*input)++;
-	return (buffer);
-}
-
-char	*extract_word(char **input)
-{
-	int		len;
-	char	*start;
-	char	*word;
-
-	if (!input || !*input)
-		return (NULL);
-	start = *input;
-	len = 0;
-	while ((**input && **input != ' ')
-		|| **input == '|' || **input == '<' || **input == '>')
-	{
-		len++;
-		(*input)++;
-	}
-	word = ft_substr(start, 0, len);
-	if (!word)
-		return (NULL);
-	while (**input == ' ')
-		(*input)++;
-	return (word);
-}
 
 void	extract_sym(char **ptr, t_prompt *prompt, int index)
 {
@@ -79,6 +22,56 @@ void	extract_sym(char **ptr, t_prompt *prompt, int index)
 	else
 		prompt->tkns[index] = ft_substr(*ptr, 0, 1);
 	(*ptr)++;
+}
+
+int	is_separator(char c)
+{
+	return (c == ' ' || c == '\t'
+		|| c == '|' || c == '<' || c == '>');
+}
+
+char	*extract_word_part(char **input)
+{
+	int		len;
+	char	*part;
+
+	len = 0;
+	while ((*input)[len]
+		&& !is_separator((*input)[len])
+		&& (*input)[len] != '\''
+		&& (*input)[len] != '"'
+		&& (*input)[len] != '$')
+		len++;
+	part = ft_substr(*input, 0, len);
+	*input += len;
+	return (part);
+}
+
+char	*extract_token(char **input, t_env *env)
+{
+	char	*token;
+	char	*part;
+	char	*tmp;
+
+	token = ft_strdup("");
+	if (!token)
+		return (NULL);
+	while (**input && !is_separator(**input))
+	{
+		if (**input == '\'')
+			part = extract_single_quote(input);
+		else if (**input == '"')
+			part = extract_double_quote(input, env);
+		else if (**input == '$')
+			part = expand_or_empty(input, env);
+		else
+			part = extract_word_part(input);
+		if (!part)
+			return (free(token), NULL);
+		tmp = token;
+		token = ft_strjoin_free(tmp, part);
+	}
+	return (token);
 }
 
 void	lexer(t_prompt *prompt)
@@ -94,16 +87,16 @@ void	lexer(t_prompt *prompt)
 	{
 		while (*ptr == ' ' || *ptr == '\t')
 			ptr++;
-		if (*ptr == '\'')
-			prompt->tkns[i] = extract_str(&ptr);
-		else if (*ptr == '"' || *ptr == '$')
-			prompt->tkns[i] = extract_and_expand(&ptr, prompt->enviroment);
-		else if (*ptr == '|' || *ptr == '<' || *ptr == '>')
-			extract_sym(&ptr, prompt, i);
-		else
-			prompt->tkns[i] = extract_word(&ptr);
-		if (!prompt->tkns[i] || prompt->tkns[i][0] == '\0')
+		if (!*ptr)
 			break ;
+		if (*ptr == '|' || *ptr == '<' || *ptr == '>')
+		{
+			extract_sym(&ptr, prompt, i++);
+			continue ;
+		}
+		prompt->tkns[i] = extract_token(&ptr, prompt->enviroment);
+		if (!prompt->tkns[i])
+			return ;
 		i++;
 	}
 	prompt->tkns[i] = NULL;
