@@ -94,12 +94,15 @@ t_cmd	*create_cmd(t_prompt *prompt);
 
 //Lexer utils
 char	*expand_var(char *str, t_env *enviroment);
+char	*expand_dollar(char **str, t_env *enviroment);
 char	*expand(char **input, t_env *enviroment);
 char	*extract_str_quote(char **input);
 char	*expand_or_empty(char **input, t_env *env);
 char	*handle_quote_content(char **input, t_env *env);
-char	*ft_substr_quotes(char const *s, unsigned int start, size_t len);
-char	*stract_str(char const *s, unsigned int start, size_t len, size_t quote);
+char	*extract_word(char **input);
+char	*extract_and_expand(char **input, t_env *env);
+char 	*extract_double_quote(char **input, t_env *env);
+char	*extract_single_quote(char **input);
 
 //lexer
 void	lexer(t_prompt *prompt);
