@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:25 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/10/30 20:00:26 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/17 09:34:57 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,11 @@ void	add_cmd_back(t_cmd **lst, t_cmd *new)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
+}
+
+void	syntax_error(char *token)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(token, 2);
+	ft_putendl_fd("'", 2);
 }

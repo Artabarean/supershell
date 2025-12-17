@@ -16,8 +16,16 @@ int	g_exit_status = 0;
 
 void	start_minishell(t_prompt *prompt)
 {
-	lexer(prompt);
-	init_parser(prompt);
+	if (!lexer(prompt))
+	{
+		free_all(prompt);
+		return ;
+	}
+	if (!init_parser(prompt))
+	{
+		free_all(prompt);
+		return ;
+	}
 	debug(*prompt);
 	executer(prompt);
 	free_all(prompt);
@@ -43,8 +51,7 @@ int	main(int argc, char **argv, char **envp)
 				start_minishell(&prompt);
 			else
 				free_all(&prompt);
-		}			
+		}
 	}
 	return (0);
 }
-
