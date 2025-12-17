@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc_check.c                                   :+:      :+:    :+:   */
+/*   utils_cd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atabarea <artabarean@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/17 09:10:13 by atabarea         ###   ########.fr       */
+/*   Created: 2025/12/17 10:24:39 by atabarea          #+#    #+#             */
+/*   Updated: 2025/12/17 10:26:55 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	here_doc_check(char **here_doc, char **heredoc, int hd_fd, int *fin)
+int checkfather_builtin(t_cmd *cmd)
 {
-	int	last;
-
-	if (heredoc && heredoc[0])
-	{
-		last = count_strs(here_doc) - 1;
-		hd_fd = open(here_doc[last], O_RDONLY);
-		if (hd_fd == -1)
-			error("heredoc open failed");
-		dup2(hd_fd, 0);
-		close(hd_fd);
-		dup2(0, *fin);
-	}
+    if (!ft_strcmp(cmd->full_cmd[0], "cd"))
+        return (1);
+    if (!ft_strcmp(cmd->full_cmd[0], "unset"))
+        return (1);
+    if (!ft_strcmp(cmd->full_cmd[0], "export"))
+        return (1);
+    return (0);
 }

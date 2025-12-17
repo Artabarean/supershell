@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <artabarean@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 11:43:30 by alex              #+#    #+#             */
-/*   Updated: 2025/12/15 14:17:47 by atabarea         ###   ########.fr       */
+/*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
+/*   Updated: 2025/12/17 10:28:52 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,19 @@ int pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
     n_cmds = pipecount(*prompt) + 1;
     while (i < n_cmds && curr_nde)
     {
-        waitpid(prompt->pid[i], &wstatus, 0);
-        if (curr_nde->next == NULL)
-        {
-            if (WIFEXITED(wstatus))
-                last_status = WEXITSTATUS(wstatus);
-            else if (WIFSIGNALED(wstatus))
-                last_status = 128 + WTERMSIG(wstatus);
-        }
+		waitpid(prompt->pid[i], &wstatus, 0);
+		if (checkfather_builtin(curr_nde) == 0)
+		{
+        	if (curr_nde->next == NULL)
+        	{
+            	if (WIFEXITED(wstatus))
+                	last_status = WEXITSTATUS(wstatus);
+            	else if (WIFSIGNALED(wstatus))
+                	last_status = 128 + WTERMSIG(wstatus);
+        	}
+		}
+		else
+			last_status = 0;
         curr_nde = curr_nde->next;
         i++;
     }
@@ -55,13 +60,14 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 		if (cmd->heredoc)
         	process_heredocs(cmd, prompt->enviroment);
 		selectprocess(prompt, cmd, i, &fin, &fout);
+		check_error(prompt, i);
 		cmd = cmd->next;
 		i++;
 	}
 	closepfds(n_cmds, prompt);
 }
 
-void	file_opener(t_cmd *cmd, int *fileout, int *filein)
+void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 {
 	int		i;
 
@@ -83,11 +89,13 @@ void	file_opener(t_cmd *cmd, int *fileout, int *filein)
 			i++;
 		}
 	}
+	check_command(cmd, prompt);
 }
 
 void	check_status(int exit_code)
 {
     printf("Exited with code %d\n", exit_code);
+	g_exit_status = exit_code;
 }
 
 int	open_file(char *argv, int i)

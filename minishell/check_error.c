@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc_check.c                                   :+:      :+:    :+:   */
+/*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atabarea <artabarean@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/17 09:10:13 by atabarea         ###   ########.fr       */
+/*   Created: 2025/12/17 08:04:50 by atabarea          #+#    #+#             */
+/*   Updated: 2025/12/17 09:04:15 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	here_doc_check(char **here_doc, char **heredoc, int hd_fd, int *fin)
+void    check_error(t_prompt *prompt, int i)
 {
-	int	last;
-
-	if (heredoc && heredoc[0])
-	{
-		last = count_strs(here_doc) - 1;
-		hd_fd = open(here_doc[last], O_RDONLY);
-		if (hd_fd == -1)
-			error("heredoc open failed");
-		dup2(hd_fd, 0);
-		close(hd_fd);
-		dup2(0, *fin);
-	}
+    if (prompt->error_msg)
+        if (prompt->error_msg[i])
+        {
+            write(2, prompt->error_msg[i], ft_strlen(prompt->error_msg[i]));
+            free(prompt->error_msg[i]);
+        }
 }

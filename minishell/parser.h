@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														:::	  ::::::::        */
-/*   parser.h										   :+:	  :+:	:+:       */
-/*													+:+ +:+		 +:+	      */
-/*   By: medel-ca <medel-ca@student.42.fr>		  +#+  +:+	   +#+		      */
-/*												+#+#+#+#+#+   +#+		      */
-/*   Created: 2025/10/30 20:00:00 by medel-ca		  #+#	#+#			      */
-/*   Updated: 2025/10/30 20:09:33 by medel-ca		 ###   ########.fr	      */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: atabarea <artabarean@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
+/*   Updated: 2025/12/17 10:27:35 by atabarea         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
@@ -72,11 +72,11 @@ typedef struct s_prompt
 	t_cmd	*cmds;	//lista de nodos de la otra estructura con los comandos ya separados
 	char	*input;
 	char	**tkns;
+	char	**error_msg;
 	int		(*pfd)[2];
 	t_env	*enviroment;
 	pid_t	*pid;
 	int		pip_exec;
-	char	**error_msg;
 	int		exit_stat;
 }			t_prompt;
 
@@ -157,7 +157,7 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt);
 void	pipex(t_prompt prompt);
 int		open_file(char *argv, int i);
 void	check_status(int last_status);
-void	file_opener(t_cmd *cmd, int *fileout, int *filein);
+void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein);
 void	childprocess_(t_cmd *curr_nde, t_prompt *prompt);
 int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
 void	execute_(t_cmd *cmd, t_prompt *prompt);
@@ -171,14 +171,14 @@ void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt);
 void	child_processmid(t_cmd *curr_node , t_prompt *prompt, int i);
 void	child_processend(t_cmd *curr_node , int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);
-int		find_path(t_cmd *cmd, t_prompt *prompt);
+int		find_path(t_cmd *cmd, t_prompt *prompt, int i);
 void	closepfds(int n_cmds, t_prompt *prompt);
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout);
 void	forker(t_prompt *prompt, int i);
 void	free_double(char *str1, char *str2);
 int		find_path_no_print(t_cmd *cmd, t_prompt *prompt);
 void	create_pipes(t_prompt *prompt, int n_cmds);
-void	check_error(t_prompt *prompt);
+void	check_error(t_prompt *prompt, int i);
 
 //Here_doc
 int  	process_heredocs(t_cmd *cmd, t_env *env);
@@ -192,6 +192,7 @@ int		single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int filein, int fi
 int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void	run_builtin_son(t_cmd *cmd, int fin, int fout);
 int 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
+int 	checkfather_builtin(t_cmd *cmd);
 int 	exit_builtin(t_cmd *cmd, t_prompt *prompt);
 int 	builtin_unset(char **args, t_prompt *prompt);
 int 	env(t_prompt *prompt, char **args);

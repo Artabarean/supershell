@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/11/14 10:40:04 by codespace         #+#    #+#              #
-#    Updated: 2025/12/15 12:38:21 by atabarea         ###   ########.fr        #
+#                                                          :::      ::::::::   #
+#   Makefile                                             :+:      :+:    :+:   #
+#                                                      +:+ +:+         +:+     #
+#   By: atabarea <artabarean@student.42.fr>          +#+  +:+       +#+        #
+#                                                  +#+#+#+#+#+   +#+           #
+#   Created: 2025/11/14 10:40:04 by atabarea            #+#    #+#             #
+#   Updated: 2025/12/17 10:27:09 by atabarea           ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,8 @@ SRC	 =	main.c \
 		exit_builtin.c \
 		here_doc.c \
 		here_doc_check.c \
+		check_error.c \
+		utils_cd.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 

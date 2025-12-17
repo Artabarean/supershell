@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <artabarean@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/22 11:43:54 by alex              #+#    #+#             */
-/*   Updated: 2025/12/15 14:26:15 by atabarea         ###   ########.fr       */
+/*   Created: 2025/10/22 11:43:54 by atabarea          #+#    #+#             */
+/*   Updated: 2025/12/17 08:54:06 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path(cmd, prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1)
 			exit(127);
 	}
 	else
@@ -62,7 +62,7 @@ void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path(cmd, prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1)
 			exit(127);
 	}
 	else
@@ -86,7 +86,7 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path(cmd, prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1)
 			exit(127);
 	}
 	else
@@ -103,11 +103,11 @@ void	pipex(t_prompt prompt)
 	fileout = -1;
 	last_status = 0;
 	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
-	prompt.error_msg = malloc(sizeof(char *) * (pipecount(prompt) + 1));
 	current_node = prompt.cmds;
 	childprocess_(current_node, &prompt);
 	current_node = prompt.cmds;
 	last_status = pid_stat(current_node, &prompt, last_status);
 	check_status(last_status);
+	free(prompt.error_msg);
 	cleanup_heredoc_files(prompt.cmds);
 }

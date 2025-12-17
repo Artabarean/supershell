@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <artabarean@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/15 14:26:53 by atabarea         ###   ########.fr       */
+/*   Updated: 2025/12/17 09:07:05 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	printerr(t_prompt *prompt, char *full_cmd)
+void	printerr(t_prompt *prompt, char *full_cmd, int j)
 {
-	char	*msg;
+	char *tmp;
+    char *msg;
 
-	msg = ft_strdup("Minishell: ");
-	msg = ft_strjoin(msg, full_cmd);
-	msg = ft_strjoin(msg," : command not found\n");
-	write(2, msg, ft_strlen(msg));
+    msg = ft_strdup("Minishell: ");
+    tmp = msg;
+    msg = ft_strjoin(tmp, full_cmd);
+    free(tmp);
+    tmp = msg;
+    msg = ft_strjoin(tmp, ": command not found\n");
+    free(tmp);
+    prompt->error_msg[j] = msg;
 }
 
 void	freer(char **paths)
@@ -51,7 +56,7 @@ char	*get_environments(char *name, t_prompt *prompt)
 	return (path);
 }
 
-int	find_path(t_cmd *cmd, t_prompt *prompt)
+int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 {
 	int		i;
 	char	**paths;
@@ -81,7 +86,7 @@ int	find_path(t_cmd *cmd, t_prompt *prompt)
 		i++;
 	}
 	freer(paths);
-	return (printerr(prompt, cmd->full_cmd[0]), 1);
+	return (printerr(prompt, cmd->full_cmd[0], j), 1);
 }
 
 int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)
