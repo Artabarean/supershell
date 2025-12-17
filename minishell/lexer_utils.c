@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:36 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/16 16:48:06 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/17 10:37:32 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ char	*expand(char **input, t_env *enviroment)
 	if (**input == '$')
 	{
 		(*input)++;
-		return (expand_var("SYSTEMD_EXEC_PID", enviroment));
+		return (ft_itoa(getpid()));
+	}
+	if (**input == '?')
+	{
+		(*input)++;
+		return (ft_itoa(g_exit_status));
 	}
 	while (ft_isalnum(**input) || **input == '_')
 	{

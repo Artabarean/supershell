@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:40 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/16 16:46:30 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/17 11:06:37 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ char	*extract_token(char **input, t_env *env)
 	return (token);
 }
 
-void	lexer(t_prompt *prompt)
+int	lexer(t_prompt *prompt)
 {
 	int		i;
 	char	*ptr;
 
 	if (!prompt->input)
-		return ;
+		return (0);
 	ptr = prompt->input;
 	i = 0;
 	while (*ptr)
@@ -96,9 +96,9 @@ void	lexer(t_prompt *prompt)
 		}
 		prompt->tkns[i] = extract_token(&ptr, prompt->enviroment);
 		if (!prompt->tkns[i])
-			return ;
+			return (0);
 		i++;
 	}
 	prompt->tkns[i] = NULL;
-	return ;
+	return (1);
 }

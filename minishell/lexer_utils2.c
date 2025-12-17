@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 12:48:13 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/16 16:50:03 by medel-ca         ###   ########.fr       */
+/*   Updated: 2025/12/17 11:04:55 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,44 +44,4 @@ char	*extract_double_quote(char **input, t_env *env)
 	(*input)++;
 	result = handle_quote_content(input, env);
 	return (result);
-}
-
-char	*extract_and_expand(char **input, t_env *env)
-{
-	char	*buffer;
-
-	if (!input || !*input)
-		return (NULL);
-	if (**input == '$')
-		return (expand_or_empty(input, env));
-	if (**input == '"')
-		(*input)++;
-	buffer = handle_quote_content(input, env);
-	if (**input == '"')
-		(*input)++;
-	return (buffer);
-}
-
-char	*extract_word(char **input)
-{
-	int		len;
-	char	*start;
-	char	*word;
-
-	if (!input || !*input)
-		return (NULL);
-	start = *input;
-	len = 0;
-	while ((**input && **input != ' ')
-		|| **input == '|' || **input == '<' || **input == '>')
-	{
-		len++;
-		(*input)++;
-	}
-	word = ft_substr(start, 0, len);
-	if (!word)
-		return (NULL);
-	while (**input == ' ')
-		(*input)++;
-	return (word);
 }
