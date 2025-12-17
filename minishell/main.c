@@ -35,15 +35,16 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_prompt(&prompt, envp);
 		get_user_input(&prompt);
-		if (prompt.input && not_only_spaces(prompt.input))
+		if (prompt.input == NULL)
+			set_signal(EXIT, &prompt);
+		else if (prompt.input && not_only_spaces(prompt.input))
 		{
 			if (correct_input(prompt.input))
 				start_minishell(&prompt);
 			else
 				free_all(&prompt);
-		}
-		else
-			set_signal(EXIT, &prompt);
+		}			
 	}
 	return (0);
 }
+
