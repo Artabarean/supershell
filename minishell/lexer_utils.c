@@ -35,7 +35,7 @@ char	*expand(char **input, t_env *enviroment)
 
 	len = 0;
 	(*input)++;
-	if (**input == '"' || **input == ' ' || **input == '\'')
+	if (**input == '"' || **input == ' ' || **input == '\'' || !**input)
 		return (ft_strdup("$"));
 	if (**input == '$')
 	{
