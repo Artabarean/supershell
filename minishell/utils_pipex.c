@@ -58,7 +58,15 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	while (i < n_cmds && cmd)
 	{
 		if (cmd->heredoc)
+		{
         	process_heredocs(cmd, prompt->enviroment);
+			fin = get_last_heredoc(cmd->tmp_doc);
+			if (fin == -1)
+			{
+				closepfds(n_cmds, prompt);
+				return ;
+			}	
+		}
 		selectprocess(prompt, cmd, i, &fin, &fout);
 		check_error(prompt, i);
 		cmd = cmd->next;

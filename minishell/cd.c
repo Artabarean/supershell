@@ -66,31 +66,22 @@ int	cd(char **args, t_prompt *prompt)
 		return (1);
 	if (!args[1] || !args[1][0])
 	{
-		path = get_env_value(prompt->enviroment, "HOME");
-		if (!path)
-		{
-			write(2, "minishell: cd: HOME not set\n", 29);
+		if (do_path(prompt->enviroment, path, "HOME") == 1)
 			return (1);
-		}
+		path = get_env_value(prompt->enviroment, "HOME");
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
 	{
-		path = get_env_value(prompt->enviroment, "OLDPWD");
-		if (!path)
-		{
-			write(2, "minishell: cd: OLDPWD not set\n", 30);
+		if (do_path(prompt->enviroment, path, "OLDPWD") == 1)
 			return (1);
-		}
+		path = get_env_value(prompt->enviroment, "OLDPWD");
 		write(1, path, ft_strlen(path));
 		write(1, "\n", 1);
 	}
 	else
 		path = args[1];
 	if (chdir(path) != 0)
-	{
-		cd_error(path);
-		return (1);
-	}
+		return (cd_error(path), 1);
 	update_pwd_vars(prompt, oldpwd);
 	return (0);
 }

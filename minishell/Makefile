@@ -50,6 +50,9 @@ SRC	 =	main.c \
 		here_doc_check.c \
 		check_error.c \
 		utils_cd.c \
+		utils_export.c \
+		export.c \
+
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 

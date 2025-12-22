@@ -27,7 +27,7 @@ void    erase_in_env(t_prompt *prompt, char *name)
     }
 }
 
-int is_valid_identifier(const char *s)
+int is_valid_val(const char *s)
 {
     int i = 0;
 

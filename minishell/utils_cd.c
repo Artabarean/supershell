@@ -22,3 +22,26 @@ int checkfather_builtin(t_cmd *cmd)
         return (1);
     return (0);
 }
+
+int do_path(t_env *env, char *path, char *selection)
+{
+    if (!ft_strcmp(selection, "HOME"))
+    {
+        path = get_env_value(env, "HOME");
+        if (!path)
+	    {
+		    write(2, "minishell: cd: HOME not set\n", 29);
+		    return (1);
+	    }
+    }
+    else if (!ft_strcmp(selection, "OLDPWD"))
+    {
+        path = get_env_value(env, "OLDPWD");
+        if (!path)
+	    {
+		    write(2, "minishell: cd: OLDPWD not set\n", 29);
+		    return (1);
+	    }
+    }
+    return (0);
+}

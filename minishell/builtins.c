@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+
 int	builtin_no_in_out (int n_cmds, t_cmd *cmd, t_prompt *prompt)
 {
 	if (n_cmds == 0 && cmd->full_cmd[0] != NULL)

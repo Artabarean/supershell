@@ -12,6 +12,19 @@
 
 #include "parser.h"
 
+int	get_last_heredoc(char **tmp_doc)
+{
+	int	fd;
+	int	i;
+
+	while (tmp_doc[i])
+		i++;
+	fd = open(tmp_doc[i - 1], O_RDONLY);
+	if (fd == -1)
+		return (-1);
+	return (fd);
+}
+
 char	*createfile(char *filename, int index)
 {
 	filename = ft_strjoin("heredoc_", ft_itoa(index));

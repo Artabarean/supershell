@@ -185,6 +185,7 @@ void	check_error(t_prompt *prompt, int i);
 //Here_doc
 int  	process_heredocs(t_cmd *cmd, t_env *env);
 int		count_strs(char	**str);
+int		get_last_heredoc(char **tmp_doc);
 void 	cleanup_heredoc_files(t_cmd *cmds);
 void	here_doc_check(char **here_doc, char **heredoc, int hd_fd, int *fin);
 
@@ -197,10 +198,18 @@ int 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
 int 	checkfather_builtin(t_cmd *cmd);
 int 	exit_builtin(t_cmd *cmd, t_prompt *prompt);
 int 	builtin_unset(char **args, t_prompt *prompt);
+int 	is_valid_identifier(char *s);
+char	*get_env_value(t_env *env, const char *name);
+int 	is_valid_val(const char *s);
+t_env	*env_find(t_env *env, char *key);
+void	env_add_or_update(t_prompt *prompt, char *arg);
+int		env_size(t_env *env);
+char	**env_to_array(t_env *env);
+int		do_path(t_env *env, char *path, char *selection);
 int 	env(t_prompt *prompt, char **args);
 int		pwd(void);
 void	echo(char **full_cmd, t_env *env);
 int		cd(char **args, t_prompt *prompt);
-// int		export(t_prompt prompt);
+void	export_builtin(t_prompt *prompt, t_cmd *cmd);
 
 #endif
