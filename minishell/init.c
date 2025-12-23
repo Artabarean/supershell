@@ -31,8 +31,8 @@ t_cmd	*new_cmd(void)
 	c->heredoc = ft_calloc(MAX_TOKENS, sizeof(char *));
 	if (!c->heredoc)
 		return (free(c->infile), free(c->outfile), free(c->full_cmd), free(c), NULL);
-	c->tmp_doc = ft_calloc(MAX_TOKENS, sizeof(char *));
-	if (!c->tmp_doc)
+	c->app_doc = ft_calloc(MAX_TOKENS, sizeof(char *));
+	if (!c->app_doc)
 		return (free(c->heredoc), free(c->infile), free(c->outfile), free(c->full_cmd), free(c), NULL);
 	c->full_path = NULL;
 	c->append = 0;

@@ -15,7 +15,7 @@
 void	find_outfile(t_cmd *cmd, int i, int	*fileout)
 {
 	if (cmd->append == 1)
-		*fileout = open_file(cmd->outfile[i], 0);
+		*fileout = open_file(cmd->app_doc[i], 0);
 	else
 		*fileout = open_file(cmd->outfile[i], 1);
 	if (cmd->outfile[i + 1] != NULL && cmd->next != NULL)

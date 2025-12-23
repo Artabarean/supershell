@@ -94,9 +94,9 @@ void	add_outfile(t_cmd *cmd, char *filename, int append)
 		return ;
 	if (append)
 	{
-		while (cmd->tmp_doc[i])
+		while (cmd->app_doc[i])
 			i++;
-		cmd->tmp_doc[i] = ft_strdup(filename);
+		cmd->app_doc[i] = ft_strdup(filename);
 		cmd->append = 1;
 	}
 	else

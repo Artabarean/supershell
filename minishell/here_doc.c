@@ -17,12 +17,17 @@ int	get_last_heredoc(char **tmp_doc)
 	int	fd;
 	int	i;
 
-	while (tmp_doc[i])
-		i++;
-	fd = open(tmp_doc[i - 1], O_RDONLY);
-	if (fd == -1)
-		return (-1);
-	return (fd);
+	if (tmp_doc)
+	{
+		while (tmp_doc[i])
+			i++;
+		printf("%s\n", tmp_doc[i - 1]);
+		fd = open(tmp_doc[i - 1], O_RDONLY);
+		if (fd == -1)
+			return (-1);
+		return (fd);
+	}
+	return (1);
 }
 
 char	*createfile(char *filename, int index)

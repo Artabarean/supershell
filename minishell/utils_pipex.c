@@ -57,7 +57,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	create_pipes(prompt, n_cmds);
 	while (i < n_cmds && cmd)
 	{
-		if (cmd->heredoc)
+		if (cmd->heredoc[0])
 		{
         	process_heredocs(cmd, prompt->enviroment);
 			fin = get_last_heredoc(cmd->tmp_doc);
@@ -80,21 +80,21 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 	int		i;
 
 	i = 0;
-	if (cmd->outfile)
+	if (cmd->outfile || cmd->app_doc)
 	{
-		while (cmd->outfile[i])
-		{
-			find_outfile(cmd, i, fileout);
-			i++;
-		}
+		find_outfile(cmd, i, fileout);
+		i++;
 	}
 	i = 0;
-	if (cmd->infile)
+	if (!cmd->heredoc)
 	{
-		while (cmd->infile[i])
+		if (cmd->infile)
 		{
-			find_infile(cmd, i, filein);
-			i++;
+			while (cmd->infile[i])
+			{
+				find_infile(cmd, i, filein);
+				i++;
+			}
 		}
 	}
 	check_command(cmd, prompt);
