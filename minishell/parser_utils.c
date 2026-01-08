@@ -33,7 +33,7 @@ void	add_arg_to_cmd(char *arg, t_cmd *cmd)
 		i++;
 	if (i == MAX_TOKENS - 1)
 	{
-		printf("Demasiados argumentos\n");
+		printf("Too many arguments\n");
 		return ;
 	}
 	cmd->full_cmd[i] = ft_strdup(arg);
