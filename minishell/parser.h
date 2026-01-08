@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <artabarean@student.42.fr>        +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/17 10:27:35 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/08 22:14:16 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,21 @@
 
 extern int	g_exit_status;
 
+typedef enum e_redir_type
+{
+    R_OUT,
+    R_APPEND,
+    R_IN,
+    R_HEREDOC
+}   t_redir_type;
+
+typedef struct s_redir
+{
+    t_redir_type type;
+    char         *file;
+    struct s_redir *next;
+}   t_redir;
+
 // Estructura para cada comando
 typedef struct s_cmd
 {
@@ -67,18 +82,38 @@ typedef struct s_env
 	char			**envp;
 }			t_env;
 
+typedef enum e_quote
+{
+    Q_NONE,
+    Q_SINGLE,
+    Q_DOUBLE
+} t_quote;
+
+typedef enum e_toktype
+{
+    T_WORD,
+    T_PIPE,
+    T_REDIR_IN,
+    T_REDIR_OUT,
+    T_APPEND,
+    T_HEREDOC
+} t_toktype;
+
 // Estructura general
 typedef struct s_prompt
 {
-	t_cmd	*cmds;	//lista de nodos de la otra estructura con los comandos ya separados
-	char	*input;
-	char	**tkns;
-	char	**error_msg;
-	int		(*pfd)[2];
-	t_env	*enviroment;
-	pid_t	*pid;
-	int		pip_exec;
-	int		exit_stat;
+	t_cmd		*cmds;	//lista de nodos de la otra estructura con los comandos ya separados
+	char		*input;
+	char		**tkns;
+	t_toktype	*types;
+	t_quote		*quotes;
+	int			tkn_count;
+	char		**error_msg;
+	int			(*pfd)[2];
+	t_env		*enviroment;
+	pid_t		*pid;
+	int			pip_exec;
+	int			exit_stat;
 }			t_prompt;
 
 //Enviroment
@@ -88,26 +123,22 @@ void	init_env(t_prompt *prompt, char **env);
 
 //Init
 void	init_tkns(t_prompt *prompt);
-void	init_env(t_prompt *prompt, char **env);
 void	init_prompt(t_prompt *prompt, char **envp);
 t_cmd	*new_cmd(void);
 t_cmd	*create_cmd(t_prompt *prompt);
 
 //Lexer utils
-char	*handle_quote_content(char **input, t_env *env);
-char	*expand_or_empty(char **input, t_env *env);
-char	*extract_str_quote(char **input);
-char	*expand(char **input, t_env *enviroment);
-char	*expand_var(char *str, t_env *enviroment);
+void	extract_tkn(char **ptr, t_prompt *prompt, int index, t_toktype value);
+void	extract_sym(char **ptr, t_prompt *prompt, int index);
 
 //Lexer utils 2
 char	*extract_single_quote(char **input);
-char	*extract_double_quote(char **input, t_env *env);
-
+char	*extract_double_quote(char **input);
+char	*expand_var(char *str, t_env *enviroment);
 
 //lexer
 int		lexer(t_prompt *prompt);
-char	*extract_token(char **input, t_env *env);
+char	*extract_token(char **input, t_prompt *prompt, int i);
 char	*extract_word_part(char **input);
 int		is_separator(char c);
 void	extract_sym(char **ptr, t_prompt *prompt, int index);
@@ -117,21 +148,37 @@ int		ft_chrcmpr( char prompt, char sym);
 char	*ft_strjoin_free(char *s1, char *s2);
 void	add_cmd_back(t_cmd **lst, t_cmd *new);
 void	syntax_error(char *token);
+int		is_redirection_type(t_toktype type);
 
-//parser
-bool	init_parser(t_prompt *prompt);
+//parser utils
 void	new_node(t_cmd *current, int *index, t_prompt *prompt);
 void	add_arg_to_cmd(char *arg, t_cmd *cmd);
-int		create_file(char ***tkn, t_cmd *curr);
+bool	create_file(t_toktype type, char *filename, t_cmd *curr);
 void	add_infile(t_cmd *cmd, char *filename, int heredoc);
 void	add_outfile(t_cmd *cmd, char *filename, int append);
+
+//parser
+bool	parser(t_prompt *prompt, t_cmd *curr);
+bool	init_parser(t_prompt *prompt);
+
+//expand
+void	expand_tkn(t_prompt *prompt);
+char	*expand(char *str, t_env *env);
+int		is_valid_var_char(char c);
+
+//expand utils
+char	*extract_dollar(char *result);
+char	*extract_e_status(char *result);
+char	*extract_str(char *result, char *str, int *i, t_env *env);
+char	*extract_char(char *result, char value);
+char	*expand_dollar(char *res, char *str, int *i, t_env *env);
 
 //clean
 void	free_all(t_prompt *prompt);
 void	free_lst(t_cmd **lst);
 void	del(t_cmd *tmp);
 void	free_doble_ptr(char **ptr);
-void	free_env(t_env **e);
+void	free_env(t_env *e);
 
 //Input
 void	get_user_input(t_prompt *prompt);
