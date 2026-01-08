@@ -61,7 +61,7 @@ int	lexer(t_prompt *prompt)
 	if (!prompt->input)
 		return (0);
 	i = 0;
-	while ((*prompt)->input)
+	while ((*prompt).input)
 	{
 		while ((*prompt).input == ' ' || (*prompt).input == '\t')
 			(*prompt).input++;
