@@ -48,6 +48,18 @@ void	init_tkns(t_prompt *prompt)
 		free_all(prompt);
 		exit (EXIT_FAILURE);
 	}
+	prompt->types = ft_calloc(sizeof (t_toktype), MAX_TOKENS);
+	if (!prompt->types)
+	{
+		free_all(prompt);
+		exit (EXIT_FAILURE);
+	}
+	prompt->quotes = ft_calloc(sizeof (t_quote), MAX_TOKENS);
+	if (!prompt->quotes)
+	{
+		free_all(prompt);
+		exit (EXIT_FAILURE);
+	}
 }
 
 void	init_prompt(t_prompt *prompt, char **envp)
