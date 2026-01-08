@@ -21,6 +21,7 @@ void	start_minishell(t_prompt *prompt)
 		free_all(prompt);
 		return ;
 	}
+	expand_tkn(prompt);
 	if (!init_parser(prompt))
 	{
 		free_all(prompt);
@@ -36,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 	t_prompt	prompt;
 
 	if (argc != 1 || envp == NULL || *envp == NULL)
-		return (perror("Error en el enviroment"), 1);
+		return (perror("Environment error"), 1);
 	(void)argc;
 	(void)argv;
 	while (1)
@@ -55,3 +56,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
