@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:06:27 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/03 12:51:48 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/08 17:58:23 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,25 +71,31 @@ void	free_lst(t_cmd **lst)
 	*lst = NULL;
 }
 
-void	free_env(t_env **e)
+void	free_env(t_env *env)
 {
-	t_env	*current;
 	t_env	*tmp;
+	int		i;
 
-	if (!e || !*e)
-		return ;
-	current = *e;
-	while (current != NULL)
+	while (env)
 	{
-		tmp = current->next;
-		if (current->keyword)
-			free(current->keyword);
-		if (current->value)
-			free(current->value);
-		free(current);
-		current = tmp;
+		tmp = env->next;
+		if (env->keyword)
+			free(env->keyword);
+		if (env->value)
+			free(env->value);
+		if (env->envp)
+		{
+			i = 0;
+			while (env->envp[i])
+			{
+				free(env->envp[i]);
+				i++;
+			}
+			free(env->envp);
+		}
+		free(env);
+		env = tmp;
 	}
-	*e = NULL;
 }
 
 void	free_all(t_prompt *prompt)
@@ -98,13 +104,17 @@ void	free_all(t_prompt *prompt)
 		return ;
 	if (prompt->enviroment)
 	{
-		free_env(&prompt->enviroment);
+		free_env(prompt->enviroment);
 		prompt->enviroment = NULL;
 	}
 	if (prompt->tkns)
 	{
 		free_doble_ptr(prompt->tkns);
+		free(prompt->types);
+		free(prompt->quotes);
 		prompt->tkns = NULL;
+		prompt->types = NULL;
+		prompt->quotes = NULL;
 	}
 	if (prompt->cmds)
 	{
