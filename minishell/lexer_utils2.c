@@ -32,16 +32,37 @@ char	*extract_single_quote(char **input)
 	return (temp);
 }
 
-char	*extract_double_quote(char **input, t_env *env)
+char	*extract_double_quote(char **input)
 {
 	int		len;
-	char	*result;
-	char	*part;
+	char	*temp;
 
 	len = 0;
 	if (**input != '"')
 		return (NULL);
 	(*input)++;
-	result = handle_quote_content(input, env);
-	return (result);
+	while ((*input)[len] && (*input)[len] != '"')
+		len++;
+	if (!(*input)[len])
+		return (NULL);
+	temp = ft_substr(*input, 0, len);
+	if (!temp)
+		return (NULL);
+	(*input) += len + 1;
+	return (temp);
+}
+
+char	*expand_var(char *str, t_env *enviroment)
+{
+	char	*exp_str;
+
+	if (!str || !*str)
+		return (ft_strdup(""));
+	while (enviroment)
+	{
+		if (!ft_strcmp(str, enviroment->keyword))
+			return (ft_strdup(enviroment->value));
+		enviroment = enviroment->next;
+	}
+	return (NULL);
 }
