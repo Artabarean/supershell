@@ -40,28 +40,21 @@ void	add_arg_to_cmd(char *arg, t_cmd *cmd)
 	cmd->full_cmd[i + 1] = NULL;
 }
 
-int	create_file(char ***tkn, t_cmd *curr)
+bool	create_file(t_toktype type, char *filename, t_cmd *curr)
 {
-	char	*redir;
-	char	*filename;
-
-	if (!tkn || !*tkn || !**tkn)
-		return (0);
-	redir = **tkn;
-	(*tkn)++;
-	if (!*tkn || !**tkn)
-		return (0);
-	filename = **tkn;
-	if (!ft_strncmp(redir, ">>", 3))
-		add_outfile(curr, filename, 1);
-	else if (!ft_strncmp(redir, ">", 2))
-		add_outfile(curr, filename, 0);
-	else if (!ft_strncmp(redir, "<<", 3))
-		add_infile(curr, filename, 1);
-	else if (!ft_strncmp(redir, "<", 2))
+	if (!filename || !curr)
+		return (false);
+	if (type == T_REDIR_IN)
 		add_infile(curr, filename, 0);
-	(*tkn)++;
-	return (1);
+	else if (type == T_REDIR_OUT)
+		add_outfile(curr, filename, 0);
+	else if (type == T_APPEND)
+		add_outfile(curr, filename, 1);
+	else if (type == T_HEREDOC)
+		add_infile(curr, filename, 1);
+	else
+		return (false);
+	return (true);
 }
 
 void	add_infile(t_cmd *cmd, char *filename, int heredoc)
