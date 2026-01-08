@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:40 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/08 21:17:40 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/08 21:59:19 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,20 @@ int	is_separator(char c)
 {
 	return (c == ' ' || c == '\t'
 		|| c == '|' || c == '<' || c == '>');
+}
+
+char	*extract_word_part(char **input)
+{
+	int		len;
+	char	*part;
+
+	len = 0;
+	while ((*input)[len] && !is_separator((*input)[len])
+			&& (*input)[len] != '\'' && (*input)[len] != '"')
+		len++;
+	part = ft_substr(*input, 0, len);
+	*input += len;
+	return (part);
 }
 
 static char	*extract_part(char **input, t_quote *quote)
@@ -46,7 +60,7 @@ char	*extract_token(char **input, t_prompt *prompt, int i)
 		return (NULL);
 	while (**input && !is_separator(**input))
 	{
-		part = extract_part(input, prompt->quotes[i]);
+		part = extract_part(input, &prompt->quotes[i]);
 		if (!part)
 			return (free(token), NULL);
 		token = ft_strjoin_free(token, part);
@@ -57,24 +71,24 @@ char	*extract_token(char **input, t_prompt *prompt, int i)
 int	lexer(t_prompt *prompt)
 {
 	int		i;
+	char	*ptr;
 
 	if (!prompt->input)
 		return (0);
+	ptr = prompt->input;
 	i = 0;
-	while ((*prompt).input)
+	while (*ptr)
 	{
-		while ((*prompt).input == ' ' || (*prompt).input == '\t')
-			(*prompt).input++;
-		if (!(*prompt).input)
+		while (*ptr == ' ' || *ptr == '\t')
+			ptr++;
+		if (!*ptr)
 			break ;
-		if ((*prompt).input == '|' || (*prompt).input == '<'
-			|| (*prompt).input == '>')
+		if (*ptr == '|' || *ptr == '<' || *ptr == '>')
 		{
-			extract_sym(prompt->input, prompt, i++);
+			extract_sym(&ptr, prompt, i++);
 			continue ;
 		}
-		else
-			prompt->tkns[i] = extract_token(prompt->input, prompt, i);
+		prompt->tkns[i] = extract_token(&ptr, prompt, i);
 		if (!prompt->tkns[i])
 			return (0);
 		i++;
