@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:25 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/17 09:34:57 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/08 22:05:31 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,12 @@ void	syntax_error(char *token)
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	ft_putstr_fd(token, 2);
 	ft_putendl_fd("'", 2);
+}
+
+int	is_redirection_type(t_toktype type)
+{
+	return (type == T_REDIR_IN
+		|| type == T_REDIR_OUT
+		|| type == T_APPEND
+		|| type == T_HEREDOC);
 }

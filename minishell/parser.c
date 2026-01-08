@@ -6,62 +6,62 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:54 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/17 09:54:20 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/08 22:05:27 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int is_redirection(char *tkn)
+static void	handle_word(t_prompt *prompt, t_cmd *curr, int *i)
 {
-    return (!ft_strcmp(tkn, "<")
-        || !ft_strcmp(tkn, ">")
-        || !ft_strcmp(tkn, "<<")
-        || !ft_strcmp(tkn, ">>"));
+	add_arg_to_cmd(prompt->tkns[*i], curr);
+	(*i)++;
 }
 
-bool	parser(t_prompt *prompt, t_cmd *curr, char **tkn)
+static bool	handle_redirection(t_prompt *prompt, t_cmd *curr, int *i)
 {
-	while (*tkn)
+	if (!prompt->tkns[*i + 1] || prompt->types[*i + 1] != T_WORD)
+		return (syntax_error(prompt->tkns[*i]), false);
+	if (!create_file(prompt->types[*i], prompt->tkns[*i + 1], curr))
+		return (syntax_error(prompt->tkns[*i]), false);
+	*i += 2;
+	return (true);
+}
+
+static bool	handle_pipe(t_prompt *prompt, t_cmd **curr)
+{
+	if (!(*curr)->full_cmd || !(*curr)->full_cmd[0])
+		return (syntax_error("|"), false);
+	(*curr)->next = create_cmd(prompt);
+	*curr = (*curr)->next;
+	return (true);
+}
+
+bool	parser(t_prompt *prompt, t_cmd *curr)
+{
+	int	i;
+
+	i = 0;
+	while (prompt->tkns[i])
 	{
-		if (!ft_strncmp(*tkn, "|", 2))
+		if (prompt->types[i] == T_PIPE)
 		{
-			if (!curr->full_cmd || !curr->full_cmd[0])
-			{
-				syntax_error("|");
-				return (0);
-			}
-			curr->next = create_cmd(prompt);
-			curr = curr->next;
-			tkn++;
+			if (!handle_pipe(prompt, &curr))
+				return (false);
+			i++;
 		}
-		else if (is_redirection(*tkn))
+		else if (is_redirection_type(prompt->types[i]))
 		{
-			if (!*(tkn + 1) || is_redirection(*(tkn + 1))
-                || !ft_strncmp(*(tkn + 1), "|", 2))
-            {
-                syntax_error(*tkn);
-                return (0);
-            }
-			if (!create_file(&tkn, curr))
-			{
-				syntax_error(*tkn);
-				return (0);
-			}
+			if (!handle_redirection(prompt, curr, &i))
+				return (false);
 		}
 		else
-		{
-			add_arg_to_cmd(*tkn, curr);
-			tkn++;
-		}
+			handle_word(prompt, curr, &i);
 	}
 	if (!curr->full_cmd || !curr->full_cmd[0])
-    {
-        syntax_error("newline");
-        return (0);
-    }
+		return (syntax_error("newline"), false);
 	curr->next = NULL;
-	return (1);
+	return (true);
 }
 
 bool	init_parser(t_prompt *prompt)
@@ -72,9 +72,11 @@ bool	init_parser(t_prompt *prompt)
 	if (!prompt || !prompt->tkns)
 		return (0);
 	curr = create_cmd(prompt);
+	if (!curr)
+		return (0);
 	prompt->cmds = curr;
 	tkn = prompt->tkns;
-	if (!parser(prompt, curr, tkn))
+	if (!parser(prompt, curr))
 		return (0);
 	return (1);
 }
