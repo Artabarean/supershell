@@ -52,7 +52,8 @@ SRC	 =	main.c \
 		utils_cd.c \
 		utils_export.c \
 		export.c \
-
+		expand.c \
+		expand_utils.c \
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 
