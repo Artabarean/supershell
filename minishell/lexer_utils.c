@@ -6,82 +6,61 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:36 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/17 10:37:32 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/08 21:17:49 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-char	*extract_dollar(char *result)
+void	extract_tkn(char *ptr, t_prompt *prompt, int index, t_toktype value)
 {
-	char	*tmp;
-	char	*value;
-
-	value = ft_strdup("$");
-	tmp = result;
-	result = ft_strjoin(tmp, value);
-	free(tmp);
-	free(value);
-	return (result);
-}
-
-char	*extract_e_status(char *result)
-{
-	char	*tmp;
-	char	*value;
-
-	value = ft_itoa(g_exit_status);
-	tmp = result;
-	result = ft_strjoin(tmp, value);
-	free(tmp);
-	free(value);
-	return (result);
-}
-
-char	*extract_str(char *result, char *str, int *i, t_env *env)
-{
-	char	*tmp;
-	char	*value;
-	char	*var;
-	int		start;
-
-	start = *i;
-	while (str[*i] && is_valid_var_char(str[*i]))
-		(*i)++;
-	var = ft_substr(str, start, *i - start);
-	value = expand_var(var, env);
-	free(var);
-	if (value)
+	if (value == T_HEREDOC || value == T_APPEND)
 	{
-		tmp = result;
-		result = ft_strjoin(tmp, value);
-		free(tmp);
+		prompt->tkns[index] = ft_substr(*ptr, 0, 2);
+		prompt->types[index] = value;
+		prompt->quotes[index] = Q_NONE;
 	}
-	return (result);
-}
-
-char	*extract_char(char *result, char value)
-{
-	char	c[2];
-	char	*tmp;
-
-	tmp = result;
-	c[0] = value;
-	c[1] = '\0';
-	result = ft_strjoin(tmp, c);
-	free(tmp);
-	return (result);
-}
-
-char	*expand_dollar(char *res, char *str, int *i, t_env *env)
-{
-	(*i)++;
-	if (!str[*i] || str[*i] == ' ' || str[*i] == '"' || str[*i] == '\'')
-		return (extract_dollar(res));
-	if (str[*i] == '?')
+	else
 	{
-		(*i)++;
-		return (extract_e_status(res));
+		prompt->tkns[index] = ft_substr(*ptr, 0, 1);
+		prompt->types[index] = value;
+		prompt->quotes[index] = Q_NONE;
 	}
-	return (extract_str(res, str, i, env));
+}
+
+void	extract_sym(char **ptr, t_prompt *prompt, int index)
+{
+	if (*(*ptr + 1) == '<')
+	{
+		extract_tkn(ptr, prompt, index, T_HEREDOC);
+		(*ptr)++;
+	}
+	else if (*(*ptr + 1) == '>')
+	{
+		extract_tkn(ptr, prompt, index, T_APPEND);
+		(*ptr)++;
+	}
+	else if (*(*ptr) == '>' && *(*ptr + 1) != '>')
+		extract_tkn(ptr, prompt, index, T_REDIR_OUT);
+	else if (*(*ptr) == '<' && *(*ptr + 1) != '<')
+		extract_tkn(ptr, prompt, index, T_REDIR_IN);
+	else
+		extract_tkn(ptr, prompt, index, T_PIPE);
+	(*ptr)++;
+}
+
+char	*extract_word_part(char **input)
+{
+	int		len;
+	char	*part;
+
+	len = 0;
+	while ((*input)[len]
+		&& !is_separator((*input)[len])
+		&& (*input)[len] != '\''
+		&& (*input)[len] != '"')
+		len++;
+	part = ft_substr(*input, 0, len);
+	*input += len;
+	return (part);
 }

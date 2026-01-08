@@ -6,23 +6,11 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:40 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/12/17 11:06:37 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/08 21:17:40 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-void	extract_sym(char **ptr, t_prompt *prompt, int index)
-{
-	if (*(*ptr + 1) == '<' || *(*ptr + 1) == '>')
-	{
-		prompt->tkns[index] = ft_substr(*ptr, 0, 2);
-		(*ptr)++;
-	}
-	else
-		prompt->tkns[index] = ft_substr(*ptr, 0, 1);
-	(*ptr)++;
-}
 
 int	is_separator(char c)
 {
@@ -30,46 +18,38 @@ int	is_separator(char c)
 		|| c == '|' || c == '<' || c == '>');
 }
 
-char	*extract_word_part(char **input)
+static char	*extract_part(char **input, t_quote *quote)
 {
-	int		len;
-	char	*part;
-
-	len = 0;
-	while ((*input)[len]
-		&& !is_separator((*input)[len])
-		&& (*input)[len] != '\''
-		&& (*input)[len] != '"'
-		&& (*input)[len] != '$')
-		len++;
-	part = ft_substr(*input, 0, len);
-	*input += len;
-	return (part);
+	if (**input == '\'')
+	{
+		*quote = Q_SINGLE;
+		return (extract_single_quote(input));
+	}
+	if (**input == '"')
+	{
+		if (*quote != Q_SINGLE)
+			*quote = Q_DOUBLE;
+		return (extract_double_quote(input));
+	}
+	return (extract_word_part(input));
 }
 
-char	*extract_token(char **input, t_env *env)
+char	*extract_token(char **input, t_prompt *prompt, int i)
 {
 	char	*token;
 	char	*part;
-	char	*tmp;
 
+	prompt->quotes[i] = Q_NONE;
+	prompt->types[i] = T_WORD;
 	token = ft_strdup("");
 	if (!token)
 		return (NULL);
 	while (**input && !is_separator(**input))
 	{
-		if (**input == '\'')
-			part = extract_single_quote(input);
-		else if (**input == '"')
-			part = extract_double_quote(input, env);
-		else if (**input == '$')
-			part = expand_or_empty(input, env);
-		else
-			part = extract_word_part(input);
+		part = extract_part(input, prompt->quotes[i]);
 		if (!part)
 			return (free(token), NULL);
-		tmp = token;
-		token = ft_strjoin_free(tmp, part);
+		token = ft_strjoin_free(token, part);
 	}
 	return (token);
 }
@@ -77,24 +57,24 @@ char	*extract_token(char **input, t_env *env)
 int	lexer(t_prompt *prompt)
 {
 	int		i;
-	char	*ptr;
 
 	if (!prompt->input)
 		return (0);
-	ptr = prompt->input;
 	i = 0;
-	while (*ptr)
+	while ((*prompt)->input)
 	{
-		while (*ptr == ' ' || *ptr == '\t')
-			ptr++;
-		if (!*ptr)
+		while ((*prompt).input == ' ' || (*prompt).input == '\t')
+			(*prompt).input++;
+		if (!(*prompt).input)
 			break ;
-		if (*ptr == '|' || *ptr == '<' || *ptr == '>')
+		if ((*prompt).input == '|' || (*prompt).input == '<'
+			|| (*prompt).input == '>')
 		{
-			extract_sym(&ptr, prompt, i++);
+			extract_sym(prompt->input, prompt, i++);
 			continue ;
 		}
-		prompt->tkns[i] = extract_token(&ptr, prompt->enviroment);
+		else
+			prompt->tkns[i] = extract_token(prompt->input, prompt, i);
 		if (!prompt->tkns[i])
 			return (0);
 		i++;
