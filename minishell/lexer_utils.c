@@ -12,102 +12,76 @@
 
 #include "parser.h"
 
-char	*expand_var(char *str, t_env *enviroment)
+char	*extract_dollar(char *result)
 {
-	char	*exp_str;
+	char	*tmp;
+	char	*value;
 
-	if (!str || !*str)
-		return (ft_strdup(""));
-	while (enviroment)
-	{
-		if (!ft_strcmp(str, enviroment->keyword))
-			return (ft_strdup(enviroment->value));
-		enviroment = enviroment->next;
-	}
-	return (NULL);
+	value = ft_strdup("$");
+	tmp = result;
+	result = ft_strjoin(tmp, value);
+	free(tmp);
+	free(value);
+	return (result);
 }
 
-char	*expand(char **input, t_env *enviroment)
+char	*extract_e_status(char *result)
 {
-	int		len;
-	char	*temp;
+	char	*tmp;
+	char	*value;
+
+	value = ft_itoa(g_exit_status);
+	tmp = result;
+	result = ft_strjoin(tmp, value);
+	free(tmp);
+	free(value);
+	return (result);
+}
+
+char	*extract_str(char *result, char *str, int *i, t_env *env)
+{
+	char	*tmp;
+	char	*value;
 	char	*var;
+	int		start;
 
-	len = 0;
-	(*input)++;
-	if (**input == '"' || **input == ' ' || **input == '\'' || !**input)
-		return (ft_strdup("$"));
-	if (**input == '$')
+	start = *i;
+	while (str[*i] && is_valid_var_char(str[*i]))
+		(*i)++;
+	var = ft_substr(str, start, *i - start);
+	value = expand_var(var, env);
+	free(var);
+	if (value)
 	{
-		(*input)++;
-		return (ft_itoa(getpid()));
+		tmp = result;
+		result = ft_strjoin(tmp, value);
+		free(tmp);
 	}
-	if (**input == '?')
-	{
-		(*input)++;
-		return (ft_itoa(g_exit_status));
-	}
-	while (ft_isalnum(**input) || **input == '_')
-	{
-		(*input)++;
-		len++;
-	}
-	temp = ft_substr(*input - len, 0, len);
-	var = expand_var(temp, enviroment);
-	free(temp);
-	if (!var)
-		return (NULL);
-	return (var);
+	return (result);
 }
 
-char	*extract_str_quote(char **input)
+char	*extract_char(char *result, char value)
 {
-	int		len;
-	char	*temp;
+	char	c[2];
+	char	*tmp;
 
-	if (!input || !*input || !**input)
-		return (NULL);
-	len = 0;
-	while ((*input)[len] && (*input)[len] != '$' && (*input)[len] != '"')
-		len++;
-	if (len == 0)
-		return (ft_strdup(""));
-	temp = ft_substr(*input, 0, len);
-	if (!temp)
-		return (NULL);
-	(*input) += len;
-	return (temp);
+	tmp = result;
+	c[0] = value;
+	c[1] = '\0';
+	result = ft_strjoin(tmp, c);
+	free(tmp);
+	return (result);
 }
 
-char	*expand_or_empty(char **input, t_env *env)
+char	*expand_dollar(char *res, char *str, int *i, t_env *env)
 {
-	char	*var;
-
-	var = expand(input, env);
-	if (!var)
-		var = ft_strdup("");
-	return (var);
-}
-
-char	*handle_quote_content(char **input, t_env *env)
-{
-	char	*buffer;
-	char	*var;
-
-	buffer = ft_strdup("");
-	if (!buffer)
-		return (NULL);
-	while (**input && **input != '"')
+	(*i)++;
+	if (!str[*i] || str[*i] == ' ' || str[*i] == '"' || str[*i] == '\'')
+		return (extract_dollar(res));
+	if (str[*i] == '?')
 	{
-		if (**input == '$')
-			var = expand_or_empty(input, env);
-		else
-			var = extract_str_quote(input);
-		if (!var)
-			return (free(buffer), NULL);
-		buffer = ft_strjoin_free(buffer, var);
+		(*i)++;
+		return (extract_e_status(res));
 	}
-	if (**input == '"')
-		(*input)++;
-	return (buffer);
+	return (extract_str(res, str, i, env));
 }
