@@ -28,8 +28,8 @@ void	echo(char **full_cmd, t_env *env)
     while (full_cmd[i])
     {
         arg = full_cmd[i];
-        if (arg[0] == '$')  // creo que no es necesario hacer esto aquí. Ya se expanden las variables en el lexer
-            printf("%s", expand_var(arg, env));
+        //if (arg[0] == '$')  // creo que no es necesario hacer esto aquí. Ya se expanden las variables después del lexer
+        //    printf("%s", expand_var(arg, env));
         else
             printf("%s", arg);
         if (full_cmd[i + 1])
