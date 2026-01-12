@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alex <alex@student.42.fr>                  +#+  +:+       +#+         #
+#    By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/22 11:43:12 by alex              #+#    #+#              #
-#    Updated: 2025/10/22 11:43:14 by alex             ###   ########.fr        #
+#    Updated: 2026/01/12 14:28:48 by medel-ca         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,31 +18,35 @@ SRCS 	= ft_isalnum.c ft_isdigit.c ft_memccpy.c ft_memcpy.c ft_putchar_fd.c\
 		ft_strnstr.c ft_substr.c ft_atoi.c ft_calloc.c ft_isascii.c ft_itoa.c\
 		ft_memcmp.c ft_memset.c ft_putnbr_fd.c ft_strchr.c ft_strlcat.c\
 		ft_strmapi.c ft_strrchr.c ft_tolower.c ft_atof.c ft_strcmp.c
-OBJS 	= ${SRCS:.c=.o}
 SRCS_B	= ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c\
 		ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
-OBJS_B	= ${SRCS_B:.c=.o}
+OBJS	= $(patsubst %.c,obj/%.o,$(SRCS))
+OBJS_B	= $(patsubst %.c,obj/%.o,$(SRCS_B))
+
 HEADER	= ./
 
-CC 		= gcc
+CC 		= cc
 CFLAGS 	= -Wall -Wextra -Werror
 
-.c.o:		%.o : %.c
-					@${CC} ${CFLAGS} -I ${HEADER} -c $< -o $(<:.c=.o)
+all: obj ${NAME}
 
-$(NAME):	${OBJS}
-					@ar rc ${NAME} ${OBJS}
+obj:
+	@mkdir -p obj
 
-all: 		${NAME}
+obj/%.o: %.c
+	@${CC} ${CFLAGS} -I ${HEADER} -c $< -o $@
 
-bonus:		${OBJS} ${OBJS_B}
-					@ar rc ${NAME} ${OBJS} ${OBJS_B}
+$(NAME): ${OBJS}
+	@ar rcs ${NAME} ${OBJS}
+
+bonus: obj ${OBJS} ${OBJS_B}
+	@ar rcs ${NAME} ${OBJS} ${OBJS_B}
 
 clean:
-					@rm -f ${OBJS} ${OBJS_B}
+	@rm -rf obj
 
 fclean: 	clean
-					@rm -f $(NAME)
+	@rm -f $(NAME)
 
 re:			fclean all
 
