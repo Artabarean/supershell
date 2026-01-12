@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 11:13:12 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 15:12:39 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	pfd_alloc(t_prompt *prompt, int n_cmds)
 	int	i;
 
 	i = 0;
-	prompt->pfd = malloc(sizeof(int[2]) * (n_cmds - 1));
+	prompt->pfd = malloc(sizeof(int *) * (n_cmds - 1));
 	if (!prompt->pfd)
 		error("Malloc failed");
 	prompt->error_msg = malloc(sizeof(char *) * n_cmds);
@@ -58,8 +58,6 @@ void	closepfds(int n_cmds, t_prompt *prompt)
 
 void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 {
-	int	j;
-
 	if (i > 0)
 		dup2(prompt->pfd[i - 1][0], 0);
 	if (i < n_cmds - 1)

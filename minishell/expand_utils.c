@@ -44,6 +44,7 @@ char	*extract_str(char *result, char *str, int *i, t_env *env)
 		tmp = result;
 		result = ft_strjoin(tmp, value);
 		free(tmp);
+		free(value);
 	}
 	return (result);
 }

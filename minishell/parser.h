@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 11:59:15 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:54:49 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@
 # define BOLD	"\033[1m"
 # define RESET   "\033[0m"
 
-# define MAX_TOKENS	100
-
 //Valores para controlar las señales
 # define PROMPT_RESTART 1 // ctrl+C o ctrl+\ esperando prompt
 # define CHILD_EXIT 2 // ctrl+C cierra proceso hijo o ctrl+\ cierra con core dumped
@@ -45,32 +43,38 @@
 
 extern int	g_exit_status;
 
-typedef enum e_redir_type
+typedef enum e_quote
 {
-    R_OUT,
-    R_APPEND,
-    R_IN,
-    R_HEREDOC
-}   t_redir_type;
+	Q_NONE,
+	Q_SINGLE,
+	Q_DOUBLE
+}	t_quote;
+
+typedef enum e_toktype
+{
+	T_WORD,
+	T_PIPE,
+	T_REDIR_IN,
+	T_REDIR_OUT,
+	T_APPEND,
+	T_HEREDOC
+}	t_toktype;
 
 typedef struct s_redir
 {
-    t_redir_type type;
-    char         *file;
-    struct s_redir *next;
-}   t_redir;
+	t_toktype		type;
+	char			*file;
+	struct s_redir	*next;
+}	t_redir;
 
 // Estructura para cada comando
 typedef struct s_cmd
 {
-	char			**full_cmd;	//cmd, argumentos, opciones...
+	char			**full_cmd;
 	char			*full_path;
-	char			**infile;
-	char			**outfile;
-	char			**heredoc;
 	char			**tmp_doc;
-	char			**app_doc;
-	int				append;
+	int				max_tkns;
+	t_redir			*redir;
 	struct s_cmd	*next;
 }			t_cmd;
 
@@ -82,32 +86,15 @@ typedef struct s_env
 	char			**envp;
 }			t_env;
 
-typedef enum e_quote
-{
-    Q_NONE,
-    Q_SINGLE,
-    Q_DOUBLE
-} t_quote;
-
-typedef enum e_toktype
-{
-    T_WORD,
-    T_PIPE,
-    T_REDIR_IN,
-    T_REDIR_OUT,
-    T_APPEND,
-    T_HEREDOC
-} t_toktype;
-
 // Estructura general
 typedef struct s_prompt
 {
-	t_cmd		*cmds;	//lista de nodos de la otra estructura con los comandos ya separados
+	t_cmd		*cmds;
 	char		*input;
 	char		**tkns;
+	int			tkns_nbr;
 	t_toktype	*types;
 	t_quote		*quotes;
-	int			tkn_count;
 	char		**error_msg;
 	int			(*pfd)[2];
 	t_env		*enviroment;
@@ -120,21 +107,20 @@ typedef struct s_prompt
 void	fill_env(char *env, t_env *e);
 t_env	*new_env(void);
 void	init_env(t_prompt *prompt, char **env);
+char	*get_user(t_prompt *prompt);
 
 //Init
 void	init_tkns(t_prompt *prompt);
 void	init_prompt(t_prompt *prompt, char **envp);
-t_cmd	*new_cmd(void);
 t_cmd	*create_cmd(t_prompt *prompt);
+int		count_input(char *input);
 
 //Lexer utils
-void	extract_tkn(char **ptr, t_prompt *prompt, int index, t_toktype value);
 void	extract_sym(char **ptr, t_prompt *prompt, int index);
 
 //Lexer utils 2
 char	*extract_single_quote(char **input);
 char	*extract_double_quote(char **input);
-char	*expand_var(char *str, t_env *enviroment);
 
 //lexer
 int		lexer(t_prompt *prompt);
@@ -151,11 +137,9 @@ void	syntax_error(char *token);
 int		is_redirection_type(t_toktype type);
 
 //parser utils
-void	new_node(t_cmd *current, int *index, t_prompt *prompt);
 void	add_arg_to_cmd(char *arg, t_cmd *cmd);
 bool	create_file(t_toktype type, char *filename, t_cmd *curr);
-void	add_infile(t_cmd *cmd, char *filename, int heredoc);
-void	add_outfile(t_cmd *cmd, char *filename, int append);
+void	add_file(t_cmd *cmd, char *filename, t_toktype type);
 
 //parser
 bool	parser(t_prompt *prompt, t_cmd *curr);
@@ -165,6 +149,7 @@ bool	init_parser(t_prompt *prompt);
 void	expand_tkn(t_prompt *prompt);
 char	*expand(char *str, t_env *env);
 int		is_valid_var_char(char c);
+char	*expand_var(char *str, t_env *enviroment);
 
 //expand utils
 char	*extract_dollar(char *result);
@@ -175,8 +160,7 @@ char	*expand_dollar(char *res, char *str, int *i, t_env *env);
 
 //clean
 void	free_all(t_prompt *prompt);
-void	free_lst(t_cmd **lst);
-void	del(t_cmd *tmp);
+void	free_cmds(t_cmd **lst);
 void	free_doble_ptr(char **ptr);
 void	free_env(t_env *e);
 
@@ -217,9 +201,9 @@ void	find_outfile(t_cmd *cmd, int i, int	*fileout);
 void	find_infile(t_cmd *cmd, int i, int *filein);
 void	check_command(t_cmd *cmd, t_prompt *prompt);
 
-void	child_process1(t_cmd *curr_node , int fin, int fout, t_prompt *prompt);
-void	child_processmid(t_cmd *curr_node , t_prompt *prompt, int i);
-void	child_processend(t_cmd *curr_node , int fout, t_prompt *prompt, int i);
+void	child_process1(t_cmd *curr_node, int fin, int fout, t_prompt *prompt);
+void	child_processmid(t_cmd *curr_node, t_prompt *prompt, int i);
+void	child_processend(t_cmd *curr_node, int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);
 int		find_path(t_cmd *cmd, t_prompt *prompt, int i);
 void	closepfds(int n_cmds, t_prompt *prompt);
@@ -231,10 +215,10 @@ void	create_pipes(t_prompt *prompt, int n_cmds);
 void	check_error(t_prompt *prompt, int i);
 
 //Here_doc
-int  	process_heredocs(t_cmd *cmd, t_env *env);
+int		process_heredocs(t_cmd *cmd, t_env *env);
 int		count_strs(char	**str);
 int		get_last_heredoc(char **tmp_doc);
-void 	cleanup_heredoc_files(t_cmd *cmds);
+void	cleanup_heredoc_files(t_cmd *cmds);
 void	here_doc_check(char **here_doc, char **heredoc, int hd_fd, int *fin);
 
 //Built-ins
@@ -242,20 +226,19 @@ int		is_builtin(t_cmd *cmd);
 int		single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int filein, int fileout);
 int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void	run_builtin_son(t_cmd *cmd, int fin, int fout);
-int 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
-int 	checkfather_builtin(t_cmd *cmd);
-int 	exit_builtin(t_cmd *cmd, t_prompt *prompt);
-int		checkforexit(t_cmd *cmd);
-int 	builtin_unset(char **args, t_prompt *prompt);
-int 	is_valid_identifier(char *s);
+int		run_builtin_child(t_cmd *cmd, t_prompt *prompt);
+int		checkfather_builtin(t_cmd *cmd);
+int		exit_builtin(t_cmd *cmd, t_prompt *prompt);
+int		builtin_unset(char **args, t_prompt *prompt);
+int		is_valid_identifier(char *s);
 char	*get_env_value(t_env *env, const char *name);
-int 	is_valid_val(const char *s);
+int		is_valid_val(const char *s);
 t_env	*env_find(t_env *env, char *key);
 void	env_add_or_update(t_prompt *prompt, char *arg);
 int		env_size(t_env *env);
 char	**env_to_array(t_env *env);
 int		do_path(t_env *env, char *path, char *selection);
-int 	env(t_prompt *prompt, char **args);
+int		env(t_prompt *prompt, char **args);
 int		pwd(void);
 void	echo(char **full_cmd, t_env *env);
 int		cd(char **args, t_prompt *prompt);

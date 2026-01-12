@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:49:17 by codespace         #+#    #+#             */
-/*   Updated: 2025/12/18 12:39:06 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:05:25 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	env_add_or_update(t_prompt *prompt, char *arg)
 
 int	env_size(t_env *env)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (env && ++i)
 		env = env->next;
 	return (i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <artabarean@student.42.fr>        +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/17 08:54:06 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 14:08:54 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,7 @@ void	pipex(t_prompt prompt)
 {
 	t_cmd	*current_node;
 	int		last_status;
-	int		fileout;
 
-	fileout = -1;
 	last_status = 0;
 	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
 	current_node = prompt.cmds;

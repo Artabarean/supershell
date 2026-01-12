@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:49:17 by codespace         #+#    #+#             */
-/*   Updated: 2025/11/14 10:46:24 by codespace        ###   ########.fr       */
+/*   Updated: 2026/01/12 16:24:01 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	export_builtin(t_prompt *prompt, t_cmd *cmd)
 	{
 		print_export(prompt);
 		prompt->exit_stat = 0;
-		return;
+		return ;
 	}
 	i = 1;
 	while (cmd->full_cmd[i])

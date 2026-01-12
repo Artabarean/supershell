@@ -6,36 +6,19 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:50 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/08 21:22:50 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:50:57 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-void	new_node(t_cmd *current, int *index, t_prompt *prompt)
-{
-	current->full_cmd[*index] = NULL;
-	current = create_cmd(prompt);
-	if (!current)
-	{
-		free_all(prompt);
-		exit(EXIT_FAILURE);
-	}
-	*index = 0;
-}
 
 void	add_arg_to_cmd(char *arg, t_cmd *cmd)
 {
 	int	i;
 
 	i = 0;
-	while (i < MAX_TOKENS - 1 && cmd->full_cmd[i])
+	while (cmd->full_cmd[i])
 		i++;
-	if (i == MAX_TOKENS - 1)
-	{
-		printf("Too many arguments\n");
-		return ;
-	}
 	cmd->full_cmd[i] = ft_strdup(arg);
 	cmd->full_cmd[i + 1] = NULL;
 }
@@ -44,58 +27,30 @@ bool	create_file(t_toktype type, char *filename, t_cmd *curr)
 {
 	if (!filename || !curr)
 		return (false);
-	if (type == T_REDIR_IN)
-		add_infile(curr, filename, 0);
-	else if (type == T_REDIR_OUT)
-		add_outfile(curr, filename, 0);
-	else if (type == T_APPEND)
-		add_outfile(curr, filename, 1);
-	else if (type == T_HEREDOC)
-		add_infile(curr, filename, 1);
-	else
+	if (!is_redirection_type(type))
 		return (false);
+	add_file(curr, filename, type);
 	return (true);
 }
 
-void	add_infile(t_cmd *cmd, char *filename, int heredoc)
+void	add_file(t_cmd *cmd, char *filename, t_toktype type)
 {
-	int	i;
+	t_redir	*curr;
+	t_redir	*new;
 
-	i = 0;
-	if (!cmd || !filename)
+	new = malloc(sizeof(t_redir));
+	if (!new)
 		return ;
-	if (heredoc)
+	new->file = filename;
+	new->type = type;
+	new->next = NULL;
+	if (!cmd->redir)
 	{
-		while (cmd->heredoc[i])
-			i++;
-		cmd->heredoc[i] = ft_strdup(filename);
-	}
-	else
-	{
-		while (cmd->infile[i])
-			i++;
-		cmd->infile[i] = ft_strdup(filename);
-	}
-}
-
-void	add_outfile(t_cmd *cmd, char *filename, int append)
-{
-	int	i;
-
-	i = 0;
-	if (!cmd || !filename)
+		cmd->redir = new;
 		return ;
-	if (append)
-	{
-		while (cmd->app_doc[i])
-			i++;
-		cmd->app_doc[i] = ft_strdup(filename);
-		cmd->append = 1;
 	}
-	else
-	{
-		while (cmd->outfile[i])
-			i++;
-		cmd->outfile[i] = ft_strdup(filename);
-	}
+	curr = cmd->redir;
+	while (curr->next)
+		curr = curr->next;
+	curr->next = new;
 }

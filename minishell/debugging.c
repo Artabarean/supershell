@@ -14,9 +14,27 @@ void	print_tokens(char **tokens)
 	printf(GREEN"---------------\n"RESET);
 }
 
+const char	*toktype_to_str(t_toktype type)
+{
+	if (type == T_WORD)
+		return ("WORD");
+	if (type == T_PIPE)
+		return ("PIPE");
+	if (type == T_REDIR_IN)
+		return ("REDIR_IN");
+	if (type == T_REDIR_OUT)
+		return ("REDIR_OUT");
+	if (type == T_APPEND)
+		return ("APPEND");
+	if (type == T_HEREDOC)
+		return ("HEREDOC");
+	return ("UNKNOWN");
+}
+
 void	print_cmds(t_cmd *cmds)
 {
 	int i;
+	t_redir *redir;
 	while (cmds)
 	{
 		printf(GREEN"=== Comando ===\n"RESET);
@@ -31,49 +49,15 @@ void	print_cmds(t_cmd *cmds)
 			}
 		}
 		printf("\n");
-		printf("Infiles: ");
-		if (cmds->infile)
+		printf("Redirections: \n");
+		redir = cmds->redir;
+		while (redir)
 		{
-			i = 0;
-			while (cmds->infile[i])
-			{
-				printf("\"%s\" ", cmds->infile[i]);
-				i++;
-			}
+			printf("\"%s\" ", redir->file);
+			printf("\"%s\" ", toktype_to_str(redir->type));
+			printf("\n");
+			redir = redir->next;
 		}
-		printf("\n");
-		printf("Heredoc: ");
-		if (cmds->heredoc)
-		{
-			i = 0;
-			while (cmds->heredoc[i])
-			{
-				printf("\"%s\" ", cmds->heredoc[i]);
-				i++;
-			}
-		}
-		printf("\n");
-		printf("Outfiles: ");
-		if (cmds->outfile)
-		{
-			i = 0;
-			while (cmds->outfile[i])
-			{
-				printf("\"%s\" ", cmds->outfile[i]);
-				i++;
-			}
-		}
-		printf("\n");
-		printf("Append: ");
-		if (cmds->tmp_doc)
-		{
-			i = 0;
-			while (cmds->tmp_doc[i])
-			{
-				printf("\"%s\" ", cmds->tmp_doc[i]);
-				i++;
-			}
-		}printf("\n");
 		printf("\n");
 		printf(GREEN"---------------\n"RESET);
 		cmds = cmds->next;

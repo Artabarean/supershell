@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                          :::      ::::::::   #
-#   Makefile                                             :+:      :+:    :+:   #
-#                                                      +:+ +:+         +:+     #
-#   By: atabarea <artabarean@student.42.fr>          +#+  +:+       +#+        #
-#                                                  +#+#+#+#+#+   +#+           #
-#   Created: 2025/11/14 10:40:04 by atabarea            #+#    #+#             #
-#   Updated: 2025/12/17 10:27:09 by atabarea           ###   ########.fr       #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
+#    Updated: 2026/01/12 14:37:35 by medel-ca         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,14 +53,17 @@ SRC	 =	main.c \
 		utils_export.c \
 		export.c \
 		expand.c \
-		expand_utils.c \
+		expand_utils.c
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 
 all: $(LFT) obj $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) -o $@ $^ $(LIB)
+	@echo "$(CC) $(CFLAGS) -o $@"
+	@printf "%s\n" $(OBJS)
+	@echo "$(LIB)"
+	@$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIB) 
 
 $(LFT):
 	@echo " [ .. ] | Compiling libft.."
@@ -71,7 +74,7 @@ obj:
 	@mkdir -p obj
 
 obj/%.o: %.c
-	$(CC) $(FLAGS) $(INC) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 clean:
 	@make -s clean -C ../execution/libft

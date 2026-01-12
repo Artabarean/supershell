@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:29 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/10/30 19:59:30 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:49:50 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,19 @@ void	get_user_input(t_prompt *prompt)
 {
 	char	*user;
 	char	*temp;
-	t_env	*env;
 
-	env = prompt->enviroment;
-	temp = NULL;
 	if (!prompt)
 		exit(EXIT_FAILURE);
-	while (env && !temp)
-	{
-		if (ft_strnstr(env->keyword, "USER", 4))
-			temp = ft_strdup(env->value);
-		env = env->next;
-	}
-	if (!temp)
-		temp = ft_strdup("guest");
+	temp = get_user(prompt);
 	user = ft_strjoin(temp, "@minishell: ");
 	set_signal(PROMPT_RESTART, NULL);
 	prompt->input = readline(user);
 	if (prompt->input && not_only_spaces(prompt->input))
+	{
 		add_history(prompt->input);
+		prompt->tkns_nbr = count_input(prompt->input);
+		init_tkns(prompt);
+	}
 	free(user);
 	free(temp);
 }
@@ -44,10 +38,11 @@ int	is_valid_input(char *input)
 	int	end;
 
 	input = ft_strtrim(input, " \t\r\n\v");
+	end = 0;
 	if (!input[0] || input[0] == '|')
 	{
 		if (input[0] == '|')
-			perror("Error de sintaxis");
+			syntax_error(&input[end]);
 		free(input);
 		return (0);
 	}
@@ -55,9 +50,9 @@ int	is_valid_input(char *input)
 	if (input[end] == '|' || input[end] == '<' || input[end] == '>')
 	{
 		if (input[end] == '|')
-			perror("Error de sintaxis");
+			syntax_error(&input[end]);
 		else if ((input[end] == '<' || input[end] == '>'))
-			perror("Error de redirección");
+			syntax_error(&input[end]);
 		free(input);
 		return (0);
 	}
