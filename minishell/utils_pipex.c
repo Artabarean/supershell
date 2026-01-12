@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <artabarean@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/17 10:28:52 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:15:02 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ int pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 		waitpid(prompt->pid[i], &wstatus, 0);
 		if (checkfather_builtin(curr_nde) == 0)
 		{
-        	if (curr_nde->next == NULL)
+			if (curr_nde->next == NULL)
         	{
-            	if (WIFEXITED(wstatus))
+				if (checkforexit(curr_nde) == 1)
+					last_status = 1;
+            	else if (WIFEXITED(wstatus))
                 	last_status = WEXITSTATUS(wstatus);
             	else if (WIFSIGNALED(wstatus))
                 	last_status = 128 + WTERMSIG(wstatus);

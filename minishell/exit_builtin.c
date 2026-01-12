@@ -6,11 +6,21 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 14:05:50 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/25 11:57:08 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:59:24 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+int	checkforexit(t_cmd *cmd)
+{
+	if (!ft_strcmp(cmd->full_cmd[0], "exit"))
+	{
+		if (cmd->full_cmd[2])
+			return (1);
+	}
+	return (0);
+}
 
 static bool	is_numeric(const char *s)
 {
@@ -80,10 +90,7 @@ int	exit_builtin(t_cmd *cmd, t_prompt *prompt)
 		exit(2);
 	}
 	if (cmd->full_cmd[2])
-	{
-		printf("minishell: exit: too many arguments\n");
-		return (1);
-	}
+		return (printf("Minishell: exit: too many arguments\n"), 1);
 	free_all(prompt);
 	exit((unsigned char)code);
 }

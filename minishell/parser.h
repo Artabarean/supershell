@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/08 22:14:16 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:59:15 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,7 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout);
 int 	run_builtin_child(t_cmd *cmd, t_prompt *prompt);
 int 	checkfather_builtin(t_cmd *cmd);
 int 	exit_builtin(t_cmd *cmd, t_prompt *prompt);
+int		checkforexit(t_cmd *cmd);
 int 	builtin_unset(char **args, t_prompt *prompt);
 int 	is_valid_identifier(char *s);
 char	*get_env_value(t_env *env, const char *name);

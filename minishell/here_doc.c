@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2025/12/03 14:30:01 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 12:16:23 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	get_last_heredoc(char **tmp_doc)
 	{
 		while (tmp_doc[i])
 			i++;
-		printf("%s\n", tmp_doc[i - 1]);
 		fd = open(tmp_doc[i - 1], O_RDONLY);
 		if (fd == -1)
 			return (-1);
