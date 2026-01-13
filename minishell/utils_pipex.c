@@ -78,22 +78,17 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 
 void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 {
-	int		i;
-
-	i = 0;
-	if (cmd->redir->type == T_REDIR_OUT || cmd->redir->type == T_APPEND)
+	while(cmd->redir->next != NULL)
 	{
-		find_outfile(cmd, i, fileout);
-		i++;
-	}
-	i = 0;
-	if (cmd->redir->type == T_REDIR_IN)
-	{
-		while (cmd->redir)
+		if (cmd->redir->type == T_REDIR_OUT || cmd->redir->type == T_APPEND)
 		{
-			find_infile(cmd, i, filein);
-			i++;
+			find_outfile(cmd, fileout); 
 		}
+		if (cmd->redir->type == T_REDIR_IN)
+		{
+			find_infile(cmd, filein);
+		}
+		cmd->redir = cmd->redir->next;
 	}
 	check_command(cmd, prompt);
 }

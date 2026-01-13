@@ -12,9 +12,8 @@
 
 #include "parser.h"
 
-void	find_outfile(t_cmd *cmd, int i, int	*fileout)
+void	find_outfile(t_cmd *cmd, int *fileout)
 {
-	(void)i;
 	if (cmd->redir->type == T_APPEND)
 		*fileout = open_file(cmd->redir->file, 0);
 	else
@@ -26,9 +25,8 @@ void	find_outfile(t_cmd *cmd, int i, int	*fileout)
 	}
 }
 
-void	find_infile(t_cmd *cmd, int i, int *filein)
+void	find_infile(t_cmd *cmd, int *filein)
 {
-	(void)i;
 	*filein = open_file(cmd->redir->file, 2);
 	if (cmd->redir->next != NULL && cmd->next != NULL)
 	{

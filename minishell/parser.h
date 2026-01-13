@@ -197,8 +197,8 @@ int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
 void	execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt *prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
-void	find_outfile(t_cmd *cmd, int i, int	*fileout);
-void	find_infile(t_cmd *cmd, int i, int *filein);
+void	find_outfile(t_cmd *cmd, int *fileout);
+void	find_infile(t_cmd *cmd, int *filein);
 void	check_command(t_cmd *cmd, t_prompt *prompt);
 
 void	child_process1(t_cmd *curr_node, int fin, int fout, t_prompt *prompt);

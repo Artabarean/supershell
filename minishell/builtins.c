@@ -45,13 +45,13 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 	{
 		while (copy->redir->type == T_REDIR_OUT)
 		{
-			find_outfile(copy, i, &fout);
+			find_outfile(copy, &fout);
 			i++;
 		}
 		i = 0;
 		while (copy->redir->type == T_REDIR_IN)
 		{
-			find_infile(copy, i, &fin);
+			find_infile(copy, &fin);
 			i++;
 		}
 		i = 0;
