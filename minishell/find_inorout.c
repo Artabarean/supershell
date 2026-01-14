@@ -14,23 +14,37 @@
 
 void	find_outfile(t_cmd *cmd, int *fileout)
 {
-	if (cmd->redir->type == T_APPEND)
-		*fileout = open_file(cmd->redir->file, 0);
+	t_redir *copyrdr;
+
+	copyrdr = cmd->redir;
+	if (copyrdr->type == T_APPEND)
+		*fileout = open_file(copyrdr->file, 0);
 	else
-		*fileout = open_file(cmd->redir->file, 1);
-	if (cmd->redir->next != NULL && cmd->next != NULL)
+		*fileout = open_file(copyrdr->file, 1);
+	if (copyrdr->next != NULL)
 	{
-		close(*fileout);
-		*fileout = -1;
+		copyrdr = copyrdr->next;
+		if (copyrdr->type == T_REDIR_OUT && cmd->next != NULL)
+		{
+			close(*fileout);
+			*fileout = -1;
+		}
 	}
 }
 
 void	find_infile(t_cmd *cmd, int *filein)
 {
-	*filein = open_file(cmd->redir->file, 2);
-	if (cmd->redir->next != NULL && cmd->next != NULL)
+	t_redir	*copyrdr;
+
+	copyrdr = cmd->redir;
+	*filein = open_file(copyrdr->file, 2);
+	if (copyrdr->next != NULL)
 	{
-		close(*filein);
-		*filein = -1;
+		copyrdr = copyrdr->next;
+		if (copyrdr->type == T_REDIR_IN && cmd->next != NULL)
+		{
+			close(*filein);
+			*filein = -1;
+		}
 	}
 }

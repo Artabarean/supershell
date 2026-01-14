@@ -78,7 +78,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 
 void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 {
-	while(cmd->redir->next != NULL)
+	while(cmd->redir != NULL)
 	{
 		if (cmd->redir->type == T_REDIR_OUT || cmd->redir->type == T_APPEND)
 		{
