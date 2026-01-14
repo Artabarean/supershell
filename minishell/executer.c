@@ -17,6 +17,7 @@ void	executer(t_prompt *prompt)
 	t_cmd	*cmd;
 	int		last_status;
 
+	prompt->exit_stat = 0;
 	prompt->pip_exec = 0;
 	cmd = prompt->cmds;
 	last_status = 0;

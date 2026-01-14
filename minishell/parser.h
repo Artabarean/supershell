@@ -228,7 +228,7 @@ int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void	run_builtin_son(t_cmd *cmd, int fin, int fout);
 int		run_builtin_child(t_cmd *cmd, t_prompt *prompt);
 int		checkfather_builtin(t_cmd *cmd);
-int		exit_builtin(t_cmd *cmd, t_prompt *prompt);
+void	exit_builtin(t_cmd *cmd, t_prompt *prompt);
 int		builtin_unset(char **args, t_prompt *prompt);
 int		is_valid_identifier(char *s);
 char	*get_env_value(t_env *env, const char *name);

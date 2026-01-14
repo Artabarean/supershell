@@ -60,6 +60,7 @@ void	export_builtin(t_prompt *prompt, t_cmd *cmd)
 {
 	int	i;
 
+	printf("hola\n");
 	if (!cmd->full_cmd[1])
 	{
 		print_export(prompt);

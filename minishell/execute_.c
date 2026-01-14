@@ -104,9 +104,11 @@ void	execute_(t_cmd *cmd, t_prompt *prompt)
 	{
 		forker(prompt, i);
 		if (prompt->pid[i] == 0)
+		{
 			child_process(cmd, prompt, i, n_cmds);
-		find_path(cmd, prompt, i);
-		check_error(prompt, i);
+			find_path(cmd, prompt, i);
+			check_error(prompt, i);
+		}
 		i++;
 		cmd = cmd->next;
 	}

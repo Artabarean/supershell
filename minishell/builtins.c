@@ -18,11 +18,11 @@ int	builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt)
 	{
 		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 		{
-			if (exit_builtin(cmd, prompt) == 1)
-				return (1);
+			exit_builtin(cmd, prompt);
+			return (1);
 		}
-		//else if (!ft_strcmp(cmd->full_cmd[0], "export"))
-			//export(cmd->full_cmd);
+		else if (!ft_strcmp(cmd->full_cmd[0], "export"))
+			export_builtin(prompt ,cmd);
 		else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
 			return (builtin_unset(cmd->full_cmd, prompt));
 		else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
@@ -63,7 +63,6 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 //	No estás teniendo encuenta lo que devuelven las funciones para cambiar el g_exit_status?
 //	if(exit_builtin(cmd, prompt) == 1)
 //		perror...
-
 int	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
 	if (n_cmds == 1 && cmd->full_cmd[0] != NULL)
@@ -85,12 +84,12 @@ int	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 			run_builtin_son(cmd, fin, fout);
 			exit(builtin_unset(cmd->full_cmd, prompt));
 		}
-		// if (!ft_strcmp(cmd->full_cmd[0], "export"))
-		// {
-		// 	run_builtin_son(cmd, fin, fout);
-		// 	//	 export(cmd->full_cmd);
-		// 	return (1);
-		// }
+		if (!ft_strcmp(cmd->full_cmd[0], "export"))
+		{
+			run_builtin_son(cmd, fin, fout);
+			export_builtin(prompt ,cmd);
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -124,16 +123,16 @@ int	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 		pwd();
 	else if (!ft_strcmp(cmd->full_cmd[0], "env"))
 		env(prompt, cmd->full_cmd);
-	// else if (!ft_strcmp(cmd->full_cmd[0], "export"))
-	//	 export(cmd->full_cmd);
+	else if (!ft_strcmp(cmd->full_cmd[0], "export"))
+		export_builtin(prompt ,cmd);
 	else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
 		exit (builtin_unset(cmd->full_cmd, prompt));
 	else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
 		cd(cmd->full_cmd, prompt);
 	else if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 	{
-		if (exit_builtin(cmd, prompt) == 1)
-			return (1);
+		exit_builtin(cmd, prompt);
+		return (1);
 	}
 	return (0);
 }

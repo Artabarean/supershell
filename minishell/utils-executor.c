@@ -19,13 +19,16 @@ void	check_command(t_cmd *cmd, t_prompt *prompt)
 	copy = cmd;
 	while (copy)
 	{
-		if (copy->full_cmd[0] != NULL)
+		if (is_builtin(copy) == 0)
 		{
-			if (!ft_strchr(copy->full_cmd[0], '/'))
-				find_path_no_print(copy, prompt);
+			if (copy->full_cmd[0] != NULL)
+			{
+				if (!ft_strchr(copy->full_cmd[0], '/'))
+					find_path_no_print(copy, prompt);
+			}
+			if (copy->full_cmd[0] == NULL)
+				exit(0);
 		}
-		if (copy->full_cmd[0] == NULL)
-			exit(0);
 		copy = copy->next;
 	}
 }
