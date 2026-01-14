@@ -68,7 +68,7 @@ int	cd(char **args, t_prompt *prompt)
 		return (1);
 	if (args[2])
 	{
-		ft_putendl_fd ("-minishell: cd: too many arguments", 1);
+		ft_putendl_fd (" too many arguments", 2);
 		return (1);
 	}
 	if (!args[1] || !args[1][0])
