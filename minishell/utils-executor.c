@@ -36,13 +36,22 @@ void	error(char *s)
 	perror(s);
 	exit(EXIT_FAILURE);
 }
+//la variable prompt->enviroment->envp no está iniciada en ningún sitio
+//creo que es mejor no crearla al iniciar el enviroment porque puede cambiar al hacer EXPORT
+//se puede crear un char **envp en esta función y liberarlo después de execve
 
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 {
+	char **envp;
+	
 	if (!full_path)
 		exit(EXIT_FAILURE);
+		envp = env_to_envp(prompt->enviroment);
 	if (execve(full_path, full_cmd, prompt->enviroment->envp) == -1)
+	{
+		free_double_ptr(envp);
 		error(full_cmd[0]);
+	}
 }
 
 int	get_next_line(char **line)
