@@ -12,6 +12,7 @@
 
 #include "parser.h"
 
+//a esta función no le falta un printf al final?
 void	printerr(t_prompt *prompt, char *full_cmd, int j)
 {
 	char	*tmp;
