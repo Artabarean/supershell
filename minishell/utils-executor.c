@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "parser.h"
-
+//No compruebas lo que devuelve find_path_no_print
+//si no encuentra el comando no imprime command not found
 void	check_command(t_cmd *cmd, t_prompt *prompt)
 {
 	t_cmd	*copy;
