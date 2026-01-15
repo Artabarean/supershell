@@ -72,23 +72,13 @@ void	free_env(t_env *env)
 
 	while (env)
 	{
-		tmp = env->next;
+		tmp = env;
 		if (env->keyword)
 			free(env->keyword);
 		if (env->value)
 			free(env->value);
-		if (env->envp)
-		{
-			i = 0;
-			while (env->envp[i])
-			{
-				free(env->envp[i]);
-				i++;
-			}
-			free(env->envp);
-		}
-		free(env);
-		env = tmp;
+		env = tmp->next;
+		free(tmp);
 	}
 }
 
