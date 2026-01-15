@@ -22,9 +22,15 @@ int	builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt)
 			return (1);
 		}
 		else if (!ft_strcmp(cmd->full_cmd[0], "export"))
+		{
 			export_builtin(prompt ,cmd);
+			return (1);
+		}
 		else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
-			return (builtin_unset(cmd->full_cmd, prompt));
+		{
+			builtin_unset(cmd->full_cmd, prompt);
+			return (1);
+		}
 		else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
 		{
 			cd(cmd->full_cmd, prompt);

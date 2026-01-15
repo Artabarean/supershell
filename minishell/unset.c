@@ -12,36 +12,20 @@
 
 #include "parser.h"
 
-void	erase_in_env(t_prompt *prompt, char *name)
-{
-	int	i;
+// void	erase_in_env(t_prompt *prompt, char *name)
+// {
+// 	int	i;
 
-	i = 0;
-	while (prompt->enviroment->envp[i])
-	{
-		if (!ft_strcmp(prompt->enviroment->envp[i], name))
-		{
-			prompt->enviroment->envp[i] = NULL;
-		}
-		i++;
-	}
-}
-
-int	is_valid_val(const char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s || (!ft_isalpha(s[0]) && s[0] != '_'))
-		return (0);
-	while (s[i])
-	{
-		if (!ft_isalnum(s[i]) && s[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
+// 	i = 0;
+// 	while (prompt->enviroment->envp[i])
+// 	{
+// 		if (!ft_strcmp(prompt->enviroment->envp[i], name))
+// 		{
+// 			prompt->enviroment->envp[i] = NULL;
+// 		}
+// 		i++;
+// 	}
+// }
 
 void	unset_env(t_prompt *prompt, char *name)
 {
@@ -50,7 +34,6 @@ void	unset_env(t_prompt *prompt, char *name)
 
 	tmp = prompt->enviroment;
 	prev = NULL;
-	erase_in_env(prompt, name);
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->keyword, name))
@@ -73,9 +56,9 @@ int	builtin_unset(char **args, t_prompt *prompt)
 {
 	int	i;
 	int	status;
-//	t_env *copy;
 
 	i = 1;
+	printf("entering unset\n");
 	status = 0;
 	while (args[i])
 	{
@@ -88,11 +71,5 @@ int	builtin_unset(char **args, t_prompt *prompt)
 			unset_env(prompt, args[i]);
 		i++;
 	}
-/*	copy = prompt->enviroment;
-	while (copy)
-	{
-		printf("keyword: %s, value: %s\n",copy->keyword, copy->value);
-		copy = copy->next;
-	}*/
 	return (status);
 }
