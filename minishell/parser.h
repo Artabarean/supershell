@@ -120,6 +120,7 @@ typedef struct s_prompt
 void	fill_env(char *env, t_env *e);
 t_env	*new_env(void);
 void	init_env(t_prompt *prompt, char **env);
+char	**env_to_envp(t_env *env);
 
 //Init
 void	init_tkns(t_prompt *prompt);
