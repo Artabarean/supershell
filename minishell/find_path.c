@@ -89,6 +89,7 @@ int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 	return (printerr(prompt, cmd->full_cmd[0], j), 1);
 }
 
+//cuando no encuentra comandos entra en esta función y no imprime el mensaje: command not found?
 int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)
 {
 	int		i;
