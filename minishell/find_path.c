@@ -12,7 +12,7 @@
 
 #include "parser.h"
 
-//a esta función no le falta un printf al final?
+//a esta función no le falta un ft_putendl_fd (prompt->error_msg[j], 2); al final?
 void	printerr(t_prompt *prompt, char *full_cmd, int j)
 {
 	char	*tmp;
