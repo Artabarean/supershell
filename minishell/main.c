@@ -27,7 +27,7 @@ void	start_minishell(t_prompt *prompt)
 		free_all(prompt);
 		return ;
 	}
-	debug(*prompt);
+	//debug(*prompt);
 	executer(prompt);
 	free_all(prompt);
 }

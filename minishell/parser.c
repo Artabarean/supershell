@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:54 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/08 22:05:27 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:51:14 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	parser(t_prompt *prompt, t_cmd *curr)
 		else
 			handle_word(prompt, curr, &i);
 	}
-	if (!curr->full_cmd || !curr->full_cmd[0])
+		if (!curr->full_cmd || (!curr->full_cmd[0] && !curr->redir))
 		return (syntax_error("newline"), false);
 	curr->next = NULL;
 	return (true);
@@ -67,15 +67,12 @@ bool	parser(t_prompt *prompt, t_cmd *curr)
 bool	init_parser(t_prompt *prompt)
 {
 	t_cmd	*curr;
-	char	**tkn;
 
 	if (!prompt || !prompt->tkns)
 		return (0);
 	curr = create_cmd(prompt);
 	if (!curr)
 		return (0);
-	prompt->cmds = curr;
-	tkn = prompt->tkns;
 	if (!parser(prompt, curr))
 		return (0);
 	return (1);

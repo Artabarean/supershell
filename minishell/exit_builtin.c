@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 14:05:50 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 11:59:24 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:23:08 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,35 @@ static long long	ft_atoll(const char *str, bool *overflow)
 	}
 	return ((long long)(res * sign));
 }
-
-int	exit_builtin(t_cmd *cmd, t_prompt *prompt)
+//	Los mensajes de error van a stderror
+//	El g_exit_status no se actualiza bien
+void	exit_builtin(t_cmd *cmd, t_prompt *prompt)
 {
 	bool		overflow;
 	long long	code;
 
-	printf("exit\n");
+	ft_putstr_fd("hola\n", 2);
 	if (!cmd->full_cmd[1])
 		exit(pid_stat(cmd, prompt, 0));
 	if (!is_numeric(cmd->full_cmd[1]))
 	{
-		printf("minishell: exit: %s: numeric argument required\n", cmd->full_cmd[1]);
+		ft_putendl_fd("exit: numeric argument required", 2);
 		free_all(prompt);
 		exit(2);
 	}
 	code = ft_atoll(cmd->full_cmd[1], &overflow);
 	if (overflow)
 	{
-		printf("minishell: exit: %s: numeric argument required\n", cmd->full_cmd[1]);
+		ft_putendl_fd("exit: numeric argument required", 2);
 		free_all(prompt);
 		exit(2);
 	}
 	if (cmd->full_cmd[2])
-		return (printf("Minishell: exit: too many arguments\n"), 1);
+	{
+		ft_putendl_fd("exit: too many arguments", 2);
+		g_exit_status = 1;
+		return;
+	}
 	free_all(prompt);
 	exit((unsigned char)code);
 }

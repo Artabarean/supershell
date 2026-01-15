@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:06:53 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/04 09:32:25 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:49:58 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,22 @@ t_env	*new_env(void)
 	current->value = NULL;
 	current->next = NULL;
 	return (current);
+}
+
+char	*get_user(t_prompt *prompt)
+{
+	char	*temp;
+	t_env	*env;
+
+	env = prompt->enviroment;
+	temp = NULL;
+	while (env && !temp)
+	{
+		if (ft_strnstr(env->keyword, "USER", 4))
+			temp = ft_strdup(env->value);
+		env = env->next;
+	}
+	if (!temp)
+		temp = ft_strdup("guest");
+	return (temp);
 }

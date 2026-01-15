@@ -3,37 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 11:24:13 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:16:37 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int	builtin_no_in_out (int n_cmds, t_cmd *cmd, t_prompt *prompt)
+int	builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt)
 {
 	if (n_cmds == 0 && cmd->full_cmd[0] != NULL)
 	{
 		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 		{
-			if (exit_builtin(cmd, prompt) == 1)
-				return (1);
+			exit_builtin(cmd, prompt);
+			return (1);
 		}
-		//else if (!ft_strcmp(cmd->full_cmd[0], "export"))
-			//export(cmd->full_cmd);
+		else if (!ft_strcmp(cmd->full_cmd[0], "export"))
+		{
+			export_builtin(prompt ,cmd);
+			return (1);
+		}
 		else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
-	    	return (builtin_unset(cmd->full_cmd, prompt));
+		{
+			builtin_unset(cmd->full_cmd, prompt);
+			return (1);
+		}
 		else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
 		{
 			cd(cmd->full_cmd, prompt);
 			return (1);
 		}
 	}
-    return (0);
+	return (0);
 }
-
+//He cambiado la función para utilizar la nueva estructura redir
 void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 {
 	t_cmd	*copy;
@@ -43,32 +49,36 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 	copy = cmd;
 	while (copy)
 	{
-		while (copy->outfile[i])
+		while (copy->redir->type == T_REDIR_OUT)
 		{
-			find_outfile(copy, i, &fout);
+			find_outfile(copy, &fout);
 			i++;
 		}
 		i = 0;
-		while (copy->infile[i])
+		while (copy->redir->type == T_REDIR_IN)
 		{
-			find_infile(copy, i, &fin);
+			find_infile(copy, &fin);
 			i++;
 		}
 		i = 0;
 		copy = copy->next;
 	}
 }
-
+//	Para ajustar la función a la norma se puede utilizar la variable cmd->max_tkns 
+//	para guardar n_cmds?
+//	No estás teniendo encuenta lo que devuelven las funciones para cambiar el g_exit_status?
+//	if(exit_builtin(cmd, prompt) == 1)
+//		perror...
 int	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
 	if (n_cmds == 1 && cmd->full_cmd[0] != NULL)
 	{
 		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
-        {
+		{
 			run_builtin_son(cmd, fin, fout);
 			exit_builtin(cmd, prompt);
-            return (1);
-        }
+			return (1);
+		}
 		if (!ft_strcmp(cmd->full_cmd[0], "cd"))
 		{
 			run_builtin_son(cmd, fin, fout);
@@ -80,14 +90,14 @@ int	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 			run_builtin_son(cmd, fin, fout);
 			exit(builtin_unset(cmd->full_cmd, prompt));
 		}
-		// if (!ft_strcmp(cmd->full_cmd[0], "export"))
-		// {
-		// 	run_builtin_son(cmd, fin, fout);
-		// 	//     export(cmd->full_cmd);
-		// 	return (1);
-		// }
+		if (!ft_strcmp(cmd->full_cmd[0], "export"))
+		{
+			run_builtin_son(cmd, fin, fout);
+			export_builtin(prompt ,cmd);
+			return (1);
+		}
 	}
-    return (0);
+	return (0);
 }
 
 int	is_builtin(t_cmd *cmd)
@@ -119,16 +129,16 @@ int	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 		pwd();
 	else if (!ft_strcmp(cmd->full_cmd[0], "env"))
 		env(prompt, cmd->full_cmd);
-	// else if (!ft_strcmp(cmd->full_cmd[0], "export"))
-	//     export(cmd->full_cmd);
+	else if (!ft_strcmp(cmd->full_cmd[0], "export"))
+		export_builtin(prompt ,cmd);
 	else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
-	    exit (builtin_unset(cmd->full_cmd, prompt));
+		exit (builtin_unset(cmd->full_cmd, prompt));
 	else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
 		cd(cmd->full_cmd, prompt);
 	else if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 	{
-		if (exit_builtin(cmd, prompt) == 1)
-			return (1);
+		exit_builtin(cmd, prompt);
+		return (1);
 	}
 	return (0);
 }

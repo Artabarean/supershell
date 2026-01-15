@@ -3,34 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   find_inorout.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 12:21:31 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/25 13:49:57 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 14:11:37 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	find_outfile(t_cmd *cmd, int i, int	*fileout)
+void	find_outfile(t_cmd *cmd, int *fileout)
 {
-	if (cmd->append == 1)
-		*fileout = open_file(cmd->app_doc[i], 0);
+	t_redir *copyrdr;
+
+	copyrdr = cmd->redir;
+	if (copyrdr->type == T_APPEND)
+		*fileout = open_file(copyrdr->file, 0);
 	else
-		*fileout = open_file(cmd->outfile[i], 1);
-	if (cmd->outfile[i + 1] != NULL && cmd->next != NULL)
+		*fileout = open_file(copyrdr->file, 1);
+	if (copyrdr->next != NULL)
 	{
-		close(*fileout);
-		*fileout = -1;
+		copyrdr = copyrdr->next;
+		if (copyrdr->type == T_REDIR_OUT && cmd->next != NULL)
+		{
+			close(*fileout);
+			*fileout = -1;
+		}
 	}
 }
 
-void	find_infile(t_cmd *cmd, int i, int *filein)
+void	find_infile(t_cmd *cmd, int *filein)
 {
-	*filein = open_file(cmd->infile[i], 2);
-	if (cmd->infile[i + 1] != NULL && cmd->next != NULL)
+	t_redir	*copyrdr;
+
+	copyrdr = cmd->redir;
+	*filein = open_file(copyrdr->file, 2);
+	if (copyrdr->next != NULL)
 	{
-		close(*filein);
-		*filein = -1;
+		copyrdr = copyrdr->next;
+		if (copyrdr->type == T_REDIR_IN && cmd->next != NULL)
+		{
+			close(*filein);
+			*filein = -1;
+		}
 	}
 }

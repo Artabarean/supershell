@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 12:16:23 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:30:56 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ char	*createfile(char *filename, int index)
 	return (filename);
 }
 
-void cleanup_heredoc_files(t_cmd *cmds)
+void	cleanup_heredoc_files(t_cmd *cmds)
 {
-	t_cmd	*c; 
-	int 	i;
+	t_cmd	*c;
+	int		i;
 
 	c = cmds;
 	while (c)
@@ -71,6 +71,8 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 	char	*filename;
 	int		fd;
 
+	(void)cmd;
+	filename = NULL;
 	filename = createfile(filename, index);
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
@@ -95,18 +97,24 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
 
 int	process_heredocs(t_cmd *cmd, t_env *env)
 {
-	int i;
-	int count;
+	t_redir	*r;
+	int		i;
 
-	if (!cmd->heredoc)
-		return (0);
-	count = count_strs(cmd->heredoc);
 	i = 0;
-	while (cmd->heredoc[i])
+	if (!cmd->redir)
+		return (0);
+	r = cmd->redir;
+	while (r)
 	{
-		cmd->tmp_doc[i] = do_single_heredoc(cmd->heredoc[i], env, i, cmd);
-		i++;
+		if (r->type == T_HEREDOC)
+		{
+			cmd->tmp_doc[i] = do_single_heredoc(r->file, env, i, cmd);
+			i++;
+		}
+		r = r->next;
 	}
+	if (i == 0)
+		return (0);
 	cmd->tmp_doc[i] = NULL;
 	return (1);
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 11:19:43 by codespace         #+#    #+#             */
-/*   Updated: 2025/11/20 11:49:57 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:17:33 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int set_env_value(t_env *env, const char *key, const char *value)
+int	set_env_value(t_env *env, const char *key, const char *value)
 {
 	while (env)
 	{
@@ -57,13 +57,20 @@ char	*get_env_value(t_env *env, const char *name)
 	return (NULL);
 }
 
+//	cd solo recibe un argumento
 int	cd(char **args, t_prompt *prompt)
 {
 	char	*path;
 	char	oldpwd[4096];
 
+	path = NULL;
 	if (!getcwd(oldpwd, sizeof(oldpwd)))
 		return (1);
+	if (args[2])
+	{
+		ft_putendl_fd (" too many arguments", 2);
+		return (1);
+	}
 	if (!args[1] || !args[1][0])
 	{
 		if (do_path(prompt->enviroment, path, "HOME") == 1)
@@ -75,8 +82,7 @@ int	cd(char **args, t_prompt *prompt)
 		if (do_path(prompt->enviroment, path, "OLDPWD") == 1)
 			return (1);
 		path = get_env_value(prompt->enviroment, "OLDPWD");
-		write(1, path, ft_strlen(path));
-		write(1, "\n", 1);
+		ft_putendl_fd(path, 1);
 	}
 	else
 		path = args[1];

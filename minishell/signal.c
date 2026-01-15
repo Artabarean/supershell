@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:09 by medel-ca          #+#    #+#             */
-/*   Updated: 2025/11/20 11:46:48 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 16:57:49 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ void	core_dump(int signal)
 	(void)signal;
 }
 
-void	close_heredoc(int signal) // cierra el heredoc
+void	close_heredoc(int signal)
 {
 	(void)signal;
 	g_exit_status = 130;
-	printf("warning: here-document at line 1 delimited by end-of-file (wanted `EOF')\n");
+	printf("warning: here-document at line "
+		"1 delimited by end-of-file (wanted `EOF')\n");
 	exit(g_exit_status);
 }
 

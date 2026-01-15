@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2025/11/27 12:43:44 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/12 17:08:03 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 
 void	check_command(t_cmd *cmd, t_prompt *prompt)
 {
-	t_cmd *copy;
+	t_cmd	*copy;
 
 	copy = cmd;
 	while (copy)
 	{
-		if (copy->full_cmd[0] != NULL)
+		if (is_builtin(copy) == 0)
 		{
-			if (!ft_strchr(copy->full_cmd[0], '/'))
-				find_path_no_print(copy, prompt);
+			if (copy->full_cmd[0] != NULL)
+			{
+				if (!ft_strchr(copy->full_cmd[0], '/'))
+					find_path_no_print(copy, prompt);
+			}
+			if (copy->full_cmd[0] == NULL)
+				exit(0);
 		}
-		if (copy->full_cmd[0] == NULL)
-			exit(0);
 		copy = copy->next;
 	}
 }

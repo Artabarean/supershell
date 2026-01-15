@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 12:48:13 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/08 20:43:21 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/12 09:09:52 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,4 @@ char	*extract_double_quote(char **input)
 		return (NULL);
 	(*input) += len + 1;
 	return (temp);
-}
-
-char	*expand_var(char *str, t_env *enviroment)
-{
-	char	*exp_str;
-
-	if (!str || !*str)
-		return (ft_strdup(""));
-	while (enviroment)
-	{
-		if (!ft_strcmp(str, enviroment->keyword))
-			return (ft_strdup(enviroment->value));
-		enviroment = enviroment->next;
-	}
-	return (NULL);
 }

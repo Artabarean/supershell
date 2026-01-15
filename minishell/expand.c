@@ -49,3 +49,16 @@ void	expand_tkn(t_prompt *prompt)
 		i++;
 	}
 }
+
+char	*expand_var(char *str, t_env *enviroment)
+{
+	if (!str || !*str)
+		return (ft_strdup(""));
+	while (enviroment)
+	{
+		if (!ft_strcmp(str, enviroment->keyword))
+			return (ft_strdup(enviroment->value));
+		enviroment = enviroment->next;
+	}
+	return (ft_strdup(""));
+}

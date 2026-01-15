@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:06:27 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/08 17:58:23 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/12 11:52:51 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,41 +19,29 @@ void	free_doble_ptr(char **ptr)
 	if (!ptr)
 		return ;
 	i = 0;
-	while (ptr[i] && i < MAX_TOKENS)
+	while (ptr[i])
 	{
 		free(ptr[i]);
+		ptr[i] = NULL;
 		i++;
 	}
 	free(ptr);
+	ptr = NULL;
 }
 
-void	del(t_cmd *tmp)
+void	free_redir(t_redir *redir)
 {
-	if (!tmp)
-		return ;
-	if (tmp->full_cmd)
+	t_redir	*tmp;
+
+	while (redir)
 	{
-		free_doble_ptr(tmp->full_cmd);
-		tmp->full_cmd = NULL;
-	}
-	if (tmp->infile)
-	{
-		free_doble_ptr(tmp->infile);
-		tmp->infile = NULL;
-	}
-	if (tmp->outfile)
-	{
-		free_doble_ptr(tmp->outfile);
-		tmp->outfile = NULL;
-	}
-	if (tmp->full_path)
-	{
-		free(tmp->full_path);
-		tmp->full_path = NULL;
+		tmp = redir->next;
+		free(redir);
+		redir = tmp;
 	}
 }
 
-void	free_lst(t_cmd **lst)
+void	free_cmds(t_cmd **lst)
 {
 	t_cmd	*current;
 	t_cmd	*tmp;
@@ -64,7 +52,13 @@ void	free_lst(t_cmd **lst)
 	while (current != NULL)
 	{
 		tmp = current->next;
-		del(current);
+		if (current->full_cmd)
+		{
+			free_doble_ptr(current->full_cmd);
+			current->full_cmd = NULL;
+		}
+		if (current->redir)
+			free_redir(current->redir);
 		free(current);
 		current = tmp;
 	}
@@ -108,7 +102,7 @@ void	free_all(t_prompt *prompt)
 	}
 	if (prompt->cmds)
 	{
-		free_lst(&prompt->cmds);
+		free_cmds(&prompt->cmds);
 	}
 	if (prompt->input)
 	{
