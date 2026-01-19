@@ -27,28 +27,58 @@
 // 	}
 // }
 
+static void	free_last_node(t_env *node)
+{
+	free(node->keyword);
+	free(node->value);
+	free(node);
+}
+
+static void	shift_env_data(t_env *curr)
+{
+	t_env	*next;
+
+	while (curr->next)
+	{
+		next = curr->next;
+		free(curr->keyword);
+		free(curr->value);
+		curr->keyword = ft_strdup(next->keyword);
+		if (next->value)
+			curr->value = ft_strdup(next->value);
+		else
+			curr->value = NULL;
+		if (!next->next)
+		{
+			curr->next = NULL;
+			free_last_node(next);
+			break ;
+		}
+		curr = curr->next;
+	}
+}
+
 void	unset_env(t_prompt *prompt, char *name)
 {
-	t_env	*tmp;
-	t_env	*prev;
+	t_env	*curr;
 
-	tmp = prompt->enviroment;
-	prev = NULL;
-	while (tmp)
+	if (!prompt || !prompt->enviroment)
+		return ;
+	curr = prompt->enviroment;
+	while (curr)
 	{
-		if (!ft_strcmp(tmp->keyword, name))
+		if (!ft_strcmp(curr->keyword, name))
 		{
-			if (prev)
-				prev->next = tmp->next;
-			else
-				prompt->enviroment = tmp->next;
-			free(tmp->keyword);
-			free(tmp->value);
-			free(tmp);
+			if (!curr->next)
+			{
+				prompt->enviroment = NULL;
+				free_last_node(curr);
+				return ;
+			}
+			shift_env_data(curr);
 			return ;
 		}
-		prev = tmp;
-		tmp = tmp->next;
+		curr = curr->next;
 	}
 }
 

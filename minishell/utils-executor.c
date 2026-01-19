@@ -50,10 +50,10 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 	
 	if (!full_path)
 		exit(EXIT_FAILURE);
-		envp = env_to_envp(prompt->enviroment);
-	if (execve(full_path, full_cmd, prompt->enviroment->envp) == -1)
+	envp = env_to_envp(prompt->enviroment);
+	if (execve(full_path, full_cmd, envp) == -1)
 	{
-		free_double_ptr(envp);
+		free_doble_ptr(envp);
 		error(full_cmd[0]);
 	}
 }

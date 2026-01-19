@@ -68,7 +68,7 @@ void	free_cmds(t_cmd **lst)
 void	free_env(t_env *env)
 {
 	t_env	*tmp;
-	int		i;
+	//int		i;
 
 	while (env)
 	{

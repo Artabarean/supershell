@@ -38,7 +38,7 @@ int	env(t_prompt *prompt, char **args)
 	return (0);
 }
 
-tatic int	env_len(t_env *env)
+static int	env_len(t_env *env)
 {
 	int	i;
 
