@@ -29,7 +29,7 @@ void	start_minishell(t_prompt *prompt)
 	}
 	//debug(*prompt);
 	executer(prompt);
-	free_all(prompt);
+	free_input(prompt);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -56,5 +56,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
 
 
