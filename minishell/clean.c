@@ -110,3 +110,27 @@ void	free_all(t_prompt *prompt)
 		prompt->input = NULL;
 	}
 }
+
+void	free_input(t_prompt *prompt)
+{
+	if (!prompt)
+		return ;
+	if (prompt->tkns)
+	{
+		free_doble_ptr(prompt->tkns);
+		free(prompt->types);
+		free(prompt->quotes);
+		prompt->tkns = NULL;
+		prompt->types = NULL;
+		prompt->quotes = NULL;
+	}
+	if (prompt->cmds)
+	{
+		free_cmds(&prompt->cmds);
+	}
+	if (prompt->input)
+	{
+		free(prompt->input);
+		prompt->input = NULL;
+	}
+}
