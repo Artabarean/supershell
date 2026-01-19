@@ -164,6 +164,7 @@ void	free_all(t_prompt *prompt);
 void	free_cmds(t_cmd **lst);
 void	free_doble_ptr(char **ptr);
 void	free_env(t_env *e);
+void	free_input(t_prompt *prompt);
 
 //Input
 void	get_user_input(t_prompt *prompt);
