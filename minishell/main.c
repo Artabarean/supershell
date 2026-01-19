@@ -40,9 +40,9 @@ int	main(int argc, char **argv, char **envp)
 		return (perror("Environment error"), 1);
 	(void)argc;
 	(void)argv;
+	init_prompt(&prompt, envp);
 	while (1)
 	{
-		init_prompt(&prompt, envp);
 		get_user_input(&prompt);
 		if (prompt.input == NULL)
 			set_signal(EXIT, &prompt);
@@ -51,9 +51,10 @@ int	main(int argc, char **argv, char **envp)
 			if (correct_input(prompt.input))
 				start_minishell(&prompt);
 			else
-				free_all(&prompt);
+				free_input(&prompt);
 		}
 	}
 	return (0);
 }
+
 
