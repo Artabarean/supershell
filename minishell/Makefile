@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/01/12 14:37:35 by medel-ca         ###   ########.fr        #
+#                                                          :::      ::::::::   #
+#   Makefile                                             :+:      :+:    :+:   #
+#                                                      +:+ +:+         +:+     #
+#   By: atabarea <atabarea@student.42madrid.com>     +#+  +:+       +#+        #
+#                                                  +#+#+#+#+#+   +#+           #
+#   Created: 0025/11/14 10:40:04 by atabarea            #+#    #+#             #
+#   Updated: 2026/01/20 10:18:28 by atabarea           ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,8 @@ SRC	 =	main.c \
 		utils_export.c \
 		export.c \
 		expand.c \
-		expand_utils.c
+		expand_utils.c \
+		printnofile.c
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 

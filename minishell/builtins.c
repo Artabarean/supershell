@@ -29,12 +29,6 @@ int	builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt)
 		else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
 		{
 			builtin_unset(cmd->full_cmd, prompt);
-			t_env *tmp = prompt->enviroment;
-			while (tmp)
-			{
-    			printf("%s=%s\n", tmp->keyword, tmp->value);
-    			tmp = tmp->next;
-			}
 			return (1);
 		}
 		else if (!ft_strcmp(cmd->full_cmd[0], "cd"))

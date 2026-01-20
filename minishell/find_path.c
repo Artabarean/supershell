@@ -69,7 +69,7 @@ int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 	{
 		if (cmd->full_cmd[0] && access(cmd->full_cmd[0], F_OK | X_OK) == 0)
 			return (0);
-		return (1);
+		return (printnofile(prompt, cmd->full_cmd[0], j), 1);
 	}
 	while (paths[i])
 	{

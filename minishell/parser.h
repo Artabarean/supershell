@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 16:54:49 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/20 10:17:59 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ void	exit_builtin(t_cmd *cmd, t_prompt *prompt);
 int		builtin_unset(char **args, t_prompt *prompt);
 int		is_valid_identifier(char *s);
 char	*get_env_value(t_env *env, const char *name);
-int		is_valid_val(const char *s);
+void	printnofile(t_prompt *prompt, char *full_cmd, int j);
 t_env	*env_find(t_env *env, char *key);
 void	env_add_or_update(t_prompt *prompt, char *arg);
 int		env_size(t_env *env);
