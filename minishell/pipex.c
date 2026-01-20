@@ -97,15 +97,13 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 void	pipex(t_prompt prompt)
 {
 	t_cmd	*current_node;
-	int		last_status;
 
-	last_status = 0;
 	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
 	current_node = prompt.cmds;
 	childprocess_(current_node, &prompt);
 	current_node = prompt.cmds;
-	last_status = pid_stat(current_node, &prompt, last_status);
-	check_status(last_status);
+	g_exit_status = pid_stat(current_node, &prompt, g_exit_status);
+	check_status(g_exit_status);
 	free(prompt.error_msg);
 	cleanup_heredoc_files(prompt.cmds);
 }
