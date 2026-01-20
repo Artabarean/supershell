@@ -12,7 +12,7 @@
 
 #include "parser.h"
 
-int	g_exit_status = 0;
+volatile sig_atomic_t	g_exit_status = 0;
 
 void	start_minishell(t_prompt *prompt)
 {
@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
 
 
 
