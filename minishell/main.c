@@ -18,13 +18,13 @@ void	start_minishell(t_prompt *prompt)
 {
 	if (!lexer(prompt))
 	{
-		free_all(prompt);
+		free_input(prompt);
 		return ;
 	}
 	expand_tkn(prompt);
 	if (!init_parser(prompt))
 	{
-		free_all(prompt);
+		free_input(prompt);
 		return ;
 	}
 	//debug(*prompt);
@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
 
 
 
