@@ -44,6 +44,10 @@ bool	parser(t_prompt *prompt, t_cmd *curr)
 	i = 0;
 	while (prompt->tkns[i])
 	{
+		while (prompt->tkns[i] && prompt->tkns[i][0] == '\0')
+			i++;
+		if (!prompt->tkns[i])
+			return (false);
 		if (prompt->types[i] == T_PIPE)
 		{
 			if (!handle_pipe(prompt, &curr))
