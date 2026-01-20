@@ -64,7 +64,7 @@ void	export_builtin(t_prompt *prompt, t_cmd *cmd)
 	if (!cmd->full_cmd[1])
 	{
 		print_export(prompt);
-		prompt->exit_stat = 0;
+		g_exit_status = 0;
 		return ;
 	}
 	i = 1;
@@ -74,7 +74,7 @@ void	export_builtin(t_prompt *prompt, t_cmd *cmd)
 		{
 			printf("minishell: export: `%s': not a valid identifier\n",
 				cmd->full_cmd[i]);
-			prompt->exit_stat = 1;
+			g_exit_status = 1;
 		}
 		else
 			env_add_or_update(prompt, cmd->full_cmd[i]);
