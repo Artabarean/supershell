@@ -15,12 +15,9 @@
 void	executer(t_prompt *prompt)
 {
 	t_cmd	*cmd;
-	int		last_status;
 
-	prompt->exit_stat = 0;
 	prompt->pip_exec = 0;
 	cmd = prompt->cmds;
-	last_status = 0;
 	while (cmd)
 	{
 		if (prompt->pip_exec == 0 && cmd->redir != NULL)
@@ -35,8 +32,10 @@ void	executer(t_prompt *prompt)
 		cmd = prompt->cmds;
 		prompt->pid = malloc(sizeof(pid_t) * (pipecount(*prompt) + 1));
 //		printf("calling execute\n");
-		execute_(cmd, prompt);
-		last_status = pid_stat(cmd, prompt, last_status);
-		check_status(last_status);
+		if(!execute_(cmd, prompt))
+		{
+			g_exit_status = pid_stat(cmd, prompt, g_exit_status);
+			check_status(last_status);
+		}
 	}
 }
