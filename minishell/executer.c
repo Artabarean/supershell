@@ -35,7 +35,7 @@ void	executer(t_prompt *prompt)
 		if(!execute_(cmd, prompt))
 		{
 			g_exit_status = pid_stat(cmd, prompt, g_exit_status);
-			check_status(last_status);
+			check_status(g_exit_status);
 		}
 	}
 }
