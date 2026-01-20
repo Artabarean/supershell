@@ -41,7 +41,7 @@
 # define EXIT 3 // ctrl+D en línea vacía
 # define HEREDOC 4 // ctrl+D al leer de heredoc
 
-extern int	g_exit_status;
+extern volatile sig_atomic_t g_exit_status;
 
 typedef enum e_quote
 {
@@ -100,7 +100,6 @@ typedef struct s_prompt
 	t_env		*enviroment;
 	pid_t		*pid;
 	int			pip_exec;
-	int			exit_stat;
 }			t_prompt;
 
 //Enviroment
@@ -196,7 +195,7 @@ void	check_status(int last_status);
 void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein);
 void	childprocess_(t_cmd *curr_nde, t_prompt *prompt);
 int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
-void	execute_(t_cmd *cmd, t_prompt *prompt);
+int		execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt *prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
 void	find_outfile(t_cmd *cmd, int *fileout);
