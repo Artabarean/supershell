@@ -84,7 +84,7 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 	exit(1);
 }
 
-void	execute_(t_cmd *cmd, t_prompt *prompt)
+int	execute_(t_cmd *cmd, t_prompt *prompt)
 {
 	int	i;
 	int	n_cmds;
@@ -93,7 +93,7 @@ void	execute_(t_cmd *cmd, t_prompt *prompt)
 	n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, n_cmds);
 	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)
-		return ;
+		return (1);
 	check_command(cmd, prompt);
 	while (i < n_cmds - 1)
 	{
@@ -111,4 +111,5 @@ void	execute_(t_cmd *cmd, t_prompt *prompt)
 		cmd = cmd->next;
 	}
 	closepfds(n_cmds, prompt);
+	return (0);
 }
