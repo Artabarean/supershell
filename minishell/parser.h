@@ -220,7 +220,8 @@ int		process_heredocs(t_cmd *cmd, t_env *env);
 int		count_strs(char	**str);
 int		get_last_heredoc(char **tmp_doc);
 void	cleanup_heredoc_files(t_cmd *cmds);
-void	here_doc_check(char **here_doc, char **heredoc, int hd_fd, int *fin);
+void	here_doc_check(char **here_doc, int *fin);
+char	**count_heredoc(t_redir *redir);
 
 //Built-ins
 int		is_builtin(t_cmd *cmd);

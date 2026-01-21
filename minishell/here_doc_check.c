@@ -12,11 +12,31 @@
 
 #include "parser.h"
 
-void	here_doc_check(char **here_doc, char **heredoc, int hd_fd, int *fin)
+char	**count_heredoc(t_redir *redir)
+{
+	t_redir *copy;
+	int		count;
+	char	**sizer;
+
+	count = 0;
+	copy = redir;
+	while(copy)
+	{
+		if (copy->type == T_HEREDOC)
+			count++;
+		copy = copy->next;
+	}
+	sizer = malloc(sizeof(char *) * count);
+	sizer[count] = NULL;
+	return (sizer);
+}
+
+void	here_doc_check(char **here_doc, int *fin)
 {
 	int	last;
+	int	hd_fd;
 
-	if (heredoc && heredoc[0])
+	if (here_doc)
 	{
 		last = count_strs(here_doc) - 1;
 		hd_fd = open(here_doc[last], O_RDONLY);

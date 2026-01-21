@@ -17,9 +17,10 @@ int	get_last_heredoc(char **tmp_doc)
 	int	fd;
 	int	i;
 
+	i = 0;
 	if (tmp_doc)
 	{
-		while (tmp_doc[i])
+		while (tmp_doc[i] != NULL)
 			i++;
 		fd = open(tmp_doc[i - 1], O_RDONLY);
 		if (fd == -1)
@@ -64,14 +65,13 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 	}
 }
 
-char	*do_single_heredoc(char *limiter, t_env *env, int index, t_cmd *cmd)
+char	*do_single_heredoc(char *limiter, t_env *env, int index)
 {
 	char	*line;
 	char	*expanded;
 	char	*filename;
 	int		fd;
 
-	(void)cmd;
 	filename = NULL;
 	filename = createfile(filename, index);
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -104,17 +104,17 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	if (!cmd->redir)
 		return (0);
 	r = cmd->redir;
+	cmd->tmp_doc = count_heredoc(cmd->redir);
 	while (r)
 	{
 		if (r->type == T_HEREDOC)
 		{
-			cmd->tmp_doc[i] = do_single_heredoc(r->file, env, i, cmd);
+			cmd->tmp_doc[i] = do_single_heredoc(r->file, env, i);
 			i++;
 		}
 		r = r->next;
 	}
 	if (i == 0)
 		return (0);
-	cmd->tmp_doc[i] = NULL;
 	return (1);
 }
