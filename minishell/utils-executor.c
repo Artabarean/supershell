@@ -49,6 +49,27 @@ void	error(char *s)
 //creo que es mejor no crearla al iniciar el enviroment porque puede cambiar al hacer EXPORT
 //se puede crear un char **envp en esta función y liberarlo después de execve
 
+void	check_exec_errors(char *path)
+{
+	struct stat	st;
+
+	if (stat(path, &st) == 0)
+	{
+		if (S_ISDIR(st.st_mode))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(path, 2);
+			ft_putendl_fd(": Is a directory", 2);
+			exit(126);
+		}
+		if (access(path, X_OK) != 0)
+		{
+			perror(path);
+			exit(126);
+		}
+	}
+}
+
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 {
 	char	**envp;
