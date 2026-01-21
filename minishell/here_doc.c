@@ -109,6 +109,7 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	{
 		if (r->type == T_HEREDOC)
 		{
+			set_signal(SIG_HEREDOC);
 			cmd->tmp_doc[i] = do_single_heredoc(r->file, env, i);
 			i++;
 		}
