@@ -12,27 +12,13 @@
 
 #include "parser.h"
 
-void	close_child(int signal)
-{
-	g_exit_status = 130;
-	printf("\n");
-	(void)signal;
-}
-
-void	core_dump(int signal)
-{
-	g_exit_status = 131;
-	printf("Quit (core dumped)\n");
-	(void)signal;
-}
-
 void	close_heredoc(int signal)
 {
 	(void)signal;
-	g_exit_status = 130;
-	printf("warning: here-document at line "
-		"1 delimited by end-of-file (wanted `EOF')\n");
-	exit(g_exit_status);
+	write(1, "\n", 1);
+    rl_replace_line("", 0);
+    rl_done = 1;
+    g_exit_status = 130;
 }
 
 void	reset_shell(int signal)
@@ -45,26 +31,26 @@ void	reset_shell(int signal)
 	(void)signal;
 }
 
-void	set_signal(int context, t_prompt *prompt)
+void	set_signal(int context)
 {
-	if (context == PROMPT_RESTART)
+	if (context == SIG_PROMPT)
 	{
-		signal(SIGINT, reset_shell); // ctrl+C -> reinicia shell
-		signal(SIGQUIT, SIG_IGN); // ctrl+\ -> se ignora
+		signal(SIGINT, reset_shell);
+		signal(SIGQUIT, SIG_IGN);
 	}
-	if (context == EXIT) // EOF (ctrl+D) -> se cierra la terminal si la línea está vacía
-	{					// si hay texto se ignora
-		printf("Exit\n");
-		free_all(prompt);
-		exit(EXIT_FAILURE);
-	}
-	if (context == CHILD_EXIT)
+	else if (context == SIG_CHILD)
 	{
-		signal(SIGINT, close_child); // ctrl+C -> cierra proceso hijo
-		signal(SIGQUIT, core_dump); // ctrl+\ -> cierra con core dumped
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 	}
-	if (context == HEREDOC)
+	else if (context == SIG_WAIT)
 	{
-		signal(SIGINT, close_heredoc); // ctrl+D al leer de heredoc
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (context == SIG_HEREDOC)
+	{
+		signal(SIGINT, close_heredoc);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }
