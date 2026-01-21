@@ -106,7 +106,10 @@ int	execute_(t_cmd *cmd, t_prompt *prompt)
 	{
 		forker(prompt, i);
 		if (prompt->pid[i] == 0)
+		{
+			set_signal(SIG_CHILD);
 			child_process(cmd, prompt, i, n_cmds);
+		}
 		i++;
 		cmd = cmd->next;
 	}
