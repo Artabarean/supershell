@@ -18,6 +18,7 @@ void	executer(t_prompt *prompt)
 
 	prompt->pip_exec = 0;
 	cmd = prompt->cmds;
+	set_signal(SIG_PROMPT);
 	while (cmd)
 	{
 		if (prompt->pip_exec == 0 && cmd->redir != NULL)
