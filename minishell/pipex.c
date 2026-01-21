@@ -103,6 +103,7 @@ void	pipex(t_prompt prompt)
 	childprocess_(current_node, &prompt);
 	current_node = prompt.cmds;
 	g_exit_status = pid_stat(current_node, &prompt, g_exit_status);
+	set_signal(SIG_PROMPT);
 	check_status(g_exit_status);
 	free(prompt.error_msg);
 	cleanup_heredoc_files(prompt.cmds);
