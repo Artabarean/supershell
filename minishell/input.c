@@ -21,7 +21,7 @@ void	get_user_input(t_prompt *prompt)
 		exit(EXIT_FAILURE);
 	temp = get_user(prompt);
 	user = ft_strjoin(temp, "@minishell: ");
-	set_signal(PROMPT_RESTART, NULL);
+	set_signal(SIG_PROMPT);
 	prompt->input = readline(user);
 	if (prompt->input && not_only_spaces(prompt->input))
 	{
