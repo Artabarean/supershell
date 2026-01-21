@@ -33,6 +33,11 @@ void	check_command(t_cmd *cmd, t_prompt *prompt)
 		copy = copy->next;
 	}
 }
+void	error_no_exit(char *s)
+{
+	s = ft_strjoin("minishell: ", s);
+	perror(s);
+}
 
 void	error(char *s)
 {
@@ -53,8 +58,15 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 	envp = env_to_envp(prompt->enviroment);
 	if (execve(full_path, full_cmd, envp) == -1)
 	{
+		err = errno;
 		free_doble_ptr(envp);
-		error(full_cmd[0]);
+		error_no_exit(full_path);
+		if (err == ENOENT)
+			exit(127);
+		else if(err == EACCES)
+			exit(126);
+		else
+			exit(1);
 	}
 }
 
