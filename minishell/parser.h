@@ -36,10 +36,13 @@
 # define RESET   "\033[0m"
 
 //Valores para controlar las señales
-# define PROMPT_RESTART 1 // ctrl+C o ctrl+\ esperando prompt
-# define CHILD_EXIT 2 // ctrl+C cierra proceso hijo o ctrl+\ cierra con core dumped
-# define EXIT 3 // ctrl+D en línea vacía
-# define HEREDOC 4 // ctrl+D al leer de heredoc
+typedef enum e_signal_context
+{
+    SIG_PROMPT,
+    SIG_CHILD,
+    SIG_WAIT,
+    SIG_HEREDOC
+} t_signal_context;
 
 extern volatile sig_atomic_t g_exit_status;
 
@@ -176,8 +179,6 @@ int		cmds_valids(t_prompt prompt);
 
 //Signals
 void	set_signal(int status, t_prompt *prompt);
-void	close_child(int signal);
-void	core_dump(int signal);
 void	close_heredoc(int signal);
 void	reset_shell(int signal);
 
