@@ -56,7 +56,7 @@ char	*get_environments(char *name, t_prompt *prompt)
 	}
 	return (path);
 }
-
+//la función printnofile ya no es necesaria, el mensaje ya se está imprimiendo
 int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 {
 	int		i;
