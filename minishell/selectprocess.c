@@ -42,7 +42,8 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 	{
 		here_doc_check(cmd->tmp_doc, fin);
 		file_opener(prompt, cmd, fout, fin);
-		if (i == 0 || (cmd->redir && cmd->redir->type == T_REDIR_IN))
+		if ((i == 0 && cmd->full_cmd[0]) ||
+			(cmd->redir && cmd->redir->type == T_REDIR_IN))
 		{
 			if (n_cmds > 1 && i == 0)
 				child_process1(cmd, *fin, prompt->pfd[0][1], prompt);

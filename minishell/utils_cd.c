@@ -14,12 +14,15 @@
 
 int	checkfather_builtin(t_cmd *cmd)
 {
-	if (!ft_strcmp(cmd->full_cmd[0], "cd"))
-		return (1);
-	if (!ft_strcmp(cmd->full_cmd[0], "unset"))
-		return (1);
-	if (!ft_strcmp(cmd->full_cmd[0], "export"))
-		return (1);
+	if (cmd->full_cmd[0])
+	{
+		if (!ft_strcmp(cmd->full_cmd[0], "cd"))
+			return (1);
+		if (!ft_strcmp(cmd->full_cmd[0], "unset"))
+			return (1);
+		if (!ft_strcmp(cmd->full_cmd[0], "export"))
+			return (1);
+	}
 	return (0);
 }
 
