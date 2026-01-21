@@ -9,8 +9,8 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 * [x] El prompt aparece correctamente
 * [x] Se repite tras cada comando
 * [x] Línea vacía no cierra la shell
-* [ ] `exit` sin argumentos cierra con código 0
-* [ ] `exit 42` cierra con código 42
+* [x] `exit` sin argumentos cierra con código 0
+* [x] `exit 42` cierra con código 42
 * [x] EOF en vacío (Ctrl-D) cierra la shell
 
 **Notas técnicas**:
@@ -84,7 +84,7 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 ## Simples
 
 * [x] `echo hola > file`
-* [ ] `echo hola >> file`
+* [x] `echo hola >> file`
 * [x] `cat < file`
 * [x] `cat < input > output`
 * [x] `cat >out <in`
@@ -133,7 +133,7 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 
 * [x] `echo $USER`
 * [x] `echo "$USER"`
-* [ ] `echo '$USER'` → fallo al ejecutar (no debe expandir)
+* [x] `echo '$USER'` → fallo al ejecutar (no debe expandir)
 * [x] `echo "hola $USER mundo"`
 * [x] `echo $$$$`
 * [x] `echo "'$USER'"`
