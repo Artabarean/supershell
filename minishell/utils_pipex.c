@@ -36,6 +36,8 @@ int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 					last_status = 128 + WTERMSIG(wstatus);
 					if(WTERMSIG(wstatus) == SIGQUIT)
 						write(2, "Quit (core dumped)\n", 19);
+					if(WTERMSIG(wstatus) == SIGINT)
+						write(1, "\n", 1);
 				}
 			}
 		}
