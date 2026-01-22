@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 17:07:36 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/22 12:37:33 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	create_pipes(prompt, n_cmds);
 	while (i < n_cmds && cmd)
 	{
-		if (cmd->redir->type == T_HEREDOC)
+		if (cmd->redir && cmd->redir->type == T_HEREDOC)
 		{
 			process_heredocs(cmd, prompt->enviroment);
 			fin = get_last_heredoc(cmd->tmp_doc);

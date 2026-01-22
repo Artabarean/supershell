@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selectprocess.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/09 11:43:20 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/22 12:49:04 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 	{
 		here_doc_check(cmd->tmp_doc, fin);
 		file_opener(prompt, cmd, fout, fin);
-		if ((i == 0 && cmd->full_cmd[0]) ||
-			(cmd->redir && cmd->redir->type == T_REDIR_IN))
+		if ((i == 0 && cmd->full_cmd[0]) || (cmd->redir && cmd->redir->type == T_REDIR_IN))
 		{
 			if (n_cmds > 1 && i == 0)
 				child_process1(cmd, *fin, prompt->pfd[0][1], prompt);
@@ -56,5 +55,6 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 			child_processend(cmd, *fout, prompt, i);
 		exit(g_exit_status);
 	}
-	find_path(cmd, prompt, i);
+	if (!is_builtin(cmd))
+		find_path(cmd, prompt, i);
 }
