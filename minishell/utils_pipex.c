@@ -23,6 +23,7 @@ int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 	wstatus = 0;
 	while (i < n_cmds && curr_nde)
 	{
+		set_signal(SIG_WAIT);
 		waitpid(prompt->pid[i], &wstatus, 0);
 		if (checkfather_builtin(curr_nde) == 0)
 		{
