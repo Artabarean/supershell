@@ -28,6 +28,28 @@ char	*expand(char *str, t_env *env)
 	return (result);
 }
 
+void	delate_tkn(t_prompt *prompt)
+{
+	int	i;
+
+	if (!prompt || !prompt->tkns)
+		return ;
+	i = 0;
+	while (prompt->tkns[i] && prompt->tkns[i][0] != '\0')
+		i++;
+	if (!prompt->tkns[i])
+		return ;
+	free(prompt->tkns[i]);
+	while (prompt->tkns[i + 1])
+	{
+		prompt->tkns[i] = prompt->tkns[i + 1];
+		prompt->types[i] = prompt->types[i + 1];
+		prompt->quotes[i] = prompt->quotes[i + 1];
+		i++;
+	}
+	prompt->tkns[i] = NULL;
+}
+
 void	expand_tkn(t_prompt *prompt)
 {
 	int	i;
@@ -46,7 +68,10 @@ void	expand_tkn(t_prompt *prompt)
 			continue ;
 		}
 		prompt->tkns[i] = expand(prompt->tkns[i], prompt->enviroment);
-		i++;
+		if (prompt->tkns[i][0] == '\0' && prompt->quotes[i] == Q_NONE)
+			delate_tkn(prompt);
+		else
+			i++;
 	}
 }
 
@@ -60,5 +85,5 @@ char	*expand_var(char *str, t_env *enviroment)
 			return (ft_strdup(enviroment->value));
 		enviroment = enviroment->next;
 	}
-	return (ft_strdup(""));
+	return (NULL);
 }

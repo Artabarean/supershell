@@ -25,6 +25,18 @@ char	*extract_e_status(char *result)
 	free(value);
 	return (result);
 }
+char	*extract_pid(char *result)
+{
+	char	*tmp;
+	char	*value;
+
+	value = ft_itoa(getpid());
+	tmp = result;
+	result = ft_strjoin(tmp, value);
+	free(tmp);
+	free(value);
+	return (result);
+}
 
 char	*extract_str(char *result, char *str, int *i, t_env *env)
 {
@@ -71,6 +83,11 @@ char	*expand_dollar(char *res, char *str, int *i, t_env *env)
 	{
 		(*i)++;
 		return (extract_e_status(res));
+	}
+	if (str[*i] == '$')
+	{
+		(*i)++;
+		return (extract_pid(res));
 	}
 	return (extract_str(res, str, i, env));
 }
