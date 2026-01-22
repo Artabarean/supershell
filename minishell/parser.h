@@ -179,7 +179,7 @@ int		not_only_spaces(char *input);
 int		cmds_valids(t_prompt prompt);
 
 //Signals
-void	set_signal(int status, t_prompt *prompt);
+void	set_signal(int status);
 void	close_heredoc(int signal);
 void	reset_shell(int signal);
 
