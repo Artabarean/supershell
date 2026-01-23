@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/22 12:37:33 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:18:43 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	pfd_alloc(prompt, n_cmds);
 	single_builtin(n_cmds, cmd, prompt, fin, fout);
 	create_pipes(prompt, n_cmds);
+	print_cmds(cmd);
 	while (i < n_cmds && cmd)
 	{
 		if (cmd->redir && cmd->redir->type == T_HEREDOC)
@@ -85,17 +86,24 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 
 void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 {
-	while(cmd->redir != NULL)
+	t_redir	*copyrdr;
+
+	copyrdr = cmd->redir;	
+	while(copyrdr != NULL)
 	{
-		if (cmd->redir->type == T_REDIR_OUT || cmd->redir->type == T_APPEND)
+		if (copyrdr->type == T_REDIR_OUT || copyrdr->type == T_APPEND)
 		{
-			find_outfile(cmd, fileout); 
+			find_outfile(cmd, copyrdr, fileout); 
 		}
-		if (cmd->redir->type == T_REDIR_IN)
+		if (copyrdr->type == T_REDIR_IN)
 		{
-			find_infile(cmd, filein);
+			find_infile(cmd, copyrdr, filein);
 		}
-		cmd->redir = cmd->redir->next;
+		if (copyrdr->type == T_HEREDOC)
+		{
+			find_heredoc(cmd, copyrdr, filein);
+		}
+		copyrdr = copyrdr->next;
 	}
 	check_command(cmd, prompt);
 }
@@ -106,18 +114,22 @@ void	check_status(int exit_code)
 	g_exit_status = exit_code;
 }
 
-int	open_file(char *argv, int i)
+int	open_file(char *name, int i)
 {
 	int	file;
 
 	file = 0;
 	if (i == 0)
-		file = open(argv, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		file = open(name, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	else if (i == 1)
-		file = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	{
+		file = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	}
 	else if (i == 2)
-		file = open(argv, O_RDONLY, 0777);
+	{
+		file = open(name, O_RDONLY, 0777);
+	}
 	if (file == -1)
-		error(argv);
+		error(name);
 	return (file);
 }

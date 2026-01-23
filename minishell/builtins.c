@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 16:16:37 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/23 11:24:42 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 	{
 		while (copy->redir->type == T_REDIR_OUT)
 		{
-			find_outfile(copy, &fout);
+			find_outfile(copy, copy->redir, &fout);
 			i++;
 		}
 		i = 0;
 		while (copy->redir->type == T_REDIR_IN)
 		{
-			find_infile(copy, &fin);
+			find_infile(copy, copy->redir, &fin);
 			i++;
 		}
 		i = 0;

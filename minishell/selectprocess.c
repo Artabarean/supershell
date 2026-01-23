@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/22 12:49:04 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:40:18 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,15 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 		error("fork");
 	if (prompt->pid[i] == 0)
 	{
-		here_doc_check(cmd->tmp_doc, fin);
 		file_opener(prompt, cmd, fout, fin);
-		if ((i == 0 && cmd->full_cmd[0]) || (cmd->redir && cmd->redir->type == T_REDIR_IN))
+		if ((i == 0 && cmd->full_cmd[0]) || (cmd->redir && redirin(cmd->redir)))
 		{
-			if (n_cmds > 1 && i == 0)
+			if (((i + 1) < n_cmds && !redirout(cmd->redir)) || (i == 0 && n_cmds > 1))
 				child_process1(cmd, *fin, prompt->pfd[0][1], prompt);
-			else
+			else if (i > 0 || (i + 1) == n_cmds || redirout(cmd->redir))
+			{
 				child_process1(cmd, *fin, *fout, prompt);
+			}
 		}
 		else if (i > 0 && (i + 1) < n_cmds)
 			child_processmid(cmd, prompt, i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/20 10:17:59 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:19:34 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,14 +185,17 @@ void	reset_shell(int signal);
 
 //Debugging
 void	debug(t_prompt prompt);
+void	print_cmds(t_cmd *cmds);
 
 //Execution
 void	error(char *s);
 void	here_doc(t_cmd *cmds);
 int		get_next_line(char **line);
+int		redirin(t_redir *redir);
+int		redirout(t_redir *redir);
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt);
 void	pipex(t_prompt prompt);
-int		open_file(char *argv, int i);
+int		open_file(char *name, int i);
 void	check_status(int last_status);
 void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein);
 void	childprocess_(t_cmd *curr_nde, t_prompt *prompt);
@@ -200,8 +203,9 @@ int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
 int		execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt *prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
-void	find_outfile(t_cmd *cmd, int *fileout);
-void	find_infile(t_cmd *cmd, int *filein);
+void	find_outfile(t_cmd *cmd, t_redir *redir, int *fileout);
+void	find_infile(t_cmd *cmd, t_redir *redir, int *filein);
+void	find_heredoc(t_cmd *cmd, t_redir *redir, int *filein);
 void	check_command(t_cmd *cmd, t_prompt *prompt);
 
 void	child_process1(t_cmd *curr_node, int fin, int fout, t_prompt *prompt);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 16:30:56 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:49:57 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 		c = c->next;
 	}
 }
-
+//to fix :)
 char	*do_single_heredoc(char *limiter, t_env *env, int index)
 {
 	char	*line;
@@ -90,6 +90,7 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index)
 		}
 		expanded = expand_var(line, env);
 		ft_putendl_fd(expanded, fd);
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
 	return (close(fd), ft_strdup(filename));
