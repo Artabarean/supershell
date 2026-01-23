@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 11:24:42 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/23 12:57:05 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,23 @@ int	builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt)
 void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 {
 	t_cmd	*copy;
-	int		i;
 
-	i = 0;
 	copy = cmd;
-	while (copy)
+	while (copy->redir)
 	{
 		while (copy->redir->type == T_REDIR_OUT)
 		{
 			find_outfile(copy, copy->redir, &fout);
-			i++;
 		}
-		i = 0;
 		while (copy->redir->type == T_REDIR_IN)
 		{
 			find_infile(copy, copy->redir, &fin);
-			i++;
 		}
-		i = 0;
-		copy = copy->next;
+		while (copy->redir->type == T_HEREDOC)
+		{
+			find_heredoc(copy, copy->redir, &fin);
+		}
+		copy->redir = copy->redir->next;
 	}
 }
 //	Para ajustar la función a la norma se puede utilizar la variable cmd->max_tkns 
