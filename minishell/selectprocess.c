@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 12:40:18 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/23 14:13:34 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 			if (((i + 1) < n_cmds && !redirout(cmd->redir)) || (i == 0 && n_cmds > 1))
 				child_process1(cmd, *fin, prompt->pfd[0][1], prompt);
 			else if (i > 0 || (i + 1) == n_cmds || redirout(cmd->redir))
-			{
 				child_process1(cmd, *fin, *fout, prompt);
-			}
 		}
 		else if (i > 0 && (i + 1) < n_cmds)
 			child_processmid(cmd, prompt, i);

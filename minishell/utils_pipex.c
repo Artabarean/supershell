@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 12:18:43 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/23 14:24:24 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	i = 0;
 	n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, n_cmds);
-	single_builtin(n_cmds, cmd, prompt, fin, fout);
+	is_single_builtin(n_cmds, cmd, prompt, fin, fout);
 	create_pipes(prompt, n_cmds);
 	print_cmds(cmd);
 	while (i < n_cmds && cmd)

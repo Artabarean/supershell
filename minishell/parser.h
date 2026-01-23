@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 12:19:34 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/23 14:30:33 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,7 +231,8 @@ char	**count_heredoc(t_redir *redir);
 
 //Built-ins
 int		is_builtin(t_cmd *cmd);
-int		single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int filein, int fileout);
+int		is_single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout);
+void	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int filein, int fileout);
 int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void	run_builtin_son(t_cmd *cmd, int fin, int fout);
 int		run_builtin_child(t_cmd *cmd, t_prompt *prompt);

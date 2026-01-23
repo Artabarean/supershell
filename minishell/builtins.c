@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 12:57:05 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/23 14:25:39 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,20 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 	t_cmd	*copy;
 
 	copy = cmd;
-	while (copy->redir)
+	while (copy->redir != NULL)
 	{
-		while (copy->redir->type == T_REDIR_OUT)
+		if (copy->redir->type == T_REDIR_OUT)
 		{
+			ft_putendl_fd(copy->redir->file, 2);
 			find_outfile(copy, copy->redir, &fout);
 		}
-		while (copy->redir->type == T_REDIR_IN)
+		if (copy->redir->type == T_REDIR_IN)
 		{
+			ft_putendl_fd(copy->redir->file, 2);
 			find_infile(copy, copy->redir, &fin);
+			
 		}
-		while (copy->redir->type == T_HEREDOC)
+		if (copy->redir->type == T_HEREDOC)
 		{
 			find_heredoc(copy, copy->redir, &fin);
 		}
@@ -67,36 +70,6 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 //	No estás teniendo encuenta lo que devuelven las funciones para cambiar el g_exit_status?
 //	if(exit_builtin(cmd, prompt) == 1)
 //		perror...
-int	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
-{
-	if (n_cmds == 1 && cmd->full_cmd[0] != NULL)
-	{
-		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
-		{
-			run_builtin_son(cmd, fin, fout);
-			exit_builtin(cmd, prompt);
-			return (1);
-		}
-		if (!ft_strcmp(cmd->full_cmd[0], "cd"))
-		{
-			run_builtin_son(cmd, fin, fout);
-			cd(cmd->full_cmd, prompt);
-			return (1);
-		}
-		if (!ft_strcmp(cmd->full_cmd[0], "unset"))
-		{
-			run_builtin_son(cmd, fin, fout);
-			exit(builtin_unset(cmd->full_cmd, prompt));
-		}
-		if (!ft_strcmp(cmd->full_cmd[0], "export"))
-		{
-			run_builtin_son(cmd, fin, fout);
-			export_builtin(prompt ,cmd);
-			return (1);
-		}
-	}
-	return (0);
-}
 
 int	is_builtin(t_cmd *cmd)
 {
