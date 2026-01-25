@@ -12,25 +12,29 @@
 
 #include "parser.h"
 
-int	is_single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
+int	is_single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
-	if (n_cmds == 1 && cmd->full_cmd[0] != NULL)
+	if (prompt->n_cmds == 1 && cmd->full_cmd[0] != NULL)
 	{
 		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 		{
-			single_builtin(n_cmds, cmd, prompt, fin, fout);
+			single_builtin(cmd, prompt, fin, fout);
+			return (1);
 		}
 		if (!ft_strcmp(cmd->full_cmd[0], "cd"))
 		{
-			single_builtin(n_cmds, cmd, prompt, fin, fout);
+			single_builtin(cmd, prompt, fin, fout);
+			return (1);
 		}
 		if (!ft_strcmp(cmd->full_cmd[0], "unset"))
 		{
-			single_builtin(n_cmds, cmd, prompt, fin, fout);
+			single_builtin(cmd, prompt, fin, fout);
+			return (1);
 		}
 		if (!ft_strcmp(cmd->full_cmd[0], "export"))
 		{
-			single_builtin(n_cmds, cmd, prompt, fin, fout);
+			single_builtin(cmd, prompt, fin, fout);
+			return (1);
 		}
 	}
 	return (0);
@@ -41,8 +45,13 @@ int	is_single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fou
 //	No estás teniendo encuenta lo que devuelven las funciones para cambiar el g_exit_status?
 //	if(exit_builtin(cmd, prompt) == 1)
 //		perror...
-void	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
+void	single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
+	int	savein;
+	int	saveout;
+
+	savein = dup(0);
+	saveout = dup(1);
 	if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 	{
 		run_builtin_son(cmd, fin, fout);
@@ -63,4 +72,6 @@ void	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 		run_builtin_son(cmd, fin, fout);
 		export_builtin(prompt ,cmd);
 	}
+	dup2(savein, 0);
+	dup2(saveout, 1);
 }

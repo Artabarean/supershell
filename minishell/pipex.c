@@ -27,9 +27,6 @@ void	create_pipes(t_prompt *prompt, int n_cmds)
 
 void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 {
-	int	n_cmds;
-
-	n_cmds = pipecount(*prompt) + 1;
 	if (fin != -1)
 	{
 		dup2(fin, 0);
@@ -37,7 +34,7 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 	}
 	dup2(fout, 1);
 	close(fout);
-	closepfds(n_cmds, prompt);
+	closepfds(prompt->n_cmds, prompt);
 	if (is_builtin(cmd))
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
@@ -52,12 +49,9 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 
 void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 {
-	int	n_cmds;
-
-	n_cmds = pipecount(*prompt) + 1;
 	dup2(prompt->pfd[i - 1][0], 0);
 	dup2(prompt->pfd[i][1], 1);
-	closepfds(n_cmds, prompt);
+	closepfds(prompt->n_cmds, prompt);
 	if (is_builtin(cmd))
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
@@ -72,16 +66,13 @@ void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 
 void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 {
-	int	n_cmds;
-
-	n_cmds = pipecount(*prompt) + 1;
 	dup2(prompt->pfd[i - 1][0], 0);
 	if (fout != -1)
 	{
 		dup2(fout, 1);
 		close(fout);
 	}
-	closepfds(n_cmds, prompt);
+	closepfds(prompt->n_cmds, prompt);
 	if (is_builtin(cmd))
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
@@ -99,6 +90,7 @@ void	pipex(t_prompt prompt)
 	t_cmd	*current_node;
 
 	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
+	prompt.n_cmds = pipecount(prompt) + 1; 
 	current_node = prompt.cmds;
 	childprocess_(current_node, &prompt);
 	current_node = prompt.cmds;

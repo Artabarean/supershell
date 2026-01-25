@@ -95,6 +95,7 @@ typedef struct s_prompt
 {
 	t_cmd		*cmds;
 	char		*input;
+	int			n_cmds;
 	char		**tkns;
 	int			tkns_nbr;
 	t_toktype	*types;
@@ -231,8 +232,8 @@ char	**count_heredoc(t_redir *redir);
 
 //Built-ins
 int		is_builtin(t_cmd *cmd);
-int		is_single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int fin, int fout);
-void	single_builtin(int n_cmds, t_cmd *cmd, t_prompt *prompt, int filein, int fileout);
+int		is_single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout);
+void	single_builtin(t_cmd *cmd, t_prompt *prompt, int filein, int fileout);
 int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void	run_builtin_son(t_cmd *cmd, int fin, int fout);
 int		run_builtin_child(t_cmd *cmd, t_prompt *prompt);

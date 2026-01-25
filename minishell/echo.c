@@ -12,7 +12,6 @@
 
 #include "parser.h"
 
-//	echo no tiene que expandir las variables
 void	echo(char **full_cmd, t_env *env)
 {
 	int		i;

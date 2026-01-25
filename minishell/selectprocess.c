@@ -32,9 +32,6 @@ int	count_strs(char	**str)
 
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 {
-	int	n_cmds;
-
-	n_cmds = pipecount(*prompt) + 1;
 	prompt->pid[i] = fork();
 	if (prompt->pid[i] == -1)
 		error("fork");
@@ -43,14 +40,14 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 		file_opener(prompt, cmd, fout, fin);
 		if ((i == 0 && cmd->full_cmd[0]) || (cmd->redir && redirin(cmd->redir)))
 		{
-			if (((i + 1) < n_cmds && !redirout(cmd->redir)) || (i == 0 && n_cmds > 1))
+			if (((i + 1) < prompt->n_cmds && !redirout(cmd->redir)) || (i == 0 && prompt->n_cmds > 1))
 				child_process1(cmd, *fin, prompt->pfd[0][1], prompt);
-			else if (i > 0 || (i + 1) == n_cmds || redirout(cmd->redir))
+			else if (i > 0 || (i + 1) == prompt->n_cmds || redirout(cmd->redir))
 				child_process1(cmd, *fin, *fout, prompt);
 		}
-		else if (i > 0 && (i + 1) < n_cmds)
+		else if (i > 0 && (i + 1) < prompt->n_cmds)
 			child_processmid(cmd, prompt, i);
-		else if (i > 0 && (i + 1) == n_cmds)
+		else if (i > 0 && (i + 1) == prompt->n_cmds)
 			child_processend(cmd, *fout, prompt, i);
 		exit(g_exit_status);
 	}

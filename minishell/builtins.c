@@ -49,18 +49,30 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 	{
 		if (copy->redir->type == T_REDIR_OUT)
 		{
-			ft_putendl_fd(copy->redir->file, 2);
 			find_outfile(copy, copy->redir, &fout);
+			if (fout != -1)
+			{
+				dup2(fout, 1);
+				close(fout);
+			}
 		}
 		if (copy->redir->type == T_REDIR_IN)
 		{
-			ft_putendl_fd(copy->redir->file, 2);
 			find_infile(copy, copy->redir, &fin);
-			
+			if (fin != -1)
+			{
+				dup2(fin, 0);
+				close(fin);
+			}
 		}
 		if (copy->redir->type == T_HEREDOC)
 		{
 			find_heredoc(copy, copy->redir, &fin);
+			if (fin != 1)
+			{
+				dup2(fin, 0);
+				close(fin);
+			}
 		}
 		copy->redir = copy->redir->next;
 	}

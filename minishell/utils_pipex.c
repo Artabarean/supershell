@@ -52,19 +52,20 @@ int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 {
 	int	i;
-	int	n_cmds;
 	int	fin;
 	int	fout;
 
 	fin = -1;
 	fout = -1;
 	i = 0;
-	n_cmds = pipecount(*prompt) + 1;
-	pfd_alloc(prompt, n_cmds);
-	is_single_builtin(n_cmds, cmd, prompt, fin, fout);
-	create_pipes(prompt, n_cmds);
-	print_cmds(cmd);
-	while (i < n_cmds && cmd)
+	if (is_single_builtin(cmd, prompt, fin, fout) == 1)
+	{
+		g_exit_status = 0;
+		return ;
+	}
+	pfd_alloc(prompt, prompt->n_cmds);
+	create_pipes(prompt, prompt->n_cmds);
+	while (i < prompt->n_cmds && cmd)
 	{
 		if (cmd->redir && cmd->redir->type == T_HEREDOC)
 		{
@@ -72,7 +73,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 			fin = get_last_heredoc(cmd->tmp_doc);
 			if (fin == -1)
 			{
-				closepfds(n_cmds, prompt);
+				closepfds(prompt->n_cmds, prompt);
 				return ;
 			}
 		}
@@ -81,7 +82,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 		cmd = cmd->next;
 		i++;
 	}
-	closepfds(n_cmds, prompt);
+	closepfds(prompt->n_cmds, prompt);
 }
 
 void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)

@@ -74,7 +74,6 @@ void	exit_builtin(t_cmd *cmd, t_prompt *prompt)
 	bool		overflow;
 	long long	code;
 
-	ft_putstr_fd("hola\n", 2);
 	if (!cmd->full_cmd[1])
 		exit(pid_stat(cmd, prompt, 0));
 	if (!is_numeric(cmd->full_cmd[1]))
@@ -94,7 +93,7 @@ void	exit_builtin(t_cmd *cmd, t_prompt *prompt)
 	{
 		ft_putendl_fd("exit: too many arguments", 2);
 		g_exit_status = 1;
-		return;
+		return ;
 	}
 	free_all(prompt);
 	exit((unsigned char)code);
