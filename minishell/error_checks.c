@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 17:02:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 17:33:08 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:53:12 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	check_command(t_cmd *cmd, t_prompt *prompt, int *fout, int *fin)
 		copy = copy->next;
 	}
 }
+
 void	error_no_exit(char *s)
 {
 	s = ft_strjoin("minishell: ", s);

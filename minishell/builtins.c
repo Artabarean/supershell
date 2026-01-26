@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 15:06:26 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:51:53 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt)
 		}
 		else if (!ft_strcmp(cmd->full_cmd[0], "export"))
 		{
-			export_builtin(prompt ,cmd);
+			export_builtin(prompt, cmd);
 			return (1);
 		}
 		else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
@@ -39,7 +39,7 @@ int	builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt)
 	}
 	return (0);
 }
-//He cambiado la función para utilizar la nueva estructura redir
+// He cambiado la función para utilizar la nueva estructura redir
 void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 {
 	t_cmd	*copy;
@@ -83,11 +83,6 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 		copy->redir = copy->redir->next;
 	}
 }
-//	Para ajustar la función a la norma se puede utilizar la variable cmd->max_tkns 
-//	para guardar n_cmds?
-//	No estás teniendo encuenta lo que devuelven las funciones para cambiar el g_exit_status?
-//	if(exit_builtin(cmd, prompt) == 1)
-//		perror...
 
 int	is_builtin(t_cmd *cmd)
 {
@@ -119,9 +114,9 @@ int	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 	else if (!ft_strcmp(cmd->full_cmd[0], "env"))
 		env(prompt, cmd->full_cmd);
 	else if (!ft_strcmp(cmd->full_cmd[0], "export"))
-		export_builtin(prompt ,cmd);
+		export_builtin(prompt, cmd);
 	else if (!ft_strcmp(cmd->full_cmd[0], "unset"))
-		exit (builtin_unset(cmd->full_cmd, prompt));
+		exit(builtin_unset(cmd->full_cmd, prompt));
 	else if (!ft_strcmp(cmd->full_cmd[0], "cd"))
 		cd(cmd->full_cmd, prompt);
 	else if (!ft_strcmp(cmd->full_cmd[0], "exit"))

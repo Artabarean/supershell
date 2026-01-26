@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:49:17 by codespace         #+#    #+#             */
-/*   Updated: 2026/01/12 17:05:25 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:59:43 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,14 @@ void	env_add_or_update(t_prompt *prompt, char *arg)
 	if (node)
 	{
 		free(node->value);
-		node->value = value ? value : NULL;
+		node->value = value;
 		free(key);
 	}
 	else
 	{
 		node = malloc(sizeof(t_env));
+		if (!node)
+			return ;
 		node->keyword = key;
 		node->value = value;
 		node->next = prompt->enviroment;

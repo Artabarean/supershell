@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 14:36:07 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 18:14:26 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,9 @@ void	pipex(t_prompt prompt)
 	g_exit_status = pid_stat(current_node, &prompt, g_exit_status);
 	set_signal(SIG_PROMPT);
 	check_status(g_exit_status);
-	free(prompt.error_msg);
-	free(prompt.pid);
+	if (prompt.error_msg)
+		free(prompt.error_msg);
+	if (prompt.pid)
+		free(prompt.pid);
 	cleanup_heredoc_files(prompt.cmds);
 }

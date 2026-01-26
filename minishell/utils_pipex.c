@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 17:13:17 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:52:38 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 {
 	t_redir	*copyrdr;
 
-	copyrdr = cmd->redir;	
-	while(copyrdr != NULL)
+	copyrdr = cmd->redir;
+	while (copyrdr != NULL)
 	{
 		if (copyrdr->type == T_REDIR_OUT || copyrdr->type == T_APPEND)
 		{
 			if (*fileout != -1)
 				close(*fileout);
-			find_outfile(copyrdr, fileout); 
+			find_outfile(copyrdr, fileout);
 		}
 		if (copyrdr->type == T_REDIR_IN)
 		{
@@ -94,7 +94,6 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 
 void	check_status(int exit_code)
 {
-//	printf("Exited with code %d\n", exit_code);
 	g_exit_status = exit_code;
 }
 
