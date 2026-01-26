@@ -44,8 +44,6 @@ bool	parser(t_prompt *prompt, t_cmd *curr)
 	i = 0;
 	while (prompt->tkns[i])
 	{
-		while (prompt->tkns[i] && prompt->tkns[i][0] == '\0')
-			i++;
 		if (!prompt->tkns[i])
 			return (false);
 		if (prompt->types[i] == T_PIPE)
@@ -62,7 +60,7 @@ bool	parser(t_prompt *prompt, t_cmd *curr)
 		else
 			handle_word(prompt, curr, &i);
 	}
-		if (!curr->full_cmd || (!curr->full_cmd[0] && !curr->redir))
+	if (!curr->full_cmd && !curr->redir))
 		return (syntax_error("newline"), false);
 	curr->next = NULL;
 	return (true);
