@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 15:12:39 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/26 14:50:41 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	closepfds(int n_cmds, t_prompt *prompt)
 		}
 		i++;
 	}
+	free(prompt->pfd);
 }
 
 void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
@@ -87,32 +88,26 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 int	execute_(t_cmd *cmd, t_prompt *prompt)
 {
 	int	i;
-	int	n_cmds;
 
 	i = 0;
-	n_cmds = pipecount(*prompt) + 1;
-	pfd_alloc(prompt, n_cmds);
+	prompt->n_cmds = pipecount(*prompt) + 1;
+	pfd_alloc(prompt, prompt->n_cmds);
 	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)
 		return (1);
 	check_command(cmd, prompt);
-	while (i < n_cmds - 1)
-	{
-		if (pipe(prompt->pfd[i]) == -1)
-			error("Pipe failed");
-		i++;
-	}
-	i = 0;
-	while (i < n_cmds && cmd)
+	create_pipes(prompt, prompt->n_cmds);
+	while (i < prompt->n_cmds && cmd)
 	{
 		forker(prompt, i);
 		if (prompt->pid[i] == 0)
 		{
 			set_signal(SIG_CHILD);
-			child_process(cmd, prompt, i, n_cmds);
+			child_process(cmd, prompt, i, prompt->n_cmds);
 		}
 		i++;
+		free(cmd->full_path);
 		cmd = cmd->next;
 	}
-	closepfds(n_cmds, prompt);
+	closepfds(prompt->n_cmds, prompt);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 14:25:39 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 15:06:26 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 	{
 		if (copy->redir->type == T_REDIR_OUT)
 		{
-			find_outfile(copy, copy->redir, &fout);
+			if (fout != -1)
+				close(fout);
+			find_outfile(copy->redir, &fout);
 			if (fout != -1)
 			{
 				dup2(fout, 1);
@@ -58,7 +60,9 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 		}
 		if (copy->redir->type == T_REDIR_IN)
 		{
-			find_infile(copy, copy->redir, &fin);
+			if (fin != -1)
+				close(fin);
+			find_infile(copy->redir, &fin);
 			if (fin != -1)
 			{
 				dup2(fin, 0);
@@ -67,6 +71,8 @@ void	run_builtin_son(t_cmd *cmd, int fin, int fout)
 		}
 		if (copy->redir->type == T_HEREDOC)
 		{
+			if (fin != -1)
+				close(fin);
 			find_heredoc(copy, copy->redir, &fin);
 			if (fin != 1)
 			{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 14:08:54 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/26 14:36:07 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 		dup2(fin, 0);
 		close(fin);
 	}
-	dup2(fout, 1);
-	close(fout);
+	if (fout != -1)
+	{
+		dup2(fout, 1);
+		close(fout);
+	}
 	closepfds(prompt->n_cmds, prompt);
 	if (is_builtin(cmd))
 		exit(run_builtin_child(cmd, prompt));
@@ -90,7 +93,7 @@ void	pipex(t_prompt prompt)
 	t_cmd	*current_node;
 
 	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
-	prompt.n_cmds = pipecount(prompt) + 1; 
+	prompt.n_cmds = pipecount(prompt) + 1;
 	current_node = prompt.cmds;
 	childprocess_(current_node, &prompt);
 	current_node = prompt.cmds;
@@ -98,5 +101,6 @@ void	pipex(t_prompt prompt)
 	set_signal(SIG_PROMPT);
 	check_status(g_exit_status);
 	free(prompt.error_msg);
+	free(prompt.pid);
 	cleanup_heredoc_files(prompt.cmds);
 }

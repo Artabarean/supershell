@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 14:24:24 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 15:20:25 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,16 @@
 int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 {
 	int	i;
-	int	n_cmds;
 	int	wstatus;
 
 	i = 0;
-	n_cmds = pipecount(*prompt) + 1;
 	wstatus = 0;
-	while (i < n_cmds && curr_nde)
+	while (i < prompt->n_cmds && curr_nde)
 	{
 		set_signal(SIG_WAIT);
 		waitpid(prompt->pid[i], &wstatus, 0);
 		if (checkfather_builtin(curr_nde) == 0)
-		{
-			if (curr_nde->next == NULL)
-			{
-				if (WIFEXITED(wstatus))
-					last_status = WEXITSTATUS(wstatus);
-				else if (WIFSIGNALED(wstatus))
-				{
-					last_status = 128 + WTERMSIG(wstatus);
-					if(WTERMSIG(wstatus) == SIGQUIT)
-						write(2, "Quit (core dumped)\n", 19);
-					if(WTERMSIG(wstatus) == SIGINT)
-						write(1, "\n", 1);
-				}
-			}
-		}
+			is_parent(curr_nde, &wstatus, &last_status);
 		else
 			last_status = 0;
 		curr_nde = curr_nde->next;
@@ -65,20 +49,13 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	}
 	pfd_alloc(prompt, prompt->n_cmds);
 	create_pipes(prompt, prompt->n_cmds);
+	print_cmds(cmd);
 	while (i < prompt->n_cmds && cmd)
 	{
-		if (cmd->redir && cmd->redir->type == T_HEREDOC)
-		{
-			process_heredocs(cmd, prompt->enviroment);
-			fin = get_last_heredoc(cmd->tmp_doc);
-			if (fin == -1)
-			{
-				closepfds(prompt->n_cmds, prompt);
-				return ;
-			}
-		}
+		handle_heredoc(prompt, cmd, &fin);
 		selectprocess(prompt, cmd, i, &fin, &fout);
 		check_error(prompt, i);
+		free(cmd->full_path);
 		cmd = cmd->next;
 		i++;
 	}
@@ -94,14 +71,20 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 	{
 		if (copyrdr->type == T_REDIR_OUT || copyrdr->type == T_APPEND)
 		{
-			find_outfile(cmd, copyrdr, fileout); 
+			if (*fileout != -1)
+				close(*fileout);
+			find_outfile(copyrdr, fileout); 
 		}
 		if (copyrdr->type == T_REDIR_IN)
 		{
-			find_infile(cmd, copyrdr, filein);
+			if (*filein != -1)
+				close(*filein);
+			find_infile(copyrdr, filein);
 		}
 		if (copyrdr->type == T_HEREDOC)
 		{
+			if (*filein != -1)
+				close(*filein);
 			find_heredoc(cmd, copyrdr, filein);
 		}
 		copyrdr = copyrdr->next;

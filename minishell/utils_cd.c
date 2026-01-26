@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   utils_cd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:24:39 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 17:04:44 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/26 14:24:31 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
+{
+	if (curr_nde->next == NULL)
+	{
+		if (WIFEXITED(*wstatus))
+			*last_status = WEXITSTATUS(*wstatus);
+		else if (WIFSIGNALED(*wstatus))
+		{
+			*last_status = 128 + WTERMSIG(*wstatus);
+			if(WTERMSIG(*wstatus) == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 19);
+			if(WTERMSIG(*wstatus) == SIGINT)
+				write(1, "\n", 1);
+		}
+	}
+}
 
 int	checkfather_builtin(t_cmd *cmd)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:06:27 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/12 11:52:51 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/26 13:06:24 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,7 @@ void	free_all(t_prompt *prompt)
 		prompt->quotes = NULL;
 	}
 	if (prompt->cmds)
-	{
 		free_cmds(&prompt->cmds);
-	}
 	if (prompt->input)
 	{
 		free(prompt->input);

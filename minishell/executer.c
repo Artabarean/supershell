@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2026/01/12 16:22:22 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/26 14:10:15 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-//actualizada la función con la nueva estructura
+
 void	executer(t_prompt *prompt)
 {
 	t_cmd	*cmd;
@@ -32,7 +32,6 @@ void	executer(t_prompt *prompt)
 	{
 		cmd = prompt->cmds;
 		prompt->pid = malloc(sizeof(pid_t) * (pipecount(*prompt) + 1));
-//		printf("calling execute\n");
 		if(!execute_(cmd, prompt))
 		{
 			g_exit_status = pid_stat(cmd, prompt, g_exit_status);

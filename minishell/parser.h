@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 14:30:33 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 15:05:06 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ void	print_cmds(t_cmd *cmds);
 
 //Execution
 void	error(char *s);
+void	piper(t_prompt *prompt);
 void	here_doc(t_cmd *cmds);
 int		get_next_line(char **line);
 int		redirin(t_redir *redir);
@@ -204,8 +205,8 @@ int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
 int		execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt *prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
-void	find_outfile(t_cmd *cmd, t_redir *redir, int *fileout);
-void	find_infile(t_cmd *cmd, t_redir *redir, int *filein);
+void	find_outfile(t_redir *redir, int *fileout);
+void	find_infile(t_redir *redir, int *filein);
 void	find_heredoc(t_cmd *cmd, t_redir *redir, int *filein);
 void	check_command(t_cmd *cmd, t_prompt *prompt);
 
@@ -225,6 +226,7 @@ void	check_error(t_prompt *prompt, int i);
 //Here_doc
 int		process_heredocs(t_cmd *cmd, t_env *env);
 int		count_strs(char	**str);
+void	handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin);
 int		get_last_heredoc(char **tmp_doc);
 void	cleanup_heredoc_files(t_cmd *cmds);
 void	here_doc_check(char **here_doc, int *fin);
@@ -238,6 +240,7 @@ int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void	run_builtin_son(t_cmd *cmd, int fin, int fout);
 int		run_builtin_child(t_cmd *cmd, t_prompt *prompt);
 int		checkfather_builtin(t_cmd *cmd);
+void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status);
 void	exit_builtin(t_cmd *cmd, t_prompt *prompt);
 int		builtin_unset(char **args, t_prompt *prompt);
 int		is_valid_identifier(char *s);

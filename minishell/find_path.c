@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/12 16:26:00 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/26 14:41:42 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-//a esta función no le falta un ft_putendl_fd (prompt->error_msg[j], 2); al final?
 void	printerr(t_prompt *prompt, char *full_cmd, int j)
 {
 	char	*tmp;
@@ -90,7 +89,6 @@ int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 	return (printerr(prompt, cmd->full_cmd[0], j), 1);
 }
 
-//cuando no encuentra comandos entra en esta función y no imprime el mensaje: command not found?
 int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)
 {
 	int		i;

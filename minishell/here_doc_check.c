@@ -6,11 +6,25 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 12:41:17 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 14:04:13 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+void	handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin)
+{
+	if (cmd->redir && cmd->redir->type == T_HEREDOC)
+	{
+		process_heredocs(cmd, prompt->enviroment);
+		*fin = get_last_heredoc(cmd->tmp_doc);
+		if (*fin == -1)
+		{
+			closepfds(prompt->n_cmds, prompt);
+			return ;
+		}
+	}
+}
 
 char	**count_heredoc(t_redir *redir)
 {
