@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 17:02:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 17:15:30 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:33:08 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ void	check_command(t_cmd *cmd, t_prompt *prompt, int *fout, int *fin)
 			}
 			if (copy->full_cmd[0] == NULL)
 			{
-				close(*fout);
-				close(*fin);
+				if (*fout != -1)
+					close(*fout);
+				if (*fin != -1)
+					close(*fin);
 				exit(0);
 			}
 		}

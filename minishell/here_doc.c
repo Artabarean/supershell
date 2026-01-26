@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 16:40:36 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:45:06 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,20 @@ int	get_last_heredoc(char **tmp_doc)
 	return (1);
 }
 
-char	*createfile(char *filename, int index)
+char	*createfile(int index)
 {
-	filename = ft_strjoin("heredoc_", ft_itoa(index));
+	char	*filename;
+	char	*idx;
+
+	idx = ft_itoa(index);
+	filename = ft_strjoin("heredoc_", idx);
 	while (access(filename, F_OK) == 0)
 	{
 		free(filename);
 		index++;
-		filename = ft_strjoin("heredoc_", ft_itoa(index));
+		filename = ft_strjoin("heredoc_", idx);
 	}
+	free(idx);
 	return (filename);
 }
 
@@ -71,11 +76,13 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index)
 	char	*filename;
 	int		fd;
 
-	filename = NULL;
-	filename = createfile(filename, index);
+	filename = createfile(index);
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
+	{
+		free(filename);
 		error("heredoc tmpfile");
+	}
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
