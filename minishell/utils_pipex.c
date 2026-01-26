@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 15:20:25 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:13:17 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	}
 	pfd_alloc(prompt, prompt->n_cmds);
 	create_pipes(prompt, prompt->n_cmds);
-	print_cmds(cmd);
 	while (i < prompt->n_cmds && cmd)
 	{
-		handle_heredoc(prompt, cmd, &fin);
+		if (handle_heredoc(prompt, cmd, &fin) == 1)
+			return ;
 		selectprocess(prompt, cmd, i, &fin, &fout);
 		check_error(prompt, i);
 		free(cmd->full_path);
@@ -89,7 +89,7 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 		}
 		copyrdr = copyrdr->next;
 	}
-	check_command(cmd, prompt);
+	check_command(cmd, prompt, fileout, filein);
 }
 
 void	check_status(int exit_code)

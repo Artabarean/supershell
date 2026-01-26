@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 12:21:31 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 15:05:24 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 15:57:47 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,5 @@ void	find_heredoc(t_cmd *cmd, t_redir *redir, int *filein)
 
 	copyrdr = redir;
 	last = count_strs(cmd->tmp_doc) - 1;
-	ft_putendl_fd(cmd->tmp_doc[last], 2);
 	*filein = open_file(cmd->tmp_doc[last], 2);
 }

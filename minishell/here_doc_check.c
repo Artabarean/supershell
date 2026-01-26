@@ -6,13 +6,31 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 14:04:13 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 16:28:09 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin)
+char	*expand_for_heredoc(char *str, t_env *env)
+{
+	char	*keyword;
+
+	keyword = NULL;
+	if (!str || !*str)
+		return (ft_strdup(""));
+	while (env)
+	{
+		keyword = ft_strjoin("$", env->keyword);
+		if (!ft_strcmp(str, keyword))
+			return (free(keyword), ft_strdup(env->value));
+		free(keyword);
+		env = env->next;
+	}
+	return (str);
+}
+
+int	handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin)
 {
 	if (cmd->redir && cmd->redir->type == T_HEREDOC)
 	{
@@ -21,9 +39,10 @@ void	handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin)
 		if (*fin == -1)
 		{
 			closepfds(prompt->n_cmds, prompt);
-			return ;
+			return (1);
 		}
 	}
+	return (0);
 }
 
 char	**count_heredoc(t_redir *redir)
@@ -40,24 +59,7 @@ char	**count_heredoc(t_redir *redir)
 			count++;
 		copy = copy->next;
 	}
-	sizer = malloc(sizeof(char *) * count);
+	sizer = malloc(sizeof(char *) * (count + 1));
 	sizer[count] = NULL;
 	return (sizer);
 }
-
-// void	here_doc_check(char **here_doc, int *fin)
-// {
-// 	int	last;
-// 	int	hd_fd;
-
-// 	if (here_doc)
-// 	{
-// 		last = count_strs(here_doc) - 1;
-// 		hd_fd = open(here_doc[last], O_RDONLY);
-// 		if (hd_fd == -1)
-// 			error("heredoc open failed");
-// 		dup2(hd_fd, 0);
-// 		close(hd_fd);
-// 		dup2(0, *fin);
-// 	}
-// }

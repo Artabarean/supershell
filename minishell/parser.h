@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 15:05:06 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:17:41 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ void	print_cmds(t_cmd *cmds);
 
 //Execution
 void	error(char *s);
+void	error_no_exit(char *s);
 void	piper(t_prompt *prompt);
 void	here_doc(t_cmd *cmds);
 int		get_next_line(char **line);
@@ -208,12 +209,14 @@ void	pfd_alloc(t_prompt *prompt, int n_cmds);
 void	find_outfile(t_redir *redir, int *fileout);
 void	find_infile(t_redir *redir, int *filein);
 void	find_heredoc(t_cmd *cmd, t_redir *redir, int *filein);
-void	check_command(t_cmd *cmd, t_prompt *prompt);
+void	check_command(t_cmd *cmd, t_prompt *prompt, int *fout, int *fin);
+void	check_com(t_cmd *cmd, t_prompt *prompt);
 
 void	child_process1(t_cmd *curr_node, int fin, int fout, t_prompt *prompt);
 void	child_processmid(t_cmd *curr_node, t_prompt *prompt, int i);
 void	child_processend(t_cmd *curr_node, int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);
+void	close_files(int	*fout, int *fin);
 int		find_path(t_cmd *cmd, t_prompt *prompt, int i);
 void	closepfds(int n_cmds, t_prompt *prompt);
 void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout);
@@ -226,10 +229,10 @@ void	check_error(t_prompt *prompt, int i);
 //Here_doc
 int		process_heredocs(t_cmd *cmd, t_env *env);
 int		count_strs(char	**str);
-void	handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin);
+char	*expand_for_heredoc(char *str, t_env *env);
+int		handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin);
 int		get_last_heredoc(char **tmp_doc);
 void	cleanup_heredoc_files(t_cmd *cmds);
-void	here_doc_check(char **here_doc, int *fin);
 char	**count_heredoc(t_redir *redir);
 
 //Built-ins

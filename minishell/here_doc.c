@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 12:49:57 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 16:40:36 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 char	*do_single_heredoc(char *limiter, t_env *env, int index)
 {
 	char	*line;
-	char	*expanded;
 	char	*filename;
 	int		fd;
 
@@ -88,12 +87,10 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index)
 			free(line);
 			break ;
 		}
-		expanded = expand_var(line, env);
-		ft_putendl_fd(expanded, fd);
-		ft_putendl_fd(line, fd);
+		ft_putendl_fd(expand_for_heredoc(line, env), fd);
 		free(line);
 	}
-	return (close(fd), ft_strdup(filename));
+	return (close(fd), filename);
 }
 
 int	process_heredocs(t_cmd *cmd, t_env *env)
@@ -105,11 +102,12 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	if (!cmd->redir)
 		return (0);
 	r = cmd->redir;
-	cmd->tmp_doc = count_heredoc(cmd->redir);
 	while (r)
 	{
 		if (r->type == T_HEREDOC)
 		{
+			if (!cmd->tmp_doc)
+				cmd->tmp_doc = count_heredoc(cmd->redir);
 			set_signal(SIG_HEREDOC);
 			cmd->tmp_doc[i] = do_single_heredoc(r->file, env, i);
 			i++;

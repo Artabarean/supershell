@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 15:35:49 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:21:07 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 		{
 			if (((i + 1) < prompt->n_cmds && !redirout(cmd->redir)) 
 				|| (i == 0 && prompt->n_cmds > 1 && !redirout(cmd->redir)))
-			{
 				child_process1(cmd, *fin, prompt->pfd[0][1], prompt);
-			}
 			else if (i > 0 || (i + 1) == prompt->n_cmds || redirout(cmd->redir))
 				child_process1(cmd, *fin, *fout, prompt);
 		}
@@ -54,6 +52,6 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 			child_processend(cmd, *fout, prompt, i);
 		exit(g_exit_status);
 	}
-	if (!is_builtin(cmd))
+	if (!is_builtin(cmd) && cmd->full_cmd[0])
 		find_path(cmd, prompt, i);
 }

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/01/12 17:08:03 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/26 17:19:08 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-//No compruebas lo que devuelve find_path_no_print
-//si no encuentra el comando no imprime command not found
-void	check_command(t_cmd *cmd, t_prompt *prompt)
+
+void	check_com(t_cmd *cmd, t_prompt *prompt)
 {
 	t_cmd	*copy;
 
@@ -28,26 +27,13 @@ void	check_command(t_cmd *cmd, t_prompt *prompt)
 					find_path_no_print(copy, prompt);
 			}
 			if (copy->full_cmd[0] == NULL)
+			{
 				exit(0);
+			}
 		}
 		copy = copy->next;
 	}
 }
-void	error_no_exit(char *s)
-{
-	s = ft_strjoin("minishell: ", s);
-	perror(s);
-}
-
-void	error(char *s)
-{
-	s = ft_strjoin("minishell: ", s);
-	perror(s);
-	exit(EXIT_FAILURE);
-}
-//la variable prompt->enviroment->envp no está iniciada en ningún sitio
-//creo que es mejor no crearla al iniciar el enviroment porque puede cambiar al hacer EXPORT
-//se puede crear un char **envp en esta función y liberarlo después de execve
 
 void	check_exec_errors(char *path)
 {

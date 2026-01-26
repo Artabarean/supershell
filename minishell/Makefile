@@ -6,7 +6,7 @@
 #    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/01/26 15:06:38 by atabarea         ###   ########.fr        #
+#    Updated: 2026/01/26 17:16:21 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,8 @@ SRC	 =	main.c \
 		expand.c \
 		expand_utils.c \
 		printnofile.c \
-		is_single_builtin.c 
+		is_single_builtin.c \
+		error_checks.c 
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 
