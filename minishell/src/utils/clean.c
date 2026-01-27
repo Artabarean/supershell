@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:06:27 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 15:06:08 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:07:07 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,6 @@ void	free_cmds(t_cmd **lst)
 		current = tmp;
 	}
 	*lst = NULL;
-}
-
-void	free_env(t_env *env)
-{
-	t_env	*tmp;
-	//int		i;
-
-	while (env)
-	{
-		tmp = env;
-		if (env->keyword)
-			free(env->keyword);
-		if (env->value)
-			free(env->value);
-		env = tmp->next;
-		free(tmp);
-	}
 }
 
 void	free_all(t_prompt *prompt)

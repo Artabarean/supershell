@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/01/27 15:08:23 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:03:57 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 {
 	char	**envp;
 	int		err;
-	
+
 	if (!full_path)
 		exit(EXIT_FAILURE);
 	envp = env_to_envp(prompt->enviroment);
@@ -72,7 +72,7 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 		error_no_exit(full_path);
 		if (err == ENOENT)
 			exit(127);
-		else if(err == EACCES)
+		else if (err == EACCES)
 			exit(126);
 		else
 			exit(1);

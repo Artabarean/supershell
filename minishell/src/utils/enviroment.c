@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:06:53 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 15:06:22 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:07:19 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,20 @@ char	*get_user(t_prompt *prompt)
 	if (!temp)
 		temp = ft_strdup("guest");
 	return (temp);
+}
+
+void	free_env(t_env *env)
+{
+	t_env	*tmp;
+
+	while (env)
+	{
+		tmp = env;
+		if (env->keyword)
+			free(env->keyword);
+		if (env->value)
+			free(env->value);
+		env = tmp->next;
+		free(tmp);
+	}
 }

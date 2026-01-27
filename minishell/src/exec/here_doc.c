@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:28 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:02:50 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 		c = c->next;
 	}
 }
+
 //to fix :)
 char	*do_single_heredoc(char *limiter, t_env *env, int index)
 {

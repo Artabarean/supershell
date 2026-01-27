@@ -6,16 +6,11 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:28:26 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:12 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:06:23 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_valid_var_char(char c)
-{
-	return (ft_isalnum(c) || c == '_');
-}
 
 char	*expand(char *str, t_env *env)
 {
@@ -40,51 +35,22 @@ char	*expand(char *str, t_env *env)
 	return (result);
 }
 
-void	delate_tkn(t_prompt *prompt)
+char	*expand_dollar(char *res, char *str, int *i, t_env *env)
 {
-	int	i;
-
-	if (!prompt || !prompt->tkns)
-		return ;
-	i = 0;
-	while (prompt->tkns[i] && prompt->tkns[i][0] != '\0')
-		i++;
-	if (!prompt->tkns[i])
-		return ;
-	free(prompt->tkns[i]);
-	while (prompt->tkns[i + 1])
+	(*i)++;
+	if (!str[*i] || str[*i] == ' ' || str[*i] == '"' || str[*i] == '\'')
+		return (extract_dollar(res));
+	if (str[*i] == '?')
 	{
-		prompt->tkns[i] = prompt->tkns[i + 1];
-		prompt->types[i] = prompt->types[i + 1];
-		prompt->quotes[i] = prompt->quotes[i + 1];
-		i++;
+		(*i)++;
+		return (extract_e_status(res));
 	}
-	prompt->tkns[i] = NULL;
-}
-
-void	expand_tkn(t_prompt *prompt)
-{
-	int	i;
-
-	i = 0;
-	while (prompt->tkns[i])
+	if (str[*i] == '$')
 	{
-		if (prompt->types[i] != T_WORD)
-		{
-			i++;
-			continue ;
-		}
-		if (prompt->quotes[i] == Q_SINGLE)
-		{
-			i++;
-			continue ;
-		}
-		prompt->tkns[i] = expand(prompt->tkns[i], prompt->enviroment);
-		if (prompt->tkns[i][0] == '\0' && prompt->quotes[i] == Q_NONE)
-			delate_tkn(prompt);
-		else
-			i++;
+		(*i)++;
+		return (extract_pid(res));
 	}
+	return (extract_str(res, str, i, env));
 }
 
 char	*expand_var(char *str, t_env *enviroment)

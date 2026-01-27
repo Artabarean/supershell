@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 16:20:13 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:55:01 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int	execute_(t_cmd *cmd, t_prompt *prompt)
 	int	i;
 
 	i = 0;
-	printf("n cmds: %d\n", prompt->n_cmds);
 	prompt->n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, prompt->n_cmds);
 	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)

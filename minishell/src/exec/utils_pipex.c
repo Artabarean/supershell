@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 16:29:51 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:55:34 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 		copyrdr = copyrdr->next;
 	}
 	check_command(cmd, prompt, fileout, filein);
-	debug(*prompt);
 }
 
 void	check_status(int exit_code)

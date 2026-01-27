@@ -6,7 +6,7 @@
 #    By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/01/27 15:25:31 by medel-ca         ###   ########.fr        #
+#    Updated: 2026/01/27 17:06:10 by medel-ca         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRC	 =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/builtins/export.c \
 		$(SRC_DIR)/parser/expand.c \
 		$(SRC_DIR)/parser/expand_utils.c \
+		$(SRC_DIR)/parser/expand_utils2.c \
 		$(SRC_DIR)/exec/printnofile.c \
 		$(SRC_DIR)/builtins/is_single_builtin.c \
 		$(SRC_DIR)/utils/error_checks.c \

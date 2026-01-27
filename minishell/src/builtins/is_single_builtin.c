@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:24:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:37 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:57:50 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,6 @@ int	is_single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 	return (0);
 }
 
-//	Para ajustar la función a la norma se puede utilizar la variable cmd->max_tkns 
-//	para guardar n_cmds?
-//	No estás teniendo encuenta lo que devuelven las funciones para cambiar el g_exit_status?
-//	if(exit_builtin(cmd, prompt) == 1)
-//		perror...
 void	single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
 	int	savein;
@@ -66,7 +61,7 @@ void	single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 	if (!ft_strcmp(cmd->full_cmd[0], "unset"))
 		builtin_unset(cmd->full_cmd, prompt);
 	if (!ft_strcmp(cmd->full_cmd[0], "export"))
-		export_builtin(prompt ,cmd);
+		export_builtin(prompt, cmd);
 	close(fin);
 	close(fout);
 	dup2(savein, 0);

@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:26 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:02:37 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ int	handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin)
 
 char	**count_heredoc(t_redir *redir)
 {
-	t_redir *copy;
+	t_redir	*copy;
 	int		count;
 	char	**sizer;
 
 	count = 0;
 	copy = redir;
-	while(copy)
+	while (copy)
 	{
 		if (copy->type == T_HEREDOC)
 			count++;

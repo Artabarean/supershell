@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 12:21:31 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:17 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:01:14 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	redirout(t_redir *redir)
 {
-	t_redir *copyrdr;
+	t_redir	*copyrdr;
 
 	copyrdr = redir;
 	while (copyrdr != NULL)
 	{
 		if (copyrdr->type == T_REDIR_OUT)
 		{
-			return(1);
+			return (1);
 		}
 		copyrdr = copyrdr->next;
 	}
@@ -30,14 +30,14 @@ int	redirout(t_redir *redir)
 
 int	redirin(t_redir *redir)
 {
-	t_redir *copyrdr;
+	t_redir	*copyrdr;
 
 	copyrdr = redir;
 	while (copyrdr != NULL)
 	{
 		if (copyrdr->type == T_REDIR_IN)
 		{
-			return(1);
+			return (1);
 		}
 		copyrdr = copyrdr->next;
 	}
@@ -46,7 +46,7 @@ int	redirin(t_redir *redir)
 
 int	find_outfile(t_redir *redir, int *fileout)
 {
-	t_redir *copyrdr;
+	t_redir	*copyrdr;
 
 	copyrdr = redir;
 	if (copyrdr->type == T_APPEND)

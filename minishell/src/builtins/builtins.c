@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:05:56 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:36:27 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt)
 void	run_builtin_son(t_cmd *cmd, int *fin, int *fout)
 {
 	t_redir	*copyrdr;
-	t_cmd 	*copy;
+	t_cmd	*copy;
 
 	copy = cmd;
 	copyrdr = cmd->redir;

@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2026/01/27 15:06:30 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:00:30 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	executer(t_prompt *prompt)
 	{
 		cmd = prompt->cmds;
 		prompt->pid = malloc(sizeof(pid_t) * (pipecount(*prompt) + 1));
-		if(!execute_(cmd, prompt))
+		if (!execute_(cmd, prompt))
 		{
 			g_exit_status = pid_stat(cmd, prompt, g_exit_status);
 			check_status(g_exit_status);

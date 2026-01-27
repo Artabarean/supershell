@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:24:39 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:08:15 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 16:59:47 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
 		else if (WIFSIGNALED(*wstatus))
 		{
 			*last_status = 128 + WTERMSIG(*wstatus);
-			if(WTERMSIG(*wstatus) == SIGQUIT)
+			if (WTERMSIG(*wstatus) == SIGQUIT)
 				write(2, "Quit (core dumped)\n", 19);
-			if(WTERMSIG(*wstatus) == SIGINT)
+			if (WTERMSIG(*wstatus) == SIGINT)
 				write(1, "\n", 1);
 		}
 	}

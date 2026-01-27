@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 16:03:36 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:01:39 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*get_environments(char *name, t_prompt *prompt)
 	}
 	return (path);
 }
+
 //la función printnofile ya no es necesaria, el mensaje ya se está imprimiendo
 int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 {

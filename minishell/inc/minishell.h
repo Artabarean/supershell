@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:15:06 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/27 17:16:06 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,17 @@ typedef struct s_prompt
 	int			pip_exec;
 }			t_prompt;
 
+
+
 //Enviroment
 void	fill_env(char *env, t_env *e);
 t_env	*new_env(void);
 void	init_env(t_prompt *prompt, char **env);
 char	*get_user(t_prompt *prompt);
+void	free_env(t_env *env);
+
+//Env
+int	env(t_prompt *prompt, char **args);
 char	**env_to_envp(t_env *env);
 
 //Init
@@ -119,6 +125,13 @@ void	init_tkns(t_prompt *prompt);
 void	init_prompt(t_prompt *prompt, char **envp);
 t_cmd	*create_cmd(t_prompt *prompt);
 int		count_input(char *input);
+
+//Input
+int	correct_input(char *input);
+int	not_only_spaces(char *input);
+int	closed_quotes(char *input);
+int	is_valid_input(char *input);
+void	get_user_input(t_prompt *prompt);
 
 //Lexer utils
 void	extract_sym(char **ptr, t_prompt *prompt, int index);
@@ -132,14 +145,6 @@ int		lexer(t_prompt *prompt);
 char	*extract_token(char **input, t_prompt *prompt, int i);
 char	*extract_word_part(char **input);
 int		is_separator(char c);
-void	extract_sym(char **ptr, t_prompt *prompt, int index);
-
-//Utils
-int		ft_chrcmpr( char prompt, char sym);
-char	*ft_strjoin_free(char *s1, char *s2);
-void	add_cmd_back(t_cmd **lst, t_cmd *new);
-void	syntax_error(char *token);
-int		is_redirection_type(t_toktype type);
 
 //parser utils
 void	add_arg_to_cmd(char *arg, t_cmd *cmd);
@@ -151,17 +156,18 @@ bool	parser(t_prompt *prompt, t_cmd *curr);
 bool	init_parser(t_prompt *prompt);
 
 //expand
-void	expand_tkn(t_prompt *prompt);
 char	*expand(char *str, t_env *env);
-int		is_valid_var_char(char c);
+char	*expand_dollar(char *res, char *str, int *i, t_env *env);
 char	*expand_var(char *str, t_env *enviroment);
 
 //expand utils
 char	*extract_dollar(char *result);
 char	*extract_e_status(char *result);
+char	*extract_pid(char *result);
 char	*extract_str(char *result, char *str, int *i, t_env *env);
 char	*extract_char(char *result, char value);
-char	*expand_dollar(char *res, char *str, int *i, t_env *env);
+
+//expand utils 2
 
 //clean
 void	free_all(t_prompt *prompt);
@@ -263,5 +269,12 @@ int		pwd(void);
 void	echo(char **full_cmd, t_env *env);
 int		cd(char **args, t_prompt *prompt);
 void	export_builtin(t_prompt *prompt, t_cmd *cmd);
+
+//Utils
+int		ft_chrcmpr( char prompt, char sym);
+char	*ft_strjoin_free(char *s1, char *s2);
+void	add_cmd_back(t_cmd **lst, t_cmd *new);
+void	syntax_error(char *token);
+int		is_redirection_type(t_toktype type);
 
 #endif
