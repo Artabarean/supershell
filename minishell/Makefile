@@ -3,90 +3,89 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
+#    By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/01/27 12:39:17 by atabarea         ###   ########.fr        #
+#    Updated: 2026/01/27 15:25:31 by medel-ca         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
-CC	  = cc
-CFLAGS   = -Wall -Wextra -Werror -Wuninitialized  -g
+CC		= gcc
+CFLAGS  = -Wall -Wextra -Werror -Wuninitialized -g
 
-LFT	 = ../execution/libft/libft.a
-INC	 = -I ../execution/libft
-LIB	 = -L ../execution/libft -lft -lreadline
+SRC_DIR = src
+OBJ_DIR = obj
+INC_DIR = inc
+LIBFT_DIR = $(INC_DIR)/libft
 
-SRC	 =	main.c \
-		enviroment.c \
-		lexer.c \
-		lexer_utils.c \
-		lexer_utils2.c \
-		init.c \
-		utils.c \
-		parser.c \
-		parser_utils.c \
-		clean.c \
-		signal.c \
-		input.c \
-		execute_.c \
-		executer.c \
-		pipex.c \
-		utils_pipex.c \
-		utils-executor.c \
-		debugging.c \
-		find_path.c \
-		selectprocess.c \
-		echo.c \
-		pwd.c \
-		env.c \
-		cd.c \
-		unset.c \
-		builtins.c \
-		find_inorout.c \
-		exit_builtin.c \
-		here_doc.c \
-		here_doc_check.c \
-		check_error.c \
-		utils_cd.c \
-		utils_export.c \
-		export.c \
-		expand.c \
-		expand_utils.c \
-		printnofile.c \
-		is_single_builtin.c \
-		error_checks.c \
-		handle_finder.c
+INC	 = -I$(INC_DIR) -I$(LIBFT_DIR)/inc
+LIBS = $(LIBFT_DIR)/libft.a -lreadline
 
-OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
+SRC	 =	$(SRC_DIR)/main.c \
+		$(SRC_DIR)/utils/enviroment.c \
+		$(SRC_DIR)/parser/lexer.c \
+		$(SRC_DIR)/parser/lexer_utils.c \
+		$(SRC_DIR)/parser/lexer_utils2.c \
+		$(SRC_DIR)/parser/init.c \
+		$(SRC_DIR)/utils/utils.c \
+		$(SRC_DIR)/parser/parser.c \
+		$(SRC_DIR)/parser/parser_utils.c \
+		$(SRC_DIR)/utils/clean.c \
+		$(SRC_DIR)/utils/signal.c \
+		$(SRC_DIR)/parser/input.c \
+		$(SRC_DIR)/exec/execute_.c \
+		$(SRC_DIR)/exec/executer.c \
+		$(SRC_DIR)/exec/pipex.c \
+		$(SRC_DIR)/exec/utils_pipex.c \
+		$(SRC_DIR)/exec/utils-executor.c \
+		$(SRC_DIR)/debugging.c \
+		$(SRC_DIR)/exec/find_path.c \
+		$(SRC_DIR)/exec/selectprocess.c \
+		$(SRC_DIR)/builtins/echo.c \
+		$(SRC_DIR)/builtins/pwd.c \
+		$(SRC_DIR)/utils/env.c \
+		$(SRC_DIR)/builtins/cd.c \
+		$(SRC_DIR)/builtins/unset.c \
+		$(SRC_DIR)/builtins/builtins.c \
+		$(SRC_DIR)/exec/find_inorout.c \
+		$(SRC_DIR)/builtins/exit_builtin.c \
+		$(SRC_DIR)/exec/here_doc.c \
+		$(SRC_DIR)/exec/here_doc_check.c \
+		$(SRC_DIR)/utils/check_error.c \
+		$(SRC_DIR)/builtins/utils_cd.c \
+		$(SRC_DIR)/builtins/utils_export.c \
+		$(SRC_DIR)/builtins/export.c \
+		$(SRC_DIR)/parser/expand.c \
+		$(SRC_DIR)/parser/expand_utils.c \
+		$(SRC_DIR)/exec/printnofile.c \
+		$(SRC_DIR)/builtins/is_single_builtin.c \
+		$(SRC_DIR)/utils/error_checks.c \
+		$(SRC_DIR)/exec/handle_finder.c
 
-all: $(LFT) obj $(NAME)
+OBJS	= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
+all: $(NAME)
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/minishell.h
+	@mkdir -p $(dir $@)
+	@echo "MINISHELL Compiling:$(END) $(notdir $<)"
+	@$(CC) $(INC) $(CFLAGS) -c $< -o $@
+	
 $(NAME): $(OBJS)
-	@echo "$(CC) $(CFLAGS) -o $@"
-	@printf "%s\n" $(OBJS)
-	@echo "$(LIB)"
-	@$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIB) 
-
-$(LFT):
 	@echo " [ .. ] | Compiling libft.."
-	@make -s -C ../execution/libft
+	@make -sC $(LIBFT_DIR)
 	@echo " [ OK ] | Libft ready!"
-
-obj:
-	@mkdir -p obj
-
-obj/%.o: %.c
-	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@$(CC) $(OBJS) $(CFLAGS) $(INC) $(LIBS) -g -o $@
+	@echo "\n$[Compiled $ $@ $ successfully]\n"
 
 clean:
-	@make -s clean -C ../execution/libft
-	@rm -rf $(OBJS) obj
+	@make -s clean -C ./inc/libft
+	@rm -rf $(OBJ_DIR)
 	@echo "object files removed."
 
 fclean: clean
-	@make -s fclean -C ../execution/libft
+	@make -s fclean -C ./inc/libft
 	@rm -rf $(NAME)
 	@echo "binary file removed."
 
