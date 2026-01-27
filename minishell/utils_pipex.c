@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 17:52:38 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/27 13:00:54 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	fout = -1;
 	i = 0;
 	if (is_single_builtin(cmd, prompt, fin, fout) == 1)
-	{
-		g_exit_status = 0;
 		return ;
-	}
 	pfd_alloc(prompt, prompt->n_cmds);
 	create_pipes(prompt, prompt->n_cmds);
 	while (i < prompt->n_cmds && cmd)
@@ -59,6 +56,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 		cmd = cmd->next;
 		i++;
 	}
+	free(prompt->error_msg);
 	closepfds(prompt->n_cmds, prompt);
 }
 
@@ -85,7 +83,7 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 		{
 			if (*filein != -1)
 				close(*filein);
-			find_heredoc(cmd, copyrdr, filein);
+			find_heredoc(cmd, filein);
 		}
 		copyrdr = copyrdr->next;
 	}

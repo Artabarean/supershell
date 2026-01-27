@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 17:02:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 17:53:12 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/27 14:11:38 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,14 @@ void	error_no_exit(char *s)
 	perror(s);
 }
 
-void	error(char *s)
+int	error(char *s)
+{
+	s = ft_strjoin("minishell: ", s);
+	perror(s);
+	return (-1);
+}
+
+void	error_in_child(char *s)
 {
 	s = ft_strjoin("minishell: ", s);
 	perror(s);

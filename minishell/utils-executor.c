@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/01/26 17:19:08 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/27 12:34:52 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 	if (!full_path)
 		exit(EXIT_FAILURE);
 	envp = env_to_envp(prompt->enviroment);
-		check_exec_errors(full_path);
 	check_exec_errors(full_path);
 	if (execve(full_path, full_cmd, envp) == -1)
 	{

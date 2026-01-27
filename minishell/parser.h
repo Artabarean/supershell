@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 17:17:41 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/27 13:08:56 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,8 @@ void	debug(t_prompt prompt);
 void	print_cmds(t_cmd *cmds);
 
 //Execution
-void	error(char *s);
+int		error(char *s);
+void	error_in_child(char *s);
 void	error_no_exit(char *s);
 void	piper(t_prompt *prompt);
 void	here_doc(t_cmd *cmds);
@@ -206,9 +207,9 @@ int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
 int		execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt *prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
-void	find_outfile(t_redir *redir, int *fileout);
-void	find_infile(t_redir *redir, int *filein);
-void	find_heredoc(t_cmd *cmd, t_redir *redir, int *filein);
+int		find_outfile(t_redir *redir, int *fileout);
+int		find_infile(t_redir *redir, int *filein);
+int		find_heredoc(t_cmd *cmd, int *filein);
 void	check_command(t_cmd *cmd, t_prompt *prompt, int *fout, int *fin);
 void	check_com(t_cmd *cmd, t_prompt *prompt);
 
@@ -237,10 +238,13 @@ char	**count_heredoc(t_redir *redir);
 
 //Built-ins
 int		is_builtin(t_cmd *cmd);
+int		handle_in(t_redir *redir, int *fin);
+int		handle_out(t_redir *redir, int *fout);
+int		handle_hdoc(t_cmd *cmd, int *fin);
 int		is_single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout);
 void	single_builtin(t_cmd *cmd, t_prompt *prompt, int filein, int fileout);
 int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
-void	run_builtin_son(t_cmd *cmd, int fin, int fout);
+void	run_builtin_son(t_cmd *cmd, int *fin, int *fout);
 int		run_builtin_child(t_cmd *cmd, t_prompt *prompt);
 int		checkfather_builtin(t_cmd *cmd);
 void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status);

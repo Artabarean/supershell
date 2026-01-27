@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:49:17 by codespace         #+#    #+#             */
-/*   Updated: 2026/01/26 17:59:43 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/27 11:02:30 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	env_size(t_env *env)
 char	**env_to_array(t_env *env)
 {
 	char	**arr;
+	char	*temp;
 	int		i;
 
 	i = 0;
@@ -97,8 +98,9 @@ char	**env_to_array(t_env *env)
 	{
 		if (env->value)
 		{
-			arr[i] = ft_strjoin(env->keyword, "=");
-			arr[i] = ft_strjoin(arr[i], env->value);
+			temp = ft_strjoin(env->keyword, "=");
+			arr[i] = ft_strjoin(temp, env->value);
+			free(temp);
 		}
 		else
 			arr[i] = ft_strdup(env->keyword);

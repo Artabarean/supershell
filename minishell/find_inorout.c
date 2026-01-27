@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 12:21:31 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 15:57:47 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/27 14:11:01 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,44 @@ int	redirin(t_redir *redir)
 	return (0);
 }
 
-void	find_outfile(t_redir *redir, int *fileout)
+int	find_outfile(t_redir *redir, int *fileout)
 {
 	t_redir *copyrdr;
 
 	copyrdr = redir;
 	if (copyrdr->type == T_APPEND)
+	{
+		if (open_file(copyrdr->file, 0) == -1)
+			return (1);
 		*fileout = open_file(copyrdr->file, 0);
+	}
 	else
+	{
+		if (open_file(copyrdr->file, 1) == -1)
+			return (1);
 		*fileout = open_file(copyrdr->file, 1);
+	}
+	return (0);
 }
 
-void	find_infile(t_redir *redir, int *filein)
+int	find_infile(t_redir *redir, int *filein)
 {
 	t_redir	*copyrdr;
 
 	copyrdr = redir;
+	if (open_file(copyrdr->file, 2) == -1)
+		return (1);
 	*filein = open_file(copyrdr->file, 2);
+	return (0);
 }
 
-void	find_heredoc(t_cmd *cmd, t_redir *redir, int *filein)
+int	find_heredoc(t_cmd *cmd, int *filein)
 {
-	t_redir	*copyrdr;
 	int		last;
 
-	copyrdr = redir;
 	last = count_strs(cmd->tmp_doc) - 1;
+	if (open_file(cmd->tmp_doc[last], 2) == -1)
+		return (1);
 	*filein = open_file(cmd->tmp_doc[last], 2);
+	return (0);
 }

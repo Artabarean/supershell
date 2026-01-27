@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:24:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/23 14:30:03 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/27 14:36:05 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,25 @@ void	single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 
 	savein = dup(0);
 	saveout = dup(1);
+	run_builtin_son(cmd, &fin, &fout);
 	if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 	{
-		run_builtin_son(cmd, fin, fout);
+		dup2(savein, 0);
+		close(savein);
+		dup2(saveout, 1);
+		close(saveout);
 		exit_builtin(cmd, prompt);
 	}
 	if (!ft_strcmp(cmd->full_cmd[0], "cd"))
-	{
-		run_builtin_son(cmd, fin, fout);
 		cd(cmd->full_cmd, prompt);
-	}
 	if (!ft_strcmp(cmd->full_cmd[0], "unset"))
-	{
-		run_builtin_son(cmd, fin, fout);
 		builtin_unset(cmd->full_cmd, prompt);
-	}
 	if (!ft_strcmp(cmd->full_cmd[0], "export"))
-	{
-		run_builtin_son(cmd, fin, fout);
 		export_builtin(prompt ,cmd);
-	}
+	close(fin);
+	close(fout);
 	dup2(savein, 0);
+	close(savein);
 	dup2(saveout, 1);
+	close(saveout);
 }

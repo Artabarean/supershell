@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 17:51:53 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/27 14:37:44 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,48 +39,32 @@ int	builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt)
 	}
 	return (0);
 }
-// He cambiado la función para utilizar la nueva estructura redir
-void	run_builtin_son(t_cmd *cmd, int fin, int fout)
+
+void	run_builtin_son(t_cmd *cmd, int *fin, int *fout)
 {
-	t_cmd	*copy;
+	t_redir	*copyrdr;
+	t_cmd 	*copy;
 
 	copy = cmd;
-	while (copy->redir != NULL)
+	copyrdr = cmd->redir;
+	while (copyrdr != NULL)
 	{
-		if (copy->redir->type == T_REDIR_OUT)
+		if (copyrdr->type == T_REDIR_OUT || copyrdr->type == T_APPEND)
 		{
-			if (fout != -1)
-				close(fout);
-			find_outfile(copy->redir, &fout);
-			if (fout != -1)
-			{
-				dup2(fout, 1);
-				close(fout);
-			}
+			if (handle_out(copyrdr, fout) == 1)
+				return ;
 		}
-		if (copy->redir->type == T_REDIR_IN)
+		if (copyrdr->type == T_REDIR_IN)
 		{
-			if (fin != -1)
-				close(fin);
-			find_infile(copy->redir, &fin);
-			if (fin != -1)
-			{
-				dup2(fin, 0);
-				close(fin);
-			}
+			if (handle_in(copyrdr, fin) == 1)
+				return ;
 		}
-		if (copy->redir->type == T_HEREDOC)
+		if (copyrdr->type == T_HEREDOC)
 		{
-			if (fin != -1)
-				close(fin);
-			find_heredoc(copy, copy->redir, &fin);
-			if (fin != 1)
-			{
-				dup2(fin, 0);
-				close(fin);
-			}
+			if (handle_hdoc(copy, fin) == 1)
+				return ;
 		}
-		copy->redir = copy->redir->next;
+		copyrdr = copyrdr->next;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/26 18:14:26 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/27 12:08:08 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,15 @@ void	pipex(t_prompt prompt)
 {
 	t_cmd	*current_node;
 
-	prompt.pid = malloc(sizeof(pid_t) * (pipecount(prompt) + 1));
+	prompt.pid = ft_calloc(sizeof(pid_t), (pipecount(prompt) + 1));
 	prompt.n_cmds = pipecount(prompt) + 1;
 	current_node = prompt.cmds;
 	childprocess_(current_node, &prompt);
 	current_node = prompt.cmds;
-	g_exit_status = pid_stat(current_node, &prompt, g_exit_status);
+	if (prompt.pid[0] != 0)
+		g_exit_status = pid_stat(current_node, &prompt, g_exit_status);
 	set_signal(SIG_PROMPT);
 	check_status(g_exit_status);
-	if (prompt.error_msg)
-		free(prompt.error_msg);
 	if (prompt.pid)
 		free(prompt.pid);
 	cleanup_heredoc_files(prompt.cmds);

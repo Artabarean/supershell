@@ -6,13 +6,13 @@
 #    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/01/26 17:16:21 by atabarea         ###   ########.fr        #
+#    Updated: 2026/01/27 12:39:17 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 CC	  = cc
-CFLAGS   = -Wall -Wextra -Werror -Wuninitialized
+CFLAGS   = -Wall -Wextra -Werror -Wuninitialized  -g
 
 LFT	 = ../execution/libft/libft.a
 INC	 = -I ../execution/libft
@@ -56,7 +56,8 @@ SRC	 =	main.c \
 		expand_utils.c \
 		printnofile.c \
 		is_single_builtin.c \
-		error_checks.c 
+		error_checks.c \
+		handle_finder.c
 
 OBJS	= $(patsubst %.c,obj/%.o,$(SRC))
 
