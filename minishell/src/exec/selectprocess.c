@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selectprocess.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 17:03:30 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:04:56 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
 		{
 			if (((i + 1) < prompt->n_cmds && !redirout(cmd->redir))
 				|| (i == 0 && prompt->n_cmds > 1 && !redirout(cmd->redir)))
-				child_process1(cmd, *fin, prompt->pfd[0][1], prompt);
+				child_processpfd(cmd, *fin, i, prompt);
 			else if (i > 0 || (i + 1) == prompt->n_cmds || redirout(cmd->redir))
 				child_process1(cmd, *fin, *fout, prompt);
 		}

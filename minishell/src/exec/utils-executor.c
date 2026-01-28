@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/01/27 17:03:57 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:18:51 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	check_com(t_cmd *cmd, t_prompt *prompt)
 			}
 			if (copy->full_cmd[0] == NULL)
 			{
+				closepfds(prompt->n_cmds, prompt);
 				exit(0);
 			}
 		}

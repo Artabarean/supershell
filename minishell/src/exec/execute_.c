@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 16:55:01 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:27:53 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,21 +42,20 @@ void	closepfds(int n_cmds, t_prompt *prompt)
 	i = 0;
 	while (i < (n_cmds - 1))
 	{
-		// if (prompt->error_msg[i] != NULL)
-		// 	free(prompt->error_msg[i]);
-		if (prompt->pfd[i][0] != -1)
-		{
-			close(prompt->pfd[i][0]);
-			prompt->pfd[i][0] = -1;
-		}
 		if (prompt->pfd[i][1] != -1)
 		{
 			close(prompt->pfd[i][1]);
 			prompt->pfd[i][1] = -1;
 		}
+		if (prompt->pfd[i][0] != -1)
+		{
+			close(prompt->pfd[i][0]);
+			prompt->pfd[i][0] = -1;
+		}
 		i++;
 	}
-	free(prompt->error_msg);
+	if (prompt->error_msg)
+		free(prompt->error_msg);
 	free(prompt->pfd);
 }
 
@@ -66,9 +65,9 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 		dup2(prompt->pfd[i - 1][0], 0);
 	if (i < n_cmds - 1)
 		dup2(prompt->pfd[i][1], 1);
-	closepfds(n_cmds, prompt);
 	if (is_builtin(cmd))
 	{
+		closepfds(n_cmds, prompt);
 		run_builtin_child(cmd, prompt);
 		exit(0);
 	}
@@ -84,6 +83,7 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
+	closepfds(n_cmds, prompt);
 	execute(cmd->full_cmd, cmd->full_path, prompt);
 	exit(1);
 }

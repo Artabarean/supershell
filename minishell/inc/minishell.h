@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 17:16:06 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/28 17:55:05 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ int		redirout(t_redir *redir);
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt);
 void	pipex(t_prompt prompt);
 int		open_file(char *name, int i);
+int		open_file_exit(char *name, int i);
 void	check_status(int last_status);
 void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein);
 void	childprocess_(t_cmd *curr_nde, t_prompt *prompt);
@@ -214,6 +215,9 @@ int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
 int		execute_(t_cmd *cmd, t_prompt *prompt);
 void	executer(t_prompt *prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
+int		find_outfile_child(t_redir *redir, int *fileout);
+int		find_infile_child(t_redir *redir, int *filein);
+int		find_heredoc_child(t_cmd *cmd, int *filein);
 int		find_outfile(t_redir *redir, int *fileout);
 int		find_infile(t_redir *redir, int *filein);
 int		find_heredoc(t_cmd *cmd, int *filein);
@@ -221,6 +225,7 @@ void	check_command(t_cmd *cmd, t_prompt *prompt, int *fout, int *fin);
 void	check_com(t_cmd *cmd, t_prompt *prompt);
 
 void	child_process1(t_cmd *curr_node, int fin, int fout, t_prompt *prompt);
+void	child_processpfd(t_cmd *cmd, int fin, int i, t_prompt *prompt);
 void	child_processmid(t_cmd *curr_node, t_prompt *prompt, int i);
 void	child_processend(t_cmd *curr_node, int fout, t_prompt *prompt, int i);
 int		pipecount(t_prompt prompt);

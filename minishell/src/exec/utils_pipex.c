@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 16:55:34 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/28 18:04:11 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,19 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 		{
 			if (*fileout != -1)
 				close(*fileout);
-			find_outfile(copyrdr, fileout);
+			find_outfile_child(copyrdr, fileout);
 		}
 		if (copyrdr->type == T_REDIR_IN)
 		{
 			if (*filein != -1)
 				close(*filein);
-			find_infile(copyrdr, filein);
+			find_infile_child(copyrdr, filein);
 		}
 		if (copyrdr->type == T_HEREDOC)
 		{
 			if (*filein != -1)
 				close(*filein);
-			find_heredoc(cmd, filein);
+			find_heredoc_child(cmd, filein);
 		}
 		copyrdr = copyrdr->next;
 	}
@@ -110,6 +110,8 @@ int	open_file(char *name, int i)
 		file = open(name, O_RDONLY, 0777);
 	}
 	if (file == -1)
-		error(name);
+	{
+		return (error(name));
+	}
 	return (file);
 }
