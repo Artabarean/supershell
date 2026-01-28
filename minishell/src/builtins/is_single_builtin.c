@@ -19,22 +19,22 @@ int	is_single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 		{
 			single_builtin(cmd, prompt, fin, fout);
-			return (1);
+			return (closepfds(prompt->n_cmds, prompt), 1);
 		}
 		if (!ft_strcmp(cmd->full_cmd[0], "cd"))
 		{
 			single_builtin(cmd, prompt, fin, fout);
-			return (1);
+			return (closepfds(prompt->n_cmds, prompt), 1);
 		}
 		if (!ft_strcmp(cmd->full_cmd[0], "unset"))
 		{
 			single_builtin(cmd, prompt, fin, fout);
-			return (1);
+			return (closepfds(prompt->n_cmds, prompt), 1);
 		}
 		if (!ft_strcmp(cmd->full_cmd[0], "export"))
 		{
 			single_builtin(cmd, prompt, fin, fout);
-			return (1);
+			return (closepfds(prompt->n_cmds, prompt), 1);
 		}
 	}
 	return (0);
@@ -62,8 +62,6 @@ void	single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 		builtin_unset(cmd->full_cmd, prompt);
 	if (!ft_strcmp(cmd->full_cmd[0], "export"))
 		export_builtin(prompt, cmd);
-	close(fin);
-	close(fout);
 	dup2(savein, 0);
 	close(savein);
 	dup2(saveout, 1);

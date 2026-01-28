@@ -168,6 +168,9 @@ char	*extract_str(char *result, char *str, int *i, t_env *env);
 char	*extract_char(char *result, char value);
 
 //expand utils 2
+void	expand_tkn(t_prompt *prompt);
+int		is_valid_var_char(char c);
+void	delate_tkn(t_prompt *prompt);
 
 //clean
 void	free_all(t_prompt *prompt);
@@ -198,8 +201,6 @@ void	print_cmds(t_cmd *cmds);
 int		error(char *s);
 void	error_in_child(char *s);
 void	error_no_exit(char *s);
-void	piper(t_prompt *prompt);
-void	here_doc(t_cmd *cmds);
 int		get_next_line(char **line);
 int		redirin(t_redir *redir);
 int		redirout(t_redir *redir);

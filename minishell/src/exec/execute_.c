@@ -42,6 +42,8 @@ void	closepfds(int n_cmds, t_prompt *prompt)
 	i = 0;
 	while (i < (n_cmds - 1))
 	{
+		// if (prompt->error_msg[i] != NULL)
+		// 	free(prompt->error_msg[i]);
 		if (prompt->pfd[i][0] != -1)
 		{
 			close(prompt->pfd[i][0]);
@@ -54,6 +56,7 @@ void	closepfds(int n_cmds, t_prompt *prompt)
 		}
 		i++;
 	}
+	free(prompt->error_msg);
 	free(prompt->pfd);
 }
 

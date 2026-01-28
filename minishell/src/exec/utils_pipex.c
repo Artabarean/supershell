@@ -42,13 +42,13 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	fin = -1;
 	fout = -1;
 	i = 0;
-	if (is_single_builtin(cmd, prompt, fin, fout) == 1)
-		return ;
 	pfd_alloc(prompt, prompt->n_cmds);
 	create_pipes(prompt, prompt->n_cmds);
 	while (i < prompt->n_cmds && cmd)
 	{
 		if (handle_heredoc(prompt, cmd, &fin) == 1)
+			return ;
+		if (prompt->n_cmds == 1 && is_single_builtin(cmd, prompt, fin, fout) == 1)
 			return ;
 		selectprocess(prompt, cmd, i, &fin, &fout);
 		check_error(prompt, i);
@@ -56,7 +56,6 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 		cmd = cmd->next;
 		i++;
 	}
-	free(prompt->error_msg);
 	closepfds(prompt->n_cmds, prompt);
 }
 
