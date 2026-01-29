@@ -19,7 +19,7 @@ int	redirout(t_redir *redir)
 	copyrdr = redir;
 	while (copyrdr != NULL)
 	{
-		if (copyrdr->type == T_REDIR_OUT)
+		if (copyrdr->type == T_REDIR_OUT || copyrdr->type == T_APPEND)
 		{
 			return (1);
 		}

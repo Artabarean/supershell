@@ -55,7 +55,7 @@ int	open_file_exit(char *name, int i)
 	return (file);
 }
 
-int	find_outfile_child(t_redir *redir, int *fileout)
+void	find_outfile_child(t_redir *redir, int *fileout)
 {
 	t_redir	*copyrdr;
 
@@ -64,35 +64,32 @@ int	find_outfile_child(t_redir *redir, int *fileout)
 	{
 		*fileout = open_file_exit(copyrdr->file, 0);
 		if (*fileout == -1)
-			return (1);
+			error_in_child(copyrdr->file);
 	}
 	else
 	{
 		*fileout = open_file_exit(copyrdr->file, 1);
 		if (*fileout == -1)
-			return (1);
+			error_in_child(copyrdr->file);
 	}
-	return (0);
 }
 
-int	find_infile_child(t_redir *redir, int *filein)
+void	find_infile_child(t_redir *redir, int *filein)
 {
 	t_redir	*copyrdr;
 
 	copyrdr = redir;
 	*filein = open_file_exit(copyrdr->file, 2);
 	if (*filein == -1)
-		return (1);
-	return (0);
+		error_in_child(copyrdr->file);;
 }
 
-int	find_heredoc_child(t_cmd *cmd, int *filein)
+void	find_heredoc_child(t_cmd *cmd, t_redir *copyrdr, int *filein)
 {
 	int		last;
 
 	last = count_strs(cmd->tmp_doc) - 1;
 	*filein = open_file_exit(cmd->tmp_doc[last], 2);
 	if (*filein == -1)
-		return (1);
-	return (0);
+		error_in_child(copyrdr->file);
 }
