@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:28:26 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 17:06:23 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/29 10:33:43 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ char	*expand(char *str, t_env *env)
 char	*expand_dollar(char *res, char *str, int *i, t_env *env)
 {
 	(*i)++;
-	if (!str[*i] || str[*i] == ' ' || str[*i] == '"' || str[*i] == '\'')
+	if (!str[*i] || str[*i] == ' ' || str[*i] == '"'
+		|| str[*i] == '\'' || str[*i] == '(')
 		return (extract_dollar(res));
 	if (str[*i] == '?')
 	{

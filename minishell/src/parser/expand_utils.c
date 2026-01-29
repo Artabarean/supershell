@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:07:02 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 17:05:18 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/29 10:14:41 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ char	*extract_str(char *result, char *str, int *i, t_env *env)
 	int		start;
 
 	start = *i;
+	if (ft_isdigit(str[*i]))
+	{
+		(*i)++;
+		return (result);
+	}
 	while (str[*i] && is_valid_var_char(str[*i]))
 		(*i)++;
 	var = ft_substr(str, start, *i - start);
