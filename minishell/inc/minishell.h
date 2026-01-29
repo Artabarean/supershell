@@ -217,7 +217,7 @@ void	executer(t_prompt *prompt);
 void	pfd_alloc(t_prompt *prompt, int n_cmds);
 void	find_outfile_child(t_redir *redir, int *fileout);
 void	find_infile_child(t_redir *redir, int *filein);
-void	find_heredoc_child(t_cmd *cmd, t_redir *copyrdr, int *filein);
+void	find_heredoc_child(t_cmd *cmd, int *filein);
 int		find_outfile(t_redir *redir, int *fileout);
 int		find_infile(t_redir *redir, int *filein);
 int		find_heredoc(t_cmd *cmd, int *filein);

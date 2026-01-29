@@ -82,7 +82,7 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 		{
 			if (*filein != -1)
 				close(*filein);
-			find_heredoc_child(cmd, copyrdr, filein);
+			find_heredoc_child(cmd, filein);
 		}
 		copyrdr = copyrdr->next;
 	}
