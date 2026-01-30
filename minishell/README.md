@@ -1,4 +1,4 @@
-This project has been developed as part of the 42 curriculum by atabarea and medel-ca.
+*This project has been developed as part of the 42 curriculum by atabarea and medel-ca.*
 
 # Minishell
 
