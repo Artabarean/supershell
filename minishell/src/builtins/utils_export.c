@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:49:17 by codespace         #+#    #+#             */
-/*   Updated: 2026/01/27 15:08:18 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:52:17 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_valid_identifier(char *str)
 	return (1);
 }
 
-t_env	*env_find(t_env *env, char *key)
+static t_env	*env_find(t_env *env, char *key)
 {
 	while (env)
 	{
@@ -76,7 +76,7 @@ void	env_add_or_update(t_prompt *prompt, char *arg)
 	}
 }
 
-int	env_size(t_env *env)
+static int	env_size(t_env *env)
 {
 	int	i;
 

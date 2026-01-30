@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   is_single_builtin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:24:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 16:57:50 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:13:44 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
+{
+	int	savein;
+	int	saveout;
+
+	savein = dup(0);
+	saveout = dup(1);
+	run_builtin_son(cmd, &fin, &fout);
+	if (!ft_strcmp(cmd->full_cmd[0], "exit"))
+	{
+		dup2(savein, 0);
+		close(savein);
+		dup2(saveout, 1);
+		close(saveout);
+		exit_builtin(cmd, prompt);
+	}
+	if (!ft_strcmp(cmd->full_cmd[0], "cd"))
+		cd(cmd->full_cmd, prompt);
+	if (!ft_strcmp(cmd->full_cmd[0], "unset"))
+		builtin_unset(cmd->full_cmd, prompt);
+	if (!ft_strcmp(cmd->full_cmd[0], "export"))
+		export_builtin(prompt, cmd);
+	dup2(savein, 0);
+	close(savein);
+	dup2(saveout, 1);
+	close(saveout);
+}
 
 int	is_single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
@@ -38,32 +66,4 @@ int	is_single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 		}
 	}
 	return (0);
-}
-
-void	single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
-{
-	int	savein;
-	int	saveout;
-
-	savein = dup(0);
-	saveout = dup(1);
-	run_builtin_son(cmd, &fin, &fout);
-	if (!ft_strcmp(cmd->full_cmd[0], "exit"))
-	{
-		dup2(savein, 0);
-		close(savein);
-		dup2(saveout, 1);
-		close(saveout);
-		exit_builtin(cmd, prompt);
-	}
-	if (!ft_strcmp(cmd->full_cmd[0], "cd"))
-		cd(cmd->full_cmd, prompt);
-	if (!ft_strcmp(cmd->full_cmd[0], "unset"))
-		builtin_unset(cmd->full_cmd, prompt);
-	if (!ft_strcmp(cmd->full_cmd[0], "export"))
-		export_builtin(prompt, cmd);
-	dup2(savein, 0);
-	close(savein);
-	dup2(saveout, 1);
-	close(saveout);
 }

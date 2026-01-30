@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:39:14 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:17:43 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:15:04 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	erase_in_env(t_prompt *prompt, char *name)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (prompt->enviroment->envp[i])
-// 	{
-// 		if (!ft_strcmp(prompt->enviroment->envp[i], name))
-// 		{
-// 			prompt->enviroment->envp[i] = NULL;
-// 		}
-// 		i++;
-// 	}
-// }
 
 static void	free_last_node(t_env *node)
 {
@@ -58,7 +43,7 @@ static void	shift_env_data(t_env *curr)
 	}
 }
 
-void	unset_env(t_prompt *prompt, char *name)
+static void	unset_env(t_prompt *prompt, char *name)
 {
 	t_env	*curr;
 

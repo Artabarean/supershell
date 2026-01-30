@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 14:05:50 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:18:21 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:09:46 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_num_arg_req(t_prompt *prompt)
+static void	print_num_arg_req(t_prompt *prompt)
 {
 	ft_putendl_fd(" numeric argument required", 2);
 	free(prompt->pid);
 	free_all(prompt);
 }
 
-int	checkforexit(t_cmd *cmd)
+/*int	checkforexit(t_cmd *cmd)
 {
 	if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 	{
@@ -27,7 +27,7 @@ int	checkforexit(t_cmd *cmd)
 			return (1);
 	}
 	return (0);
-}
+}*/
 
 static bool	is_numeric(const char *s)
 {
