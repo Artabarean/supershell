@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:06:27 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 17:07:07 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:56:52 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	free_redir(t_redir *redir)
 	}
 }
 
-void	free_cmds(t_cmd **lst)
+static void	free_cmds(t_cmd **lst)
 {
 	t_cmd	*current;
 	t_cmd	*tmp;
