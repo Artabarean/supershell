@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/28 18:27:53 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:48:59 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	forker(t_prompt *prompt, int i)
+static void	forker(t_prompt *prompt, int i)
 {
 	prompt->pid[i] = fork();
 	if (prompt->pid[i] == -1)

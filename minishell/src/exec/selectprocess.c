@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   selectprocess.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/28 18:04:56 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 10:01:32 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_double(char *str1, char *str2)
+/*static void	free_double(char *str1, char *str2)
 {
 	free(str1);
 	free(str2);
-}
+}*/
 
 int	count_strs(char	**str)
 {

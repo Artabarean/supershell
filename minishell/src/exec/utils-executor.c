@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/01/28 18:18:51 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 10:02:52 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 
 	if (!full_path)
 		exit(EXIT_FAILURE);
-	envp = env_to_envp(prompt->enviroment);
+	envp = env_to_array(prompt->enviroment);
 	check_exec_errors(full_path);
 	if (execve(full_path, full_cmd, envp) == -1)
 	{
@@ -78,33 +78,6 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 		else
 			exit(1);
 	}
-}
-
-int	get_next_line(char **line)
-{
-	char	*buffer;
-	int		i;
-	int		r;
-	char	c;
-
-	i = 0;
-	r = 0;
-	buffer = (char *)malloc(10000);
-	if (!buffer)
-		return (-1);
-	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
-	{
-		if (c != '\n' && c != '\0')
-			buffer[i] = c;
-		i++;
-		r = read(0, &c, 1);
-	}
-	buffer[i] = '\n';
-	buffer[++i] = '\0';
-	*line = buffer;
-	free(buffer);
-	return (r);
 }
 
 int	pipecount(t_prompt prompt)
