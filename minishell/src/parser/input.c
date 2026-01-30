@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:29 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:34 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:37:35 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	get_user_input(t_prompt *prompt)
 	free(temp);
 }
 
-int	is_valid_input(char *input)
+static int	is_valid_input(char *input)
 {
 	int	end;
 
@@ -60,7 +60,7 @@ int	is_valid_input(char *input)
 	return (1);
 }
 
-int	closed_quotes(char *input)
+static int	closed_quotes(char *input)
 {
 	int	i;
 

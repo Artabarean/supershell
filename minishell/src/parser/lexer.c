@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:40 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:44 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:39:55 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_separator(char c)
 		|| c == '|' || c == '<' || c == '>');
 }
 
-char	*extract_word_part(char **input)
+static char	*extract_word_part(char **input)
 {
 	int		len;
 	char	*part;
@@ -48,7 +48,7 @@ static char	*extract_part(char **input, t_quote *quote)
 	return (extract_word_part(input));
 }
 
-char	*extract_token(char **input, t_prompt *prompt, int i)
+static char	*extract_token(char **input, t_prompt *prompt, int i)
 {
 	char	*token;
 	char	*part;
