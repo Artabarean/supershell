@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:49:17 by codespace         #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:15 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:11:58 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sort_env_array(char **env)
+static void	sort_env_array(char **env)
 {
 	int		i;
 	int		j;
@@ -36,7 +36,7 @@ void	sort_env_array(char **env)
 	}
 }
 
-void	print_export(t_prompt *prompt)
+static void	print_export(t_prompt *prompt)
 {
 	char	**env;
 	int		i;

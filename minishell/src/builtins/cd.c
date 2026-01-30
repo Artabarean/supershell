@@ -6,13 +6,13 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 11:19:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/01/30 13:17:10 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:32:05 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	set_env_value(t_env *env, const char *key, const char *value)
+static int	set_env_value(t_env *env, const char *key, const char *value)
 {
 	while (env)
 	{
@@ -27,7 +27,7 @@ int	set_env_value(t_env *env, const char *key, const char *value)
 	return (1);
 }
 
-void	update_pwd_vars(t_prompt *prompt, const char *oldpwd)
+static void	update_pwd_vars(t_prompt *prompt, const char *oldpwd)
 {
 	char	newpwd[4096];
 
@@ -37,7 +37,7 @@ void	update_pwd_vars(t_prompt *prompt, const char *oldpwd)
 	set_env_value(prompt->enviroment, "PWD", newpwd);
 }
 
-void	cd_error(const char *path)
+static void	cd_error(const char *path)
 {
 	write(2, "minishell: cd: ", 15);
 	write(2, path, strlen(path));

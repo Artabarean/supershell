@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:54 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:53 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:45:10 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	handle_pipe(t_prompt *prompt, t_cmd **curr)
 	return (true);
 }
 
-bool	parser(t_prompt *prompt, t_cmd *curr)
+static bool	parser(t_prompt *prompt, t_cmd *curr)
 {
 	int	i;
 

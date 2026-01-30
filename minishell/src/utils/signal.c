@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:09 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 17:07:37 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:57:48 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_heredoc(int signal)
+static void	close_heredoc(int signal)
 {
 	(void)signal;
 	write(1, "\n", 1);
@@ -21,7 +21,7 @@ void	close_heredoc(int signal)
 	g_exit_status = 130;
 }
 
-void	reset_shell(int signal)
+static void	reset_shell(int signal)
 {
 	g_exit_status = 130;
 	write(1, "\n", 1);

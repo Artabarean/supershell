@@ -46,9 +46,9 @@ int	main(int argc, char **argv, char **envp)
 		get_user_input(&prompt);
 		if (prompt.input == NULL)
 		{
-    		printf("exit\n");
-    		free_all(&prompt);
-    		exit(EXIT_SUCCESS);
+			printf("exit\n");
+			free_all(&prompt);
+			exit(EXIT_SUCCESS);
 		}
 		else if (prompt.input && not_only_spaces(prompt.input))
 		{
@@ -60,9 +60,3 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
-
-
-
-
-
-

@@ -59,7 +59,6 @@ SRC	 =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/parser/expand.c \
 		$(SRC_DIR)/parser/expand_utils.c \
 		$(SRC_DIR)/parser/expand_utils2.c \
-		$(SRC_DIR)/exec/printnofile.c \
 		$(SRC_DIR)/builtins/is_single_builtin.c \
 		$(SRC_DIR)/utils/error_checks.c \
 		$(SRC_DIR)/exec/handle_finder.c \

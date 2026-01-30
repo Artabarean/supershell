@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:04:51 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 17:08:03 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 09:44:06 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_valid_var_char(char c)
 	return (ft_isalnum(c) || c == '_');
 }
 
-void	delate_tkn(t_prompt *prompt)
+static void	delate_tkn(t_prompt *prompt)
 {
 	int	i;
 
