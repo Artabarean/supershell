@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/28 18:04:11 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 10:39:59 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 		cmd = cmd->next;
 		i++;
 	}
+	if (fin != -1)
+		close(fin);
 	closepfds(prompt->n_cmds, prompt);
 }
 
