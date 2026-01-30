@@ -60,10 +60,10 @@ make
 	- exit (with exit number but no other options)
 - Pipes | which redirect output from one command to input for the next
 - Redirections:
-	'>' redirects output
-	'>>' redirects output in append mode
-	< redirects input
-	<< DELIMITER displays a new prompt, reads user input until reaching DELIMITER, redirects user input to command input (does not update history)
+	- '>' redirects output
+	- '>>' redirects output in append mode
+	- < redirects input
+	- << DELIMITER displays a new prompt, reads user input until reaching DELIMITER, redirects user input to command input (does not update history)
 - Environment variables (i.e. $USER or $VAR) that expand to their values.
 - $? expands to the exit status of the most recently executed foreground pipeline.
 - $$ expands to the process ID.
