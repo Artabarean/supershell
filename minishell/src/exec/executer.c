@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2026/01/27 17:00:30 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:09:13 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void	executer(t_prompt *prompt)
 			g_exit_status = pid_stat(cmd, prompt, g_exit_status);
 			check_status(g_exit_status);
 		}
+		free(prompt->pid);
 	}
 }

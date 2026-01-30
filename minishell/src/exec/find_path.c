@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/28 18:26:10 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:18:12 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	printerr(t_prompt *prompt, char *full_cmd, int j)
 	char	*tmp;
 	char	*msg;
 
-	msg = ft_strdup("Minishell: ");
+	msg = ft_strdup("minishell: ");
 	tmp = msg;
 	msg = ft_strjoin(tmp, full_cmd);
 	free(tmp);

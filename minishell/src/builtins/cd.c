@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 11:19:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/01/27 16:50:31 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 13:17:10 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ char	*get_env_value(t_env *env, const char *name)
 	return (NULL);
 }
 
-//	cd solo recibe un argumento
 int	cd(char **args, t_prompt *prompt)
 {
 	char	*path;
@@ -65,42 +64,29 @@ int	cd(char **args, t_prompt *prompt)
 
 	path = NULL;
 	if (!getcwd(oldpwd, sizeof(oldpwd)))
-	{
-		g_exit_status = 1;
-		return (1);
-	}
-	if (args[2])
+		return (g_exit_status = 1, 1);
+	if (args[1] && args[2])
 	{
 		ft_putendl_fd ("minishell: cd: too many arguments", 2);
-		g_exit_status = 1;
-		return (1);
+		return (g_exit_status = 1, 1);
 	}
 	if (!args[1] || !args[1][0])
 	{
 		if (do_path(prompt->enviroment, path, "HOME") == 1)
-		{
-			g_exit_status = 1;
-			return (1);
-		}
+			return (g_exit_status = 1, 1);
 		path = get_env_value(prompt->enviroment, "HOME");
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
 	{
 		if (do_path(prompt->enviroment, path, "OLDPWD") == 1)
-		{
-			g_exit_status = 1;
-			return (1);
-		}
+			return (g_exit_status = 1, 1);
 		path = get_env_value(prompt->enviroment, "OLDPWD");
 		ft_putendl_fd(path, 1);
 	}
 	else
 		path = args[1];
 	if (chdir(path) != 0)
-	{
-		g_exit_status = 1;
-		return (cd_error(path), 1);
-	}
+		return (g_exit_status = 1, cd_error(path), 1);
 	update_pwd_vars(prompt, oldpwd);
 	return (0);
 }

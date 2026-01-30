@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   is_single_builtin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:24:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 16:57:50 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 10:45:48 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
+int	is_lone_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
 	if (prompt->n_cmds == 1 && cmd->full_cmd[0] != NULL)
 	{

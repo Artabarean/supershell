@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_checks.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 17:02:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 15:06:24 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/01/30 13:13:40 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	error_no_exit(char *s)
 {
 	s = ft_strjoin("minishell: ", s);
 	perror(s);
+	
 }
 
 int	error(char *s)

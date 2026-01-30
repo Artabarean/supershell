@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/28 18:27:53 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:09:16 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,9 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 	{
 		if (find_path_no_print(cmd, prompt) == 1)
 		{
-			find_path(cmd, prompt, i);
-			check_error(prompt, i);
+			cmd->full_path = cmd->full_cmd[0];
 			closepfds(n_cmds, prompt);
-			exit(127);
+			execute(cmd->full_cmd, cmd->full_path, prompt);
 		}
 	}
 	else
@@ -96,7 +95,10 @@ int	execute_(t_cmd *cmd, t_prompt *prompt)
 	prompt->n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, prompt->n_cmds);
 	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)
+	{
+		closepfds(prompt->n_cmds, prompt);
 		return (1);
+	}
 	check_com(cmd, prompt);
 	create_pipes(prompt, prompt->n_cmds);
 	while (i < prompt->n_cmds && cmd)
@@ -111,6 +113,5 @@ int	execute_(t_cmd *cmd, t_prompt *prompt)
 		free(cmd->full_path);
 		cmd = cmd->next;
 	}
-	closepfds(prompt->n_cmds, prompt);
-	return (0);
+	return (closepfds(prompt->n_cmds, prompt), 0);
 }

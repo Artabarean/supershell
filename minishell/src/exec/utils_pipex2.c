@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:25:37 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/28 18:04:07 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:07:08 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	child_processpfd(t_cmd *cmd, int fin, int i, t_prompt *prompt)
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path_no_print(cmd, prompt) == 1)
-			exit(127);
+		{
+			cmd->full_path = cmd->full_cmd[0];
+			execute(cmd->full_cmd, cmd->full_path, prompt);
+		}
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
@@ -60,6 +63,8 @@ void	find_outfile_child(t_redir *redir, int *fileout)
 	t_redir	*copyrdr;
 
 	copyrdr = redir;
+	if (*fileout != -1)
+		close(*fileout);
 	if (copyrdr->type == T_APPEND)
 	{
 		*fileout = open_file_exit(copyrdr->file, 0);
@@ -75,13 +80,17 @@ void	find_infile_child(t_redir *redir, int *filein)
 	t_redir	*copyrdr;
 
 	copyrdr = redir;
-	*filein = open_file_exit(copyrdr->file, 2);;
+	if (*filein != -1)
+		close(*filein);
+	*filein = open_file_exit(copyrdr->file, 2);
 }
 
 void	find_heredoc_child(t_cmd *cmd, int *filein)
 {
-	int		last;
+	int	last;
 
+	if (*filein != -1)
+		close(*filein);
 	last = count_strs(cmd->tmp_doc) - 1;
 	*filein = open_file_exit(cmd->tmp_doc[last], 2);
 }

@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 10:39:59 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 10:54:46 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	{
 		if (handle_heredoc(prompt, cmd, &fin) == 1)
 			return ;
-		if (prompt->n_cmds == 1 && is_single_builtin(cmd, prompt, fin, fout) == 1)
+		if (prompt->n_cmds == 1 && is_lone_builtin(cmd, prompt, fin, fout) == 1)
 			return ;
 		selectprocess(prompt, cmd, i, &fin, &fout);
 		check_error(prompt, i);
@@ -69,23 +69,11 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 	while (copyrdr != NULL)
 	{
 		if (copyrdr->type == T_REDIR_OUT || copyrdr->type == T_APPEND)
-		{
-			if (*fileout != -1)
-				close(*fileout);
 			find_outfile_child(copyrdr, fileout);
-		}
 		if (copyrdr->type == T_REDIR_IN)
-		{
-			if (*filein != -1)
-				close(*filein);
 			find_infile_child(copyrdr, filein);
-		}
 		if (copyrdr->type == T_HEREDOC)
-		{
-			if (*filein != -1)
-				close(*filein);
 			find_heredoc_child(cmd, filein);
-		}
 		copyrdr = copyrdr->next;
 	}
 	check_command(cmd, prompt, fileout, filein);

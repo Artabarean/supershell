@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/28 17:27:05 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 13:36:01 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path_no_print(cmd, prompt) == 1)
-			exit(127);
+		{
+			cmd->full_path = cmd->full_cmd[0];
+			execute(cmd->full_cmd, cmd->full_path, prompt);
+		}
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
@@ -60,7 +63,10 @@ void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path_no_print(cmd, prompt) == 1)
-			exit(127);
+		{
+			cmd->full_path = cmd->full_cmd[0];
+			execute(cmd->full_cmd, cmd->full_path, prompt);
+		}
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
@@ -81,7 +87,10 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
 		if (find_path_no_print(cmd, prompt) == 1)
-			exit(127);
+		{
+			cmd->full_path = cmd->full_cmd[0];
+			execute(cmd->full_cmd, cmd->full_path, prompt);
+		}
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];

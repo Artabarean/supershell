@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/01/28 18:18:51 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/01/30 14:16:04 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	check_exec_errors(char *path)
 			ft_putendl_fd(": Is a directory", 2);
 			exit(126);
 		}
-		if (access(path, X_OK) != 0)
+		else if (access(path, X_OK) != 0)
 		{
 			perror(path);
 			exit(126);
@@ -62,15 +62,13 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 	char	**envp;
 	int		err;
 
-	if (!full_path)
-		exit(EXIT_FAILURE);
 	envp = env_to_envp(prompt->enviroment);
 	check_exec_errors(full_path);
 	if (execve(full_path, full_cmd, envp) == -1)
 	{
 		err = errno;
 		free_doble_ptr(envp);
-		error_no_exit(full_path);
+		error_no_exit(full_cmd[0]);
 		if (err == ENOENT)
 			exit(127);
 		else if (err == EACCES)
