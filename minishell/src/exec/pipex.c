@@ -28,21 +28,15 @@ void	create_pipes(t_prompt *prompt, int n_cmds)
 void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 {
 	if (fin != -1)
-	{
-		dup2(fin, 0);
-		close(fin);
-	}
+		set_fd(&fin, 0);
 	if (fout != -1)
-	{
-		dup2(fout, 1);
-		close(fout);
-	}
+		set_fd(&fout, 1);
 	closepfds(prompt->n_cmds, prompt);
 	if (is_builtin(cmd))
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path_no_print(cmd, prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
 			cmd->full_path = cmd->full_cmd[0];
 			execute(cmd->full_cmd, cmd->full_path, prompt);
@@ -50,7 +44,9 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
-	execute(cmd->full_cmd, cmd->full_path, prompt);
+	if (find_path_no_print(cmd, prompt) == 0)
+		execute(cmd->full_cmd, cmd->full_path, prompt);
+	exit(127);
 }
 
 void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
@@ -62,7 +58,7 @@ void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path_no_print(cmd, prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
 			cmd->full_path = cmd->full_cmd[0];
 			execute(cmd->full_cmd, cmd->full_path, prompt);
@@ -70,7 +66,9 @@ void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
-	execute(cmd->full_cmd, cmd->full_path, prompt);
+	if (find_path_no_print(cmd, prompt) == 0)
+		execute(cmd->full_cmd, cmd->full_path, prompt);
+	exit(127);
 }
 
 void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
@@ -86,7 +84,7 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path_no_print(cmd, prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
 			cmd->full_path = cmd->full_cmd[0];
 			execute(cmd->full_cmd, cmd->full_path, prompt);
@@ -94,7 +92,9 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
-	execute(cmd->full_cmd, cmd->full_path, prompt);
+	if (find_path_no_print(cmd, prompt) == 0)
+		execute(cmd->full_cmd, cmd->full_path, prompt);
+	exit(127);
 }
 
 void	pipex(t_prompt prompt)

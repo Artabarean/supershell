@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-/*static void	free_double(char *str1, char *str2)
+void	set_fd(int *fd, int value)
 {
-	free(str1);
-	free(str2);
-}*/
+	dup2(*fd, value);
+	close(*fd);
+}
 
 int	count_strs(char	**str)
 {

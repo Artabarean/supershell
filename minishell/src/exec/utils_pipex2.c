@@ -25,7 +25,7 @@ void	child_processpfd(t_cmd *cmd, int fin, int i, t_prompt *prompt)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path_no_print(cmd, prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
 			cmd->full_path = cmd->full_cmd[0];
 			execute(cmd->full_cmd, cmd->full_path, prompt);
@@ -33,7 +33,9 @@ void	child_processpfd(t_cmd *cmd, int fin, int i, t_prompt *prompt)
 	}
 	else
 		cmd->full_path = cmd->full_cmd[0];
-	execute(cmd->full_cmd, cmd->full_path, prompt);
+	if (find_path_no_print(cmd, prompt) == 0)
+		execute(cmd->full_cmd, cmd->full_path, prompt);
+	exit(127);
 }
 
 int	open_file_exit(char *name, int i)

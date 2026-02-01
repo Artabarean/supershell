@@ -73,7 +73,7 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 	}
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path_no_print(cmd, prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
 			cmd->full_path = cmd->full_cmd[0];
 			closepfds(n_cmds, prompt);
@@ -83,8 +83,9 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 	else
 		cmd->full_path = cmd->full_cmd[0];
 	closepfds(n_cmds, prompt);
-	execute(cmd->full_cmd, cmd->full_path, prompt);
-	exit(1);
+	if (find_path_no_print(cmd, prompt) == 0)
+		execute(cmd->full_cmd, cmd->full_path, prompt);
+	exit(127);
 }
 
 int	execute_(t_cmd *cmd, t_prompt *prompt)
@@ -94,11 +95,8 @@ int	execute_(t_cmd *cmd, t_prompt *prompt)
 	i = 0;
 	prompt->n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, prompt->n_cmds);
-	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)
-	{
-		closepfds(prompt->n_cmds, prompt);
-		return (1);
-	}
+	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)		
+		return (closepfds(prompt->n_cmds, prompt), 1);
 	check_com(cmd, prompt);
 	create_pipes(prompt, prompt->n_cmds);
 	while (i < prompt->n_cmds && cmd)
@@ -109,6 +107,9 @@ int	execute_(t_cmd *cmd, t_prompt *prompt)
 			set_signal(SIG_CHILD);
 			child_process(cmd, prompt, i, prompt->n_cmds);
 		}
+		else
+			find_path(cmd, prompt, i);
+		check_error(prompt, i);
 		i++;
 		free(cmd->full_path);
 		cmd = cmd->next;

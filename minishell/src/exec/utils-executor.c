@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+int	ispath(t_prompt *prompt)
+{
+	t_env *copyenv;
+
+	copyenv = prompt->enviroment;
+	while (copyenv)
+	{
+		if (!ft_strcmp(copyenv->keyword, "PATH"))
+		{
+			if (copyenv->value != NULL)
+				return (0);
+		}
+		copyenv = copyenv->next;
+	}
+	return (1);
+}
+
 void	check_com(t_cmd *cmd, t_prompt *prompt)
 {
 	t_cmd	*copy;
@@ -62,7 +79,7 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 	char	**envp;
 	int		err;
 
-	envp = env_to_envp(prompt->enviroment);
+	envp = env_to_array(prompt->enviroment);
 	check_exec_errors(full_path);
 	if (execve(full_path, full_cmd, envp) == -1)
 	{

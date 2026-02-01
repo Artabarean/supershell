@@ -160,6 +160,7 @@ void	free_env(t_env *env);
 char	*get_env_value(t_env *env, const char *name);
 void	env_add_or_update(t_prompt *prompt, char *arg);
 char	**env_to_array(t_env *env);
+int		ispath(t_prompt *prompt);
 int		do_path(t_env *env, char *path, char *selection);
 
 //CLEAN
@@ -193,6 +194,7 @@ void	check_error(t_prompt *prompt, int i);
 //Redirections
 int		redirin(t_redir *redir);
 int		redirout(t_redir *redir);
+void	set_fd(int *fd, int value);
 int		open_file(char *name, int i);
 void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein);
 void	find_outfile_child(t_redir *redir, int *fileout);
@@ -227,7 +229,6 @@ int		handle_in(t_redir *redir, int *fin);
 int		handle_out(t_redir *redir, int *fout);
 int		handle_hdoc(t_cmd *cmd, int *fin);
 int		is_lone_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout);
-void	single_builtin(t_cmd *cmd, t_prompt *prompt, int filein, int fileout);
 int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void	run_builtin_son(t_cmd *cmd, int *fin, int *fout);
 int		is_builtin(t_cmd *cmd);
