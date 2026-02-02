@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 14:31:45 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/02 10:51:29 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
-#include <sys/stat.h>
+# include <sys/stat.h>
 # include "../inc/libft/libft.h"
 # include <limits.h>
 # include <signal.h>
@@ -39,13 +39,13 @@
 //Valores para controlar las señales
 typedef enum e_signal_context
 {
-    SIG_PROMPT,
-    SIG_CHILD,
-    SIG_WAIT,
-    SIG_HEREDOC
-} t_signal_context;
+	SIG_PROMPT,
+	SIG_CHILD,
+	SIG_WAIT,
+	SIG_HEREDOC
+}	t_signal_context;
 
-extern volatile sig_atomic_t g_exit_status;
+extern volatile sig_atomic_t	g_exit_status;
 
 typedef enum e_quote
 {
@@ -95,6 +95,7 @@ typedef struct s_prompt
 	int			n_cmds;
 	char		**tkns;
 	int			tkns_nbr;
+	int			iter;
 	t_toktype	*types;
 	t_quote		*quotes;
 	char		**error_msg;
@@ -143,7 +144,7 @@ void	child_process1(t_cmd *curr_node, int fin, int fout, t_prompt *prompt);
 void	child_processpfd(t_cmd *cmd, int fin, int i, t_prompt *prompt);
 void	child_processmid(t_cmd *curr_node, t_prompt *prompt, int i);
 void	child_processend(t_cmd *curr_node, int fout, t_prompt *prompt, int i);
-void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout);
+void	selectprocess(t_prompt *prompt, t_cmd *cmd, int *fin, int *fout);
 
 //BUILT-INS
 void	exit_builtin(t_cmd *cmd, t_prompt *prompt);

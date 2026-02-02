@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/01/30 14:34:47 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/02 10:40:27 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,6 @@ void	check_com(t_cmd *cmd, t_prompt *prompt)
 	{
 		if (is_builtin(copy) == 0)
 		{
-			if (copy->full_cmd[0] != NULL)
-			{
-				if (!ft_strchr(copy->full_cmd[0], '/'))
-					find_path_no_print(copy, prompt);
-			}
 			if (copy->full_cmd[0] == NULL)
 			{
 				closepfds(prompt->n_cmds, prompt);

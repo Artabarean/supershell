@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   selectprocess.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 10:59:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 10:01:32 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/02 10:51:14 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ int	count_strs(char	**str)
 	return (i);
 }
 
-void	selectprocess(t_prompt *prompt, t_cmd *cmd, int i, int *fin, int *fout)
+void	selectprocess(t_prompt *prompt, t_cmd *cmd, int *fin, int *fout)
 {
+	int	i;
+
+	i = prompt->iter;
 	prompt->pid[i] = fork();
 	if (prompt->pid[i] == -1)
 		error("fork");

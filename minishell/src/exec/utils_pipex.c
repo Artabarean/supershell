@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 10:54:46 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/02 10:51:50 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,25 @@ int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 
 void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 {
-	int	i;
 	int	fin;
 	int	fout;
 
 	fin = -1;
 	fout = -1;
-	i = 0;
+	prompt->iter = 0;
 	pfd_alloc(prompt, prompt->n_cmds);
 	create_pipes(prompt, prompt->n_cmds);
-	while (i < prompt->n_cmds && cmd)
+	while (prompt->iter < prompt->n_cmds && cmd)
 	{
 		if (handle_heredoc(prompt, cmd, &fin) == 1)
 			return ;
 		if (prompt->n_cmds == 1 && is_lone_builtin(cmd, prompt, fin, fout) == 1)
 			return ;
-		selectprocess(prompt, cmd, i, &fin, &fout);
-		check_error(prompt, i);
+		selectprocess(prompt, cmd, &fin, &fout);
+		check_error(prompt, prompt->iter);
 		free(cmd->full_path);
 		cmd = cmd->next;
-		i++;
+		prompt->iter++;
 	}
 	if (fin != -1)
 		close(fin);
