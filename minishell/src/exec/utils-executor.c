@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/02/02 10:40:27 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:15:17 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ispath(t_prompt *prompt)
 {
-	t_env *copyenv;
+	t_env	*copyenv;
 
 	copyenv = prompt->enviroment;
 	while (copyenv)

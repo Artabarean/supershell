@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 11:19:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/01/30 14:32:05 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 12:30:20 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,8 @@ int	cd(char **args, t_prompt *prompt)
 	path = NULL;
 	if (!getcwd(oldpwd, sizeof(oldpwd)))
 		return (g_exit_status = 1, 1);
-	if (args[1] && args[2])
-	{
-		ft_putendl_fd ("minishell: cd: too many arguments", 2);
-		return (g_exit_status = 1, 1);
-	}
+	if (too_many_args(args) == 1)
+		return (1);
 	if (!args[1] || !args[1][0])
 	{
 		if (do_path(prompt->enviroment, path, "HOME") == 1)
@@ -80,13 +77,11 @@ int	cd(char **args, t_prompt *prompt)
 	{
 		if (do_path(prompt->enviroment, path, "OLDPWD") == 1)
 			return (g_exit_status = 1, 1);
-		path = get_env_value(prompt->enviroment, "OLDPWD");
-		ft_putendl_fd(path, 1);
+		path = printpath(prompt);
 	}
 	else
 		path = args[1];
 	if (chdir(path) != 0)
 		return (g_exit_status = 1, cd_error(path), 1);
-	update_pwd_vars(prompt, oldpwd);
-	return (0);
+	return (update_pwd_vars(prompt, oldpwd), 0);
 }

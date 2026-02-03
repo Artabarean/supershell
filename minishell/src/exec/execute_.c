@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 14:33:39 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:35:34 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	execute_(t_cmd *cmd, t_prompt *prompt)
 	i = 0;
 	prompt->n_cmds = pipecount(*prompt) + 1;
 	pfd_alloc(prompt, prompt->n_cmds);
-	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)		
+	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)
 		return (closepfds(prompt->n_cmds, prompt), 1);
 	check_com(cmd, prompt);
 	create_pipes(prompt, prompt->n_cmds);

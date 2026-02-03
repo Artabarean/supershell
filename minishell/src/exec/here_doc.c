@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 17:02:50 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:25:36 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,7 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index)
 	filename = createfile(index);
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
-	{
-		free(filename);
-		error("heredoc tmpfile");
-	}
+		fd_failed_hd(filename);
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{

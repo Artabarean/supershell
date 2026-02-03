@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_check.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/27 17:02:37 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:25:13 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	fd_failed_hd(char *filename)
+{
+	free(filename);
+	error_in_child("tmpfile failure");
+}
 
 char	*expand_for_heredoc(char *str, t_env *env)
 {

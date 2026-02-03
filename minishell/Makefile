@@ -6,7 +6,7 @@
 #    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/01/28 18:00:06 by atabarea         ###   ########.fr        #
+#    Updated: 2026/02/03 11:46:37 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,9 @@ SRC	 =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/builtins/is_single_builtin.c \
 		$(SRC_DIR)/utils/error_checks.c \
 		$(SRC_DIR)/exec/handle_finder.c \
-		$(SRC_DIR)/exec/utils_pipex2.c 
+		$(SRC_DIR)/exec/utils_pipex2.c \
+		$(SRC_DIR)/exec/check_paths.c \
+		$(SRC_DIR)/builtins/utils_export2.c 
 
 OBJS	= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

@@ -1,17 +1,17 @@
 #include "minishell.h"
 
-
 void	print_tokens(char **tokens)
 {
-	int i = 0;
-	
-	printf(GREEN"=== Tokens ===\n"RESET);
-	while(tokens[i])
+	int	i;
+
+	i = 0;
+	printf(GREEN "=== Tokens ===\n" RESET);
+	while (tokens[i])
 	{
 		printf("Token n. %d: %s\n", i + 1, tokens[i]);
 		i++;
 	}
-	printf(GREEN"---------------\n"RESET);
+	printf(GREEN "---------------\n" RESET);
 }
 
 const char	*toktype_to_str(t_toktype type)
@@ -33,11 +33,12 @@ const char	*toktype_to_str(t_toktype type)
 
 void	print_cmds(t_cmd *cmds)
 {
-	int i;
-	t_redir *redir;
+	int		i;
+	t_redir	*redir;
+
 	while (cmds)
 	{
-		printf(GREEN"=== Comando ===\n"RESET);
+		printf(GREEN "=== Comando ===\n" RESET);
 		printf("Args: ");
 		if (cmds->full_cmd)
 		{
@@ -59,7 +60,7 @@ void	print_cmds(t_cmd *cmds)
 			redir = redir->next;
 		}
 		printf("\n");
-		printf(GREEN"---------------\n"RESET);
+		printf(GREEN "---------------\n" RESET);
 		cmds = cmds->next;
 	}
 }
@@ -78,5 +79,5 @@ void	debug(t_prompt prompt)
 {
 	print_tokens(prompt.tkns);
 	print_cmds(prompt.cmds);
-//	print_env(prompt.enviroment);
+	//	print_env(prompt.enviroment);
 }

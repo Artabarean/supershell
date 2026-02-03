@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:24:39 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 13:20:58 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 12:39:40 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,24 @@ int	do_path(t_env *env, char *path, char *selection)
 		}
 	}
 	return (0);
+}
+
+int	too_many_args(char **args)
+{
+	if (args[1] && args[2])
+	{
+		ft_putendl_fd ("minishell: cd: too many arguments", 2);
+		g_exit_status = 1;
+		return (1);
+	}
+	return (0);
+}
+
+char	*printpath(t_prompt *prompt)
+{
+	char	*path;
+
+	path = get_env_value(prompt->enviroment, "OLDPWD");
+	ft_putendl_fd(path, 1);
+	return (path);
 }

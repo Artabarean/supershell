@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/02 10:51:29 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 12:39:58 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void	executer(t_prompt *prompt);
 int		execute_(t_cmd *cmd, t_prompt *prompt);
 void	execute(char **full_cmd, char *full_path, t_prompt *prompt);
 void	pipex(t_prompt prompt);
+int		check_paths(t_cmd *cmd, char **paths);
 void	childprocess_(t_cmd *curr_nde, t_prompt *prompt);
 void	child_process1(t_cmd *curr_node, int fin, int fout, t_prompt *prompt);
 void	child_processpfd(t_cmd *cmd, int fin, int i, t_prompt *prompt);
@@ -224,11 +225,15 @@ int		handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin);
 int		get_last_heredoc(char **tmp_doc);
 void	cleanup_heredoc_files(t_cmd *cmds);
 char	**count_heredoc(t_redir *redir);
+void	fd_failed_hd(char *filename);
 
 //Built-ins
 int		handle_in(t_redir *redir, int *fin);
 int		handle_out(t_redir *redir, int *fout);
 int		handle_hdoc(t_cmd *cmd, int *fin);
+int		too_many_args(char **args);
+char	*printpath(t_prompt *prompt);
+void	update_node(t_env *node, t_prompt *prompt, char *key, char *value);
 int		is_lone_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout);
 int		builtin_no_in_out(int n_cmds, t_cmd *cmd, t_prompt *prompt);
 void	run_builtin_son(t_cmd *cmd, int *fin, int *fout);

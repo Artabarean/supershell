@@ -6,11 +6,11 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:25:37 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 14:07:08 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 11:37:32 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/minishell.h"
+#include "minishell.h"
 
 void	child_processpfd(t_cmd *cmd, int fin, int i, t_prompt *prompt)
 {
