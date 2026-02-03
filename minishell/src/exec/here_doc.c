@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 11:25:36 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 16:28:45 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 	}
 }
 
-//to fix :)
 char	*do_single_heredoc(char *limiter, t_env *env, int index)
 {
 	char	*line;
@@ -81,12 +80,14 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index)
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		fd_failed_hd(filename);
-	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("< ");
 		if (!line)
+		{
+			eof_warning_msg(limiter);
 			break ;
+		}
 		if (ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
@@ -98,23 +99,23 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index)
 	return (close(fd), filename);
 }
 
-int	process_heredocs(t_cmd *cmd, t_env *env)
+int	process_heredocs(t_cmd *copycmd, t_env *env)
 {
 	t_redir	*r;
 	int		i;
 
 	i = 0;
-	if (!cmd->redir)
+	if (!copycmd->redir)
 		return (0);
-	r = cmd->redir;
+	r = copycmd->redir;
 	while (r)
 	{
 		if (r->type == T_HEREDOC)
 		{
-			if (!cmd->tmp_doc)
-				cmd->tmp_doc = count_heredoc(cmd->redir);
+			if (!copycmd->tmp_doc)
+				copycmd->tmp_doc = count_heredoc(copycmd->redir);
 			set_signal(SIG_HEREDOC);
-			cmd->tmp_doc[i] = do_single_heredoc(r->file, env, i);
+			copycmd->tmp_doc[i] = do_single_heredoc(r->file, env, i);
 			i++;
 		}
 		r = r->next;

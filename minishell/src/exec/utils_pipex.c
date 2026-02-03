@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/02 10:51:50 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 16:33:37 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	create_pipes(prompt, prompt->n_cmds);
 	while (prompt->iter < prompt->n_cmds && cmd)
 	{
-		if (handle_heredoc(prompt, cmd, &fin) == 1)
+		if (handle_heredoc(prompt, cmd) == 1)
 			return ;
 		if (prompt->n_cmds == 1 && is_lone_builtin(cmd, prompt, fin, fout) == 1)
 			return ;

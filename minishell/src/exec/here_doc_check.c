@@ -6,11 +6,17 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 11:25:13 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 16:35:38 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	eof_warning_msg(char *limiter)
+{
+	printf("minishell: warning: here-document \
+delimited by end-of-file (wanted `%s')\n", limiter);
+}
 
 void	fd_failed_hd(char *filename)
 {
@@ -24,7 +30,7 @@ char	*expand_for_heredoc(char *str, t_env *env)
 
 	keyword = NULL;
 	if (!str || !*str)
-		return (ft_strdup(""));
+		return ("");
 	while (env)
 	{
 		keyword = ft_strjoin("$", env->keyword);
@@ -36,17 +42,16 @@ char	*expand_for_heredoc(char *str, t_env *env)
 	return (str);
 }
 
-int	handle_heredoc(t_prompt *prompt, t_cmd *cmd, int *fin)
+int	handle_heredoc(t_prompt *prompt, t_cmd *cmd)
 {
-	if (cmd->redir && cmd->redir->type == T_HEREDOC)
+	t_cmd	*copycmd;
+
+	copycmd = cmd;
+	while (copycmd)
 	{
-		process_heredocs(cmd, prompt->enviroment);
-		*fin = get_last_heredoc(cmd->tmp_doc);
-		if (*fin == -1)
-		{
-			closepfds(prompt->n_cmds, prompt);
-			return (1);
-		}
+		if (copycmd->redir && copycmd->redir->type == T_HEREDOC)
+			process_heredocs(copycmd, prompt->enviroment);
+		copycmd = copycmd->next;
 	}
 	return (0);
 }

@@ -37,8 +37,7 @@ int	main(int argc, char **argv, char **envp)
 	t_prompt	prompt;
 
 	if (argc != 1 || envp == NULL || *envp == NULL)
-		return (perror("Environment error"), 1);
-	(void)argc;
+		return (ft_putendl_fd("Environment error", 2), 1);
 	(void)argv;
 	init_prompt(&prompt, envp);
 	while (1)
@@ -48,6 +47,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			printf("exit\n");
 			free_all(&prompt);
+			rl_clear_history();
 			exit(EXIT_SUCCESS);
 		}
 		else if (prompt.input && not_only_spaces(prompt.input))

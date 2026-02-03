@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 14:05:50 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 09:09:46 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/03 14:05:58 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,6 @@ static void	print_num_arg_req(t_prompt *prompt)
 	free(prompt->pid);
 	free_all(prompt);
 }
-
-/*int	checkforexit(t_cmd *cmd)
-{
-	if (!ft_strcmp(cmd->full_cmd[0], "exit"))
-	{
-		if (cmd->full_cmd[2])
-			return (1);
-	}
-	return (0);
-}*/
 
 static bool	is_numeric(const char *s)
 {

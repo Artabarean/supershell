@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 11:32:56 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 17:43:59 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ void	freer(char **paths)
 	int	i;
 
 	i = 0;
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		free(paths[i]);
 		i++;
 	}
-	free(paths);
+	if (paths)
+		free(paths);
 }
 
 char	*get_environments(char *name, t_prompt *prompt)
@@ -64,9 +65,7 @@ int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 
 	i = 0;
 	paths = ft_split(get_environments("PATH", prompt), ':');
-	if (check_paths(cmd, paths) == 0)
-		return (0);
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		temp = ft_strjoin(paths[i], "/");
 		if (!temp)
@@ -81,6 +80,8 @@ int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 		cmd->full_path = NULL;
 		i++;
 	}
+	if (check_paths(cmd, paths) == 0)
+		return (freer(paths), 0);
 	freer(paths);
 	return (printerr(prompt, cmd->full_cmd[0], j), 1);
 }
@@ -93,23 +94,23 @@ int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)
 
 	i = 0;
 	paths = ft_split(get_environments("PATH", prompt), ':');
-	if (check_paths(cmd, paths) == 0)
-		return (0);
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		temp = ft_strjoin(paths[i], "/");
 		if (!temp)
-			i++;
+		i++;
 		cmd->full_path = ft_strjoin(temp, cmd->full_cmd[0]);
 		free(temp);
 		if (!cmd->full_path)
-			i++;
+		i++;
 		if (access(cmd->full_path, F_OK | X_OK) == 0)
 			return (freer(paths), 0);
 		free(cmd->full_path);
 		cmd->full_path = NULL;
 		i++;
 	}
+	if (check_paths(cmd, paths) == 0)
+		return (freer(paths), 0);
 	freer(paths);
 	return (1);
 }

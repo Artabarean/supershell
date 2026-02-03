@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 11:35:34 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/03 17:39:35 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int	execute_(t_cmd *cmd, t_prompt *prompt)
 			find_path(cmd, prompt, i);
 		check_error(prompt, i);
 		i++;
-		free(cmd->full_path);
 		cmd = cmd->next;
 	}
 	return (closepfds(prompt->n_cmds, prompt), 0);
