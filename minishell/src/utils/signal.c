@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:09 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/03 13:10:42 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:23:11 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	set_signal(int context)
 	}
 	else if (context == SIG_HEREDOC)
 	{
-		signal(SIGINT, close_heredoc);
+		//signal(SIGINT, close_heredoc);
+		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }

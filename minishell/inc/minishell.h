@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 17:18:04 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:25:59 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # define BLUE	"\033[0;34m"
 # define BOLD	"\033[1m"
 # define RESET   "\033[0m"
-# define BUFFER_SIZE 42
 
 //Valores para controlar las señales
 typedef enum e_signal_context
@@ -176,6 +175,9 @@ void	free_input(t_prompt *prompt);
 void	set_signal(int status);
 
 //UTILS
+int		cmd_isdir(t_cmd *cmd, char *full_cmd);
+char	*joiner(char *paths, t_cmd *cmd);
+
 //Core
 int		count_input(char *input);
 int		correct_input(char *input);
@@ -191,7 +193,7 @@ int		is_valid_var_char(char c);
 int		error(char *s);
 void	error_in_child(char *s);
 void	error_no_exit(char *s);
-void	check_error(t_prompt *prompt, int i);
+void	check_error(t_cmd *cmd, t_prompt *prompt, int i);
 
 //Redirections
 int		redirin(t_redir *redir);
@@ -223,10 +225,11 @@ int		count_strs(char	**str);
 void	eof_warning_msg(char *limiter);
 char	*expand_for_heredoc(char *str, t_env *env);
 int		handle_heredoc(t_prompt *prompt, t_cmd *cmd);
-int		get_last_heredoc(char **tmp_doc);
 void	cleanup_heredoc_files(t_cmd *cmds);
 char	**count_heredoc(t_redir *redir);
 void	fd_failed_hd(char *filename);
+void	closehfd(int *fd);
+int		*count_hfds(t_redir *redir);
 
 //Built-ins
 int		handle_in(t_redir *redir, int *fin);

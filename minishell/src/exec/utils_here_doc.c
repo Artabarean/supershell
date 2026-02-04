@@ -1,34 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_paths.c                                      :+:      :+:    :+:   */
+/*   utils_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/03 11:28:34 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 12:42:44 by atabarea         ###   ########.fr       */
+/*   Created: 2026/02/04 16:40:27 by atabarea          #+#    #+#             */
+/*   Updated: 2026/02/04 17:24:37 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_paths(t_cmd *cmd, char **paths)
+int		*count_hfds(t_redir *redir)
 {
-	if (!paths)
+	t_redir	*copy;
+	int		count;
+	int		*fd;
+
+	count = 0;
+	copy = redir;
+	while (copy)
 	{
-		if (cmd->full_cmd[0] && access(cmd->full_cmd[0], F_OK | X_OK) == 0)
-		{
-			cmd->full_path = cmd->full_cmd[0];
-			return (0);
-		}
+		if (copy->type == T_HEREDOC)
+			count++;
+		copy = copy->next;
 	}
-	else
+	fd = ft_calloc(sizeof(int), count + 1);
+	fd[count] = -2;
+	return (fd);
+}
+
+void	closehfd(int *fd)
+{
+	int	i;
+
+	i = 0;
+	while (fd[i] != -2)
 	{
-		if (cmd->full_cmd[0] && access(cmd->full_cmd[0], F_OK | X_OK) == 0)
-		{
-			cmd->full_path = cmd->full_cmd[0];
-			return (0);
-		}
+		close(fd[i]);
+		i++;
 	}
-	return (1);
+	free(fd);
 }

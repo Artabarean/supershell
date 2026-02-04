@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 10:15:09 by atabarea          #+#    #+#             */
-/*   Updated: 2025/11/28 12:56:03 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:27:13 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	while (*s1 && *s2 && (*s1 == *s2))
+	while (s1 && s2 && *s1 && *s2 && (*s1 == *s2))
 	{
 		s1++;
 		s2++;
 	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
+	if (s1 && s2)
+		return ((unsigned char)*s1 - (unsigned char)*s2);
+	return (1);
 }

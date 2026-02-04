@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 16:35:38 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 16:50:29 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,21 @@ char	*expand_for_heredoc(char *str, t_env *env)
 int	handle_heredoc(t_prompt *prompt, t_cmd *cmd)
 {
 	t_cmd	*copycmd;
+	t_redir	*rdr;
 
+	rdr = cmd->redir;
 	copycmd = cmd;
 	while (copycmd)
 	{
-		if (copycmd->redir && copycmd->redir->type == T_HEREDOC)
-			process_heredocs(copycmd, prompt->enviroment);
+		while (rdr)
+		{
+			if (copycmd->redir && copycmd->redir->type == T_HEREDOC)
+			{
+				process_heredocs(copycmd, prompt->enviroment);
+				break ;
+			}
+			rdr = rdr->next;
+		}
 		copycmd = copycmd->next;
 	}
 	return (0);
@@ -70,7 +79,6 @@ char	**count_heredoc(t_redir *redir)
 			count++;
 		copy = copy->next;
 	}
-	sizer = malloc(sizeof(char *) * (count + 1));
-	sizer[count] = NULL;
+	sizer = ft_calloc(sizeof(char *), count + 1);
 	return (sizer);
 }

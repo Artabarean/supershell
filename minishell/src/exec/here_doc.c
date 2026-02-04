@@ -6,46 +6,42 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 16:28:45 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:28:12 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_last_heredoc(char **tmp_doc)
+static void	createfile(t_cmd *cmd, int *fd)
 {
-	int	fd;
-	int	i;
+	char	*idx;
+	int		i;
+	int		j;
+	t_redir	*rdr;
 
 	i = 0;
-	if (tmp_doc)
+	j = 0;
+	rdr = cmd->redir;
+	while (rdr)
 	{
-		while (tmp_doc[i] != NULL)
-			i++;
-		fd = open(tmp_doc[i - 1], O_RDONLY);
-		if (fd == -1)
-			return (-1);
-		return (fd);
+		if (rdr->type == T_HEREDOC)
+		{
+			idx = ft_itoa(i);
+			cmd->tmp_doc[j] = ft_strjoin("heredoc_", idx);
+			free(idx);
+			if (access(cmd->tmp_doc[j], F_OK) != 0)
+			{
+				fd[j] = open(cmd->tmp_doc[j], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+				if (fd[j] == -1)
+					fd_failed_hd(cmd->tmp_doc[j]);
+				j++;
+			}
+		}
+		i++;
+		rdr = rdr->next;
 	}
-	return (1);
 }
 
-char	*createfile(int index)
-{
-	char	*filename;
-	char	*idx;
-
-	idx = ft_itoa(index);
-	filename = ft_strjoin("heredoc_", idx);
-	while (access(filename, F_OK) == 0)
-	{
-		free(filename);
-		index++;
-		filename = ft_strjoin("heredoc_", idx);
-	}
-	free(idx);
-	return (filename);
-}
 
 void	cleanup_heredoc_files(t_cmd *cmds)
 {
@@ -70,16 +66,10 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 	}
 }
 
-char	*do_single_heredoc(char *limiter, t_env *env, int index)
+void	do_single_heredoc(char *limiter, t_env *env, int fd)
 {
 	char	*line;
-	char	*filename;
-	int		fd;
 
-	filename = createfile(index);
-	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd == -1)
-		fd_failed_hd(filename);
 	while (1)
 	{
 		line = readline("< ");
@@ -96,31 +86,53 @@ char	*do_single_heredoc(char *limiter, t_env *env, int index)
 		ft_putendl_fd(expand_for_heredoc(line, env), fd);
 		free(line);
 	}
-	return (close(fd), filename);
+	close(fd);
 }
 
-int	process_heredocs(t_cmd *copycmd, t_env *env)
+static int	heredoc_child(t_cmd *cmd, t_env *env, int *fd)
 {
 	t_redir	*r;
 	int		i;
 
 	i = 0;
-	if (!copycmd->redir)
-		return (0);
-	r = copycmd->redir;
+	r = cmd->redir;
 	while (r)
 	{
 		if (r->type == T_HEREDOC)
 		{
-			if (!copycmd->tmp_doc)
-				copycmd->tmp_doc = count_heredoc(copycmd->redir);
-			set_signal(SIG_HEREDOC);
-			copycmd->tmp_doc[i] = do_single_heredoc(r->file, env, i);
+			do_single_heredoc(r->file, env, fd[i]);
 			i++;
 		}
 		r = r->next;
 	}
-	if (i == 0)
+	return (0);
+}
+
+
+int	process_heredocs(t_cmd *copycmd, t_env *env)
+{
+	pid_t	pid;
+	int		status;
+	int		*fd;
+
+	copycmd->tmp_doc = count_heredoc(copycmd->redir);
+	fd = count_hfds(copycmd->redir);
+	if (!copycmd->tmp_doc)
 		return (0);
-	return (1);
+	createfile(copycmd, fd);
+	pid = fork();
+	if (pid == -1)
+		return (perror("fork"), 1);
+	if (pid == 0)
+	{
+		set_signal(SIG_HEREDOC);
+		heredoc_child(copycmd, env, fd);
+		exit(0);
+	}
+	set_signal(SIG_WAIT);
+	waitpid(pid, &status, 0);
+	closehfd(fd);
+	if (WIFSIGNALED(status))
+		return (g_exit_status = 130, 1);
+	return (0);
 }
