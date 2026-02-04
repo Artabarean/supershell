@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 18:02:18 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 19:09:59 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,8 @@ void	cleanup_heredoc_files(t_cmd *cmds);
 char	**count_heredoc(t_redir *redir);
 void	fd_failed_hd(char *filename);
 void	closehfd(int *fd);
-int		*count_hfds(t_redir *redir);
+int		*count_hfds(t_cmd *cmd);
+void	set_tempdoc(t_cmd *cmd);
 
 //Built-ins
 int		handle_in(t_redir *redir, int *fin);

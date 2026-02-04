@@ -6,25 +6,49 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 16:40:27 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 17:24:37 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 19:09:11 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		*count_hfds(t_redir *redir)
+void	set_tempdoc(t_cmd *cmd)
 {
-	t_redir	*copy;
+	t_cmd	*copycmd;
+	t_redir	*rdr;
+
+	copycmd = cmd;
+	while (copycmd)
+	{
+		rdr = copycmd->redir;
+		while (rdr)
+		{
+			copycmd->tmp_doc = count_heredoc(rdr);
+			rdr = rdr->next;
+		}
+		copycmd = copycmd->next;
+	}
+}
+
+int		*count_hfds(t_cmd *cmd)
+{
+	t_redir	*rdr;
 	int		count;
 	int		*fd;
+	t_cmd	*copycmd;
 
+	copycmd = cmd;
 	count = 0;
-	copy = redir;
-	while (copy)
+	while (copycmd)
 	{
-		if (copy->type == T_HEREDOC)
-			count++;
-		copy = copy->next;
+		rdr = copycmd->redir;
+		while (rdr)
+		{
+			if (rdr->type == T_HEREDOC)
+				count++;
+			rdr = rdr->next;
+		}
+		copycmd = copycmd->next;
 	}
 	fd = ft_calloc(sizeof(int), count + 1);
 	fd[count] = -2;

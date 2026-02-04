@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 17:28:12 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 19:09:42 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,34 @@ static void	createfile(t_cmd *cmd, int *fd)
 	int		i;
 	int		j;
 	t_redir	*rdr;
+	t_cmd	*copycmd;
 
+	copycmd = cmd;
 	i = 0;
 	j = 0;
-	rdr = cmd->redir;
-	while (rdr)
+	while (copycmd)
 	{
-		if (rdr->type == T_HEREDOC)
+		rdr = copycmd->redir;
+		while (rdr)
 		{
-			idx = ft_itoa(i);
-			cmd->tmp_doc[j] = ft_strjoin("heredoc_", idx);
-			free(idx);
-			if (access(cmd->tmp_doc[j], F_OK) != 0)
+			if (rdr->type == T_HEREDOC)
 			{
-				fd[j] = open(cmd->tmp_doc[j], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-				if (fd[j] == -1)
-					fd_failed_hd(cmd->tmp_doc[j]);
-				j++;
+				idx = ft_itoa(i);
+				cmd->tmp_doc[j] = ft_strjoin("heredoc_", idx);
+				free(idx);
+				if (access(cmd->tmp_doc[j], F_OK) != 0)
+				{
+					fd[j] = open(cmd->tmp_doc[j], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+					if (fd[j] == -1)
+						fd_failed_hd(cmd->tmp_doc[j]);
+					j++;
+				}
 			}
+			i++;
+			rdr = rdr->next;
 		}
-		i++;
-		rdr = rdr->next;
+		j = 0;
+		copycmd = copycmd->next;
 	}
 }
 
@@ -92,41 +99,46 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 static int	heredoc_child(t_cmd *cmd, t_env *env, int *fd)
 {
 	t_redir	*r;
+	t_cmd	*copycmd;
 	int		i;
 
+	copycmd = cmd;
 	i = 0;
-	r = cmd->redir;
-	while (r)
+	while (copycmd)
 	{
-		if (r->type == T_HEREDOC)
+		r = copycmd->redir;
+		while (r)
 		{
-			do_single_heredoc(r->file, env, fd[i]);
-			i++;
+			if (r->type == T_HEREDOC)
+			{
+				do_single_heredoc(r->file, env, fd[i]);
+				i++;
+			}
+			r = r->next;
 		}
-		r = r->next;
+		i = 0;
+		copycmd = copycmd->next;
 	}
 	return (0);
 }
 
 
-int	process_heredocs(t_cmd *copycmd, t_env *env)
+int	process_heredocs(t_cmd *cmd, t_env *env)
 {
 	pid_t	pid;
 	int		status;
 	int		*fd;
 
-	copycmd->tmp_doc = count_heredoc(copycmd->redir);
-	fd = count_hfds(copycmd->redir);
-	if (!copycmd->tmp_doc)
-		return (0);
-	createfile(copycmd, fd);
+	set_tempdoc(cmd);
+	fd = count_hfds(cmd);
+	createfile(cmd, fd);
 	pid = fork();
 	if (pid == -1)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
 		set_signal(SIG_HEREDOC);
-		heredoc_child(copycmd, env, fd);
+		heredoc_child(cmd, env, fd);
 		exit(0);
 	}
 	set_signal(SIG_WAIT);

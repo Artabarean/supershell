@@ -6,20 +6,20 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:09 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/04 17:23:11 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 18:06:25 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	close_heredoc(int signal)
-{
-	(void)signal;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_done = 1;
-	g_exit_status = 130;
-}
+// static void	close_heredoc(int signal)
+// {
+// 	(void)signal;
+// 	write(1, "\n", 1);
+// 	rl_replace_line("", 0);
+// 	rl_done = 1;
+// 	g_exit_status = 130;
+// }
 
 static void	reset_shell(int signal)
 {
