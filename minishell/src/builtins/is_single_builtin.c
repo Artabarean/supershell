@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 14:24:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 14:33:25 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 12:33:01 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	single_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 
 int	is_lone_builtin(t_cmd *cmd, t_prompt *prompt, int fin, int fout)
 {
-	if (prompt->n_cmds == 1 && cmd->full_cmd[0] != NULL)
+	if (prompt->n_cmds == 0 && cmd->full_cmd[0] != NULL)
 	{
 		if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 		{

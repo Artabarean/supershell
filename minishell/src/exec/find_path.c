@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 17:43:59 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 12:53:25 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,30 @@
 void	printerr(t_prompt *prompt, char *full_cmd, int j)
 {
 	char	*tmp;
-	char	*msg;
 
-	msg = ft_strdup("minishell: ");
-	tmp = msg;
-	msg = ft_strjoin(tmp, full_cmd);
-	free(tmp);
-	tmp = msg;
-	msg = ft_strjoin(tmp, ": command not found\n");
-	free(tmp);
-	prompt->error_msg[j] = msg;
+	if (ft_strchr(full_cmd, '/'))
+	{
+		prompt->error_msg[j] = ft_strdup("minishell: ");
+		tmp = prompt->error_msg[j];
+		prompt->error_msg[j] = ft_strjoin(tmp, full_cmd);
+		free(tmp);
+		tmp = prompt->error_msg[j];
+		if (full_cmd[0] == '.')
+			prompt->error_msg[j] = ft_strjoin(tmp, ": Permission denied\n");
+		else
+			prompt->error_msg[j] = ft_strjoin(tmp, ": No such file or directory\n");
+		free(tmp);
+	}
+	if (!ft_strchr(full_cmd, '/'))
+	{
+		prompt->error_msg[j] = ft_strdup("minishell: ");
+		tmp = prompt->error_msg[j];
+		prompt->error_msg[j] = ft_strjoin(tmp, full_cmd);
+		free(tmp);
+		tmp = prompt->error_msg[j];
+		prompt->error_msg[j] = ft_strjoin(tmp, ": command not found\n");
+		free(tmp);
+	}
 }
 
 void	freer(char **paths)
@@ -61,17 +75,16 @@ int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 {
 	int		i;
 	char	**paths;
-	char	*temp;
 
 	i = 0;
+	if (cmd_isdir(cmd, cmd->full_cmd[0]))
+		return (printerr(prompt, cmd->full_cmd[0], j), 1);
+	if (!ft_strcmp(cmd->full_cmd[0], cmd->full_path))
+		return (0);
 	paths = ft_split(get_environments("PATH", prompt), ':');
 	while (paths && paths[i])
 	{
-		temp = ft_strjoin(paths[i], "/");
-		if (!temp)
-			i++;
-		cmd->full_path = ft_strjoin(temp, cmd->full_cmd[0]);
-		free(temp);
+		cmd->full_path = joiner(paths[i], cmd);
 		if (!cmd->full_path)
 			i++;
 		if (access(cmd->full_path, F_OK | X_OK) == 0)
@@ -82,27 +95,27 @@ int	find_path(t_cmd *cmd, t_prompt *prompt, int j)
 	}
 	if (check_paths(cmd, paths) == 0)
 		return (freer(paths), 0);
-	freer(paths);
-	return (printerr(prompt, cmd->full_cmd[0], j), 1);
+	if (ispath(prompt) == 0)
+		printerr(prompt, cmd->full_cmd[0], j);
+	return (freer(paths), 1);
 }
 
 int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)
 {
-	int		i;
 	char	**paths;
-	char	*temp;
+	int		i;
 
 	i = 0;
+	if (cmd_isdir(cmd, cmd->full_cmd[0]))
+		return (1);
+	if (!ft_strcmp(cmd->full_cmd[0], cmd->full_path))
+		return (0);
 	paths = ft_split(get_environments("PATH", prompt), ':');
 	while (paths && paths[i])
 	{
-		temp = ft_strjoin(paths[i], "/");
-		if (!temp)
-		i++;
-		cmd->full_path = ft_strjoin(temp, cmd->full_cmd[0]);
-		free(temp);
+		cmd->full_path = joiner(paths[i], cmd);
 		if (!cmd->full_path)
-		i++;
+			i++;
 		if (access(cmd->full_path, F_OK | X_OK) == 0)
 			return (freer(paths), 0);
 		free(cmd->full_path);
@@ -111,6 +124,5 @@ int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)
 	}
 	if (check_paths(cmd, paths) == 0)
 		return (freer(paths), 0);
-	freer(paths);
-	return (1);
+	return (freer(paths), 1);
 }

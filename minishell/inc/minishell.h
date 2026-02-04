@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 17:18:04 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 12:19:19 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,9 @@ void	free_input(t_prompt *prompt);
 void	set_signal(int status);
 
 //UTILS
+int		cmd_isdir(t_cmd *cmd, char *full_cmd);
+char	*joiner(char *paths, t_cmd *cmd);
+
 //Core
 int		count_input(char *input);
 int		correct_input(char *input);
@@ -191,7 +194,7 @@ int		is_valid_var_char(char c);
 int		error(char *s);
 void	error_in_child(char *s);
 void	error_no_exit(char *s);
-void	check_error(t_prompt *prompt, int i);
+void	check_error(t_cmd *cmd, t_prompt *prompt, int i);
 
 //Redirections
 int		redirin(t_redir *redir);

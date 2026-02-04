@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 16:33:37 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:54:17 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 		if (prompt->n_cmds == 1 && is_lone_builtin(cmd, prompt, fin, fout) == 1)
 			return ;
 		selectprocess(prompt, cmd, &fin, &fout);
-		check_error(prompt, prompt->iter);
-		free(cmd->full_path);
+		check_error(cmd, prompt, prompt->iter);
 		cmd = cmd->next;
 		prompt->iter++;
 	}
