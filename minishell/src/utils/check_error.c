@@ -14,13 +14,10 @@
 
 void	check_error(t_cmd *cmd, t_prompt *prompt, int i)
 {
-	if (prompt->error_msg)
+	if (prompt->error_msg && prompt->error_msg[i])
 	{
-		if (prompt->error_msg[i])
-		{
-			write(2, prompt->error_msg[i], ft_strlen(prompt->error_msg[i]));
-			free(prompt->error_msg[i]);
-		}
+		write(2, prompt->error_msg[i], ft_strlen(prompt->error_msg[i]));
+		free(prompt->error_msg[i]);
 		if (cmd->full_path)
 			free(cmd->full_path);
 	}
