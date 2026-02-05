@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:24:39 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 12:39:40 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/05 14:36:57 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
 
 int	checkfather_builtin(t_cmd *cmd)
 {
-	if (cmd->full_cmd[0])
+	if (cmd->full_cmd && cmd->full_cmd[0])
 	{
 		if (!ft_strcmp(cmd->full_cmd[0], "cd"))
 			return (1);

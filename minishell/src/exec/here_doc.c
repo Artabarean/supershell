@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/05 14:16:10 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:20:00 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 
 	while (1)
 	{
-		line = readline("< ");
+		line = readline("> ");
 		if (!line)
 		{
 			eof_warning_msg(limiter);
