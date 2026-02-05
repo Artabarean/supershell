@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:25:37 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 16:21:10 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/05 12:39:09 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	child_processpfd(t_cmd *cmd, int fin, int i, t_prompt *prompt)
 {
-	if (fin != -1)
+	if (fin > 2)
 	{
 		dup2(fin, 0);
 		close(fin);

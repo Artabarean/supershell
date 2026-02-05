@@ -6,37 +6,37 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 18:30:19 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/05 14:17:45 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	printerr(t_prompt *prompt, char *full_cmd, int j)
+void	printerr(t_prompt *pt, char *full_cmd, int j)
 {
 	char	*tmp;
 
 	if (ft_strchr(full_cmd, '/'))
 	{
-		prompt->error_msg[j] = ft_strdup("minishell: ");
-		tmp = prompt->error_msg[j];
-		prompt->error_msg[j] = ft_strjoin(tmp, full_cmd);
+		pt->error_msg[j] = ft_strdup("minishell: ");
+		tmp = pt->error_msg[j];
+		pt->error_msg[j] = ft_strjoin(tmp, full_cmd);
 		free(tmp);
-		tmp = prompt->error_msg[j];
+		tmp = pt->error_msg[j];
 		if (full_cmd[0] == '.' && access(full_cmd, F_OK) == 0)
-			prompt->error_msg[j] = ft_strjoin(tmp, ": Permission denied\n");
+			pt->error_msg[j] = ft_strjoin(tmp, ": Permission denied\n");
 		else
-			prompt->error_msg[j] = ft_strjoin(tmp, ": No such file or directory\n");
+			pt->error_msg[j] = ft_strjoin(tmp, ": No such file or directory\n");
 		free(tmp);
 	}
 	if (!ft_strchr(full_cmd, '/'))
 	{
-		prompt->error_msg[j] = ft_strdup("minishell: ");
-		tmp = prompt->error_msg[j];
-		prompt->error_msg[j] = ft_strjoin(tmp, full_cmd);
+		pt->error_msg[j] = ft_strdup("minishell: ");
+		tmp = pt->error_msg[j];
+		pt->error_msg[j] = ft_strjoin(tmp, full_cmd);
 		free(tmp);
-		tmp = prompt->error_msg[j];
-		prompt->error_msg[j] = ft_strjoin(tmp, ": command not found\n");
+		tmp = pt->error_msg[j];
+		pt->error_msg[j] = ft_strjoin(tmp, ": command not found\n");
 		free(tmp);
 	}
 }

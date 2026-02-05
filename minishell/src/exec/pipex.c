@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 16:09:11 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/05 12:16:38 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	create_pipes(t_prompt *prompt, int n_cmds)
 
 void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 {
-	if (fin != -1)
+	if (fin > 2)
 		set_fd(&fin, 0);
 	if (fout != -1)
 		set_fd(&fout, 1);

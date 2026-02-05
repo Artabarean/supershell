@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 16:40:27 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 19:09:11 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/05 14:15:08 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,16 @@
 void	set_tempdoc(t_cmd *cmd)
 {
 	t_cmd	*copycmd;
-	t_redir	*rdr;
 
 	copycmd = cmd;
 	while (copycmd)
 	{
-		rdr = copycmd->redir;
-		while (rdr)
-		{
-			copycmd->tmp_doc = count_heredoc(rdr);
-			rdr = rdr->next;
-		}
+		copycmd->tmp_doc = count_heredoc(copycmd->redir);
 		copycmd = copycmd->next;
 	}
 }
 
-int		*count_hfds(t_cmd *cmd)
+int	*count_hfds(t_cmd *cmd)
 {
 	t_redir	*rdr;
 	int		count;
@@ -66,4 +60,19 @@ void	closehfd(int *fd)
 		i++;
 	}
 	free(fd);
+}
+
+int	heredoc_open(t_cmd *copycmd, int i, int j)
+{
+	char	*idx;
+	int		fd;
+
+	idx = ft_itoa(i);
+	copycmd->tmp_doc[j] = ft_strjoin("heredoc_", idx);
+	free(idx);
+	unlink(copycmd->tmp_doc[j]);
+	fd = open(copycmd->tmp_doc[j], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
+		fd_failed_hd(copycmd->tmp_doc[j]);
+	return (fd);
 }

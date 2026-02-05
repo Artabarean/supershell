@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 19:09:42 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/05 14:16:10 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,32 @@
 
 static void	createfile(t_cmd *cmd, int *fd)
 {
-	char	*idx;
 	int		i;
 	int		j;
-	t_redir	*rdr;
+	int		k;
 	t_cmd	*copycmd;
+	t_redir	*redir;
 
 	copycmd = cmd;
+	k = 0;
 	i = 0;
-	j = 0;
 	while (copycmd)
 	{
-		rdr = copycmd->redir;
-		while (rdr)
-		{
-			if (rdr->type == T_HEREDOC)
-			{
-				idx = ft_itoa(i);
-				cmd->tmp_doc[j] = ft_strjoin("heredoc_", idx);
-				free(idx);
-				if (access(cmd->tmp_doc[j], F_OK) != 0)
-				{
-					fd[j] = open(cmd->tmp_doc[j], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-					if (fd[j] == -1)
-						fd_failed_hd(cmd->tmp_doc[j]);
-					j++;
-				}
-			}
-			i++;
-			rdr = rdr->next;
-		}
+		redir = copycmd->redir;
 		j = 0;
+		while (redir)
+		{
+			if (redir->type == T_HEREDOC)
+			{
+				fd[k++] = heredoc_open(copycmd, i, j);
+				j++;
+				i++;
+			}
+			redir = redir->next;
+		}
 		copycmd = copycmd->next;
 	}
 }
-
 
 void	cleanup_heredoc_files(t_cmd *cmds)
 {
@@ -98,30 +89,28 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 
 static int	heredoc_child(t_cmd *cmd, t_env *env, int *fd)
 {
-	t_redir	*r;
 	t_cmd	*copycmd;
+	t_redir	*redir;
 	int		i;
 
 	copycmd = cmd;
 	i = 0;
 	while (copycmd)
 	{
-		r = copycmd->redir;
-		while (r)
+		redir = copycmd->redir;
+		while (redir)
 		{
-			if (r->type == T_HEREDOC)
+			if (redir->type == T_HEREDOC)
 			{
-				do_single_heredoc(r->file, env, fd[i]);
+				do_single_heredoc(redir->file, env, fd[i]);
 				i++;
 			}
-			r = r->next;
+			redir = redir->next;
 		}
-		i = 0;
 		copycmd = copycmd->next;
 	}
 	return (0);
 }
-
 
 int	process_heredocs(t_cmd *cmd, t_env *env)
 {

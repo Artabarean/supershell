@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 18:58:01 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/05 12:09:28 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,26 @@ int	handle_heredoc(t_prompt *prompt, t_cmd *cmd)
 {
 	t_cmd	*copycmd;
 	t_redir	*rdr;
+	int		is_heredoc;
 
-	rdr = cmd->redir;
+	is_heredoc = 0;
 	copycmd = cmd;
 	while (copycmd)
 	{
+		rdr = copycmd->redir;
 		while (rdr)
 		{
-			if (copycmd->redir && copycmd->redir->type == T_HEREDOC)
+			if (rdr && rdr->type == T_HEREDOC)
 			{
-				process_heredocs(copycmd, prompt->enviroment);
+				is_heredoc = 1;
 				break ;
 			}
 			rdr = rdr->next;
 		}
 		copycmd = copycmd->next;
 	}
+	if (is_heredoc == 1)
+		process_heredocs(cmd, prompt->enviroment);
 	return (0);
 }
 
