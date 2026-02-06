@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/05 12:39:01 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:59:44 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,32 @@
 
 int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 {
-	int	i;
-	int	wstatus;
+	int		i;
+	int		wstatus;
+	pid_t	pid;
 
 	i = 0;
 	wstatus = 0;
 	while (i < prompt->n_cmds && curr_nde)
 	{
 		set_signal(SIG_WAIT);
-		waitpid(prompt->pid[i], &wstatus, 0);
-		if (checkfather_builtin(curr_nde) == 0)
-			is_parent(curr_nde, &wstatus, &last_status);
-		else
-			last_status = 0;
+		if (prompt->pid[0] > 0)
+		{
+			pid = waitpid(prompt->pid[i], &wstatus, 0);
+			if (pid > 0)
+			{
+				if (WIFSIGNALED(wstatus))
+					pid_util(&wstatus, prompt, &last_status, i);
+				else if (WIFEXITED(wstatus))
+				{
+					if (checkfather_builtin(curr_nde) == 0)
+						last_status = WEXITSTATUS(wstatus);
+					else
+						last_status = 0;
+				}
+				
+			}
+		}
 		curr_nde = curr_nde->next;
 		i++;
 	}
@@ -41,12 +54,21 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	fin = -1;
 	fout = -1;
 	prompt->iter = 0;
-	pfd_alloc(prompt, prompt->n_cmds);
+	pfd_alloc(prompt);
 	create_pipes(prompt, prompt->n_cmds);
 	if (handle_heredoc(prompt, cmd) == 1)
 		return ;
 	while (prompt->iter < prompt->n_cmds && cmd)
 	{
+		if (!is_builtin(cmd))
+		{
+			if(!resolve_and_check(cmd, prompt, prompt->iter))
+    		{
+				prompt->iter++;
+        		cmd = cmd->next;
+        		continue;
+			}	
+		}
 		if (prompt->n_cmds == 1 && is_lone_builtin(cmd, prompt, fin, fout) == 1)
 			return ;
 		if (cmd->full_cmd && cmd->full_cmd[0])
@@ -78,9 +100,10 @@ void	file_opener(t_prompt *prompt, t_cmd *cmd, int *fileout, int *filein)
 	check_command(cmd, prompt, fileout, filein);
 }
 
-void	check_status(int exit_code)
+void	check_status(t_prompt prompt, int exit_code)
 {
-	g_exit_status = exit_code;
+	(void)prompt;
+	prompt.exit_status = exit_code;
 }
 
 int	open_file(char *name, int i)

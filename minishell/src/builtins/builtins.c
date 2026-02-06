@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/04 12:37:22 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:51:18 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	is_builtin(t_cmd *cmd)
 int	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 {
 	if (!ft_strcmp(cmd->full_cmd[0], "echo"))
-		echo(cmd->full_cmd, prompt->enviroment);
+		echo(cmd->full_cmd);
 	else if (!ft_strcmp(cmd->full_cmd[0], "pwd"))
 		pwd();
 	else if (!ft_strcmp(cmd->full_cmd[0], "env"))
@@ -106,7 +106,11 @@ int	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 	else if (!ft_strcmp(cmd->full_cmd[0], "exit"))
 	{
 		exit_builtin(cmd, prompt);
+		free(prompt->pid);
+		free_input(prompt);
 		return (1);
 	}
+	free(prompt->pid);
+	free_input(prompt);
 	return (0);
 }

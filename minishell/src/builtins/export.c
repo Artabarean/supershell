@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:49:17 by codespace         #+#    #+#             */
-/*   Updated: 2026/01/30 09:11:58 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:53:58 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	export_builtin(t_prompt *prompt, t_cmd *cmd)
 	if (!cmd->full_cmd[1])
 	{
 		print_export(prompt);
-		g_exit_status = 0;
+		prompt->exit_status = 0;
 		return ;
 	}
 	i = 1;
@@ -72,7 +72,7 @@ void	export_builtin(t_prompt *prompt, t_cmd *cmd)
 		if (!is_valid_identifier(cmd->full_cmd[i]))
 		{
 			ft_putstr_fd("minishell: not a valid identifier\n", 2);
-			g_exit_status = 1;
+			prompt->exit_status = 1;
 		}
 		else
 			env_add_or_update(prompt, cmd->full_cmd[i]);

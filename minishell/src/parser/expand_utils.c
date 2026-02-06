@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:07:02 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/29 10:14:41 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:54:58 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ char	*extract_dollar(char *result)
 	return (result);
 }
 
-char	*extract_e_status(char *result)
+char	*extract_e_status(char *result, int status)
 {
 	char	*tmp;
 	char	*value;
 
-	value = ft_itoa(g_exit_status);
+	value = ft_itoa(status);
 	tmp = result;
 	result = ft_strjoin(tmp, value);
 	free(tmp);

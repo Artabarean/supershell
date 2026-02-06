@@ -6,28 +6,30 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:09 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/04 18:06:25 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:42:48 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static void	close_heredoc(int signal)
-// {
-// 	(void)signal;
-// 	write(1, "\n", 1);
-// 	rl_replace_line("", 0);
-// 	rl_done = 1;
-// 	g_exit_status = 130;
-// }
+static void	close_heredoc(int signal)
+{
+	if(g_sign == 0)
+	{
+		(void)signal;
+		write(1, "\n", 1);
+		g_sign = 1;
+		exit(130);
+	}
+}
 
 static void	reset_shell(int signal)
 {
-	g_exit_status = 130;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_sign = 1;
 	(void)signal;
 }
 
@@ -50,8 +52,7 @@ void	set_signal(int context)
 	}
 	else if (context == SIG_HEREDOC)
 	{
-		//signal(SIGINT, close_heredoc);
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, close_heredoc);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }

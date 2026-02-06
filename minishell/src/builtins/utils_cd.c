@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:24:39 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/05 14:36:57 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:22:55 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
 {
+	
 	if (curr_nde->next == NULL)
 	{
 		if (WIFEXITED(*wstatus))
@@ -21,10 +22,6 @@ void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
 		else if (WIFSIGNALED(*wstatus))
 		{
 			*last_status = 128 + WTERMSIG(*wstatus);
-			if (WTERMSIG(*wstatus) == SIGQUIT)
-				write(2, "Quit (core dumped)\n", 19);
-			if (WTERMSIG(*wstatus) == SIGINT)
-				write(1, "\n", 1);
 		}
 	}
 }
@@ -71,7 +68,6 @@ int	too_many_args(char **args)
 	if (args[1] && args[2])
 	{
 		ft_putendl_fd ("minishell: cd: too many arguments", 2);
-		g_exit_status = 1;
 		return (1);
 	}
 	return (0);

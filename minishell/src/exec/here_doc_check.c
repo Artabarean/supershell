@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/05 12:09:28 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:48:58 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ int	handle_heredoc(t_prompt *prompt, t_cmd *cmd)
 		copycmd = copycmd->next;
 	}
 	if (is_heredoc == 1)
-		process_heredocs(cmd, prompt->enviroment);
+	{
+		if (process_heredocs(cmd, prompt->enviroment))
+			prompt->exit_status = 130;
+	}
 	return (0);
 }
 

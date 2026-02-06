@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 12:21:31 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/05 12:42:13 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:29:13 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	redirin(t_redir *redir)
 	copyrdr = redir;
 	while (copyrdr != NULL)
 	{
-		if (copyrdr->type == T_REDIR_IN || T_HEREDOC)
+		if (copyrdr->type == T_REDIR_IN || copyrdr->type == T_HEREDOC)
 		{
 			return (1);
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:04:51 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/30 09:44:06 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:20:01 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	expand_tkn(t_prompt *prompt)
 			i++;
 			continue ;
 		}
-		prompt->tkns[i] = expand(prompt->tkns[i], prompt->enviroment);
+		prompt->tkns[i] = expand(prompt->tkns[i], \
+			prompt->enviroment, prompt->exit_status);
 		if (prompt->tkns[i][0] == '\0' && prompt->quotes[i] == Q_NONE)
 			delate_tkn(prompt);
 		else

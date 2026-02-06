@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_error.c                                      :+:      :+:    :+:   */
+/*   pid_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/17 08:04:50 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 15:41:11 by atabarea         ###   ########.fr       */
+/*   Created: 2026/02/06 17:17:03 by atabarea          #+#    #+#             */
+/*   Updated: 2026/02/06 17:27:36 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_error(t_cmd *cmd, t_prompt *prompt, int i)
+void	pid_util(int *wstatus, t_prompt *prompt, int *last_status, int i)
 {
-	if (prompt->error_msg && prompt->error_msg[i])
+	int sig;
+
+	sig = WTERMSIG(*wstatus);
+	if (sig == SIGQUIT)
 	{
-		write(2, prompt->error_msg[i], ft_strlen(prompt->error_msg[i]));
-		free(prompt->error_msg[i]);
+		if (i == prompt->n_cmds - 1)
+			write(2, "Quit (core dumped)\n", 19);
+		*last_status = 128 + SIGQUIT;
 	}
-	if (cmd->full_path)
-	{
-		free(cmd->full_path);
-		cmd->full_path = NULL;
-	}
+	else if (sig == SIGINT)
+		*last_status = 128 + SIGINT;
 }

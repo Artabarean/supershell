@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/05 15:20:00 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:57:31 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 {
 	char	*line;
 
-	while (1)
+	while (g_sign == 0)
 	{
 		line = readline("> ");
 		if (!line)
@@ -81,7 +81,8 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(expand_for_heredoc(line, env), fd);
+		if (g_sign == 0)
+			ft_putendl_fd(expand_for_heredoc(line, env), fd);
 		free(line);
 	}
 	close(fd);
@@ -134,6 +135,11 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	waitpid(pid, &status, 0);
 	closehfd(fd);
 	if (WIFSIGNALED(status))
-		return (g_exit_status = 130, 1);
+	{
+		if (WTERMSIG(status) == SIGINT)
+			return (g_sign = 130, 1);
+	}
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
 	return (0);
 }

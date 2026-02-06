@@ -14,7 +14,7 @@ void	print_tokens(char **tokens)
 	printf(GREEN "---------------\n" RESET);
 }
 
-const char	*toktype_to_str(t_toktype type)
+static const char	*toktype_to_str(t_toktype type)
 {
 	if (type == T_WORD)
 		return ("WORD");

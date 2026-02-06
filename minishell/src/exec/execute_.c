@@ -6,29 +6,29 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/05 15:03:38 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 18:01:47 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	forker(t_prompt *prompt, int i)
+void	forker(t_prompt *prompt, int i)
 {
 	prompt->pid[i] = fork();
 	if (prompt->pid[i] == -1)
 		error("Fork failed");
 }
 
-void	pfd_alloc(t_prompt *prompt, int n_cmds)
+void	pfd_alloc(t_prompt *prompt)
 {
 	int	i;
 
 	i = 0;
-	prompt->pfd = malloc(sizeof(int *) * (n_cmds - 1));
+	prompt->pfd = malloc(sizeof(int *) * (prompt->n_cmds - 1));
 	if (!prompt->pfd)
 		error("Malloc failed");
-	prompt->error_msg = malloc(sizeof(char *) * n_cmds);
-	while (i < n_cmds)
+	prompt->error_msg = malloc(sizeof(char *) * prompt->n_cmds);
+	while (i < prompt->n_cmds)
 	{
 		prompt->error_msg[i] = NULL;
 		i++;
@@ -73,7 +73,7 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 	}
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
+		if (find_path(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
 			cmd->full_path = ft_strdup(cmd->full_cmd[0]);
 			closepfds(n_cmds, prompt);
@@ -83,9 +83,9 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 	else
 		cmd->full_path = ft_strdup(cmd->full_cmd[0]);
 	closepfds(n_cmds, prompt);
-	if (find_path_no_print(cmd, prompt) == 0)
+	if (find_path(cmd, prompt) == 0)
 		execute(cmd->full_cmd, cmd->full_path, prompt);
-	exit(127);
+	exit(prompt->exit_status);
 }
 
 int	execute_(t_cmd *cmd, t_prompt *prompt)
@@ -94,24 +94,57 @@ int	execute_(t_cmd *cmd, t_prompt *prompt)
 
 	i = 0;
 	prompt->n_cmds = pipecount(*prompt) + 1;
-	pfd_alloc(prompt, prompt->n_cmds);
+	pfd_alloc(prompt);
 	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)
 		return (closepfds(prompt->n_cmds, prompt), 1);
 	check_com(cmd, prompt);
 	create_pipes(prompt, prompt->n_cmds);
 	while (i < prompt->n_cmds && cmd)
 	{
-		forker(prompt, i);
-		if (prompt->pid[i] == 0)
+		if (!is_builtin(cmd))
 		{
-			set_signal(SIG_CHILD);
-			child_process(cmd, prompt, i, prompt->n_cmds);
+			if(!resolve_and_check(cmd, prompt, prompt->iter))
+    		{
+				prompt->iter++;
+        		cmd = cmd->next;
+        		continue;
+			}
 		}
-		else if (is_builtin(cmd) == 0)
-			find_path(cmd, prompt, i);
-		check_error(cmd, prompt, i);
-		i++;
-		cmd = cmd->next;
+		if (i < prompt->n_cmds && cmd)
+		{
+			handle_prechildprocess(cmd, prompt, i);
+			i++;
+		}
+		else
+			return (1);
 	}
 	return (closepfds(prompt->n_cmds, prompt), 0);
 }
+
+// int	execute_(t_cmd *cmd, t_prompt *prompt)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	prompt->n_cmds = pipecount(*prompt) + 1;
+// 	pfd_alloc(prompt, prompt->n_cmds);
+// 	if (builtin_no_in_out(pipecount(*prompt), cmd, prompt) == 1)
+// 		return (closepfds(prompt->n_cmds, prompt), 1);
+// 	check_com(cmd, prompt);
+// 	create_pipes(prompt, prompt->n_cmds);
+// 	while (i < prompt->n_cmds && cmd)
+// 	{
+// 		forker(prompt, i);
+// 		if (prompt->pid[i] == 0)
+// 		{
+// 			set_signal(SIG_CHILD);
+// 			child_process(cmd, prompt, i, prompt->n_cmds);
+// 		}
+// 		else if (is_builtin(cmd) == 0)
+// 			find_path(cmd, prompt, i);
+// 		check_error(cmd, prompt, i);
+// 		i++;
+// 		cmd = cmd->next;
+// 	}
+// 	return (closepfds(prompt->n_cmds, prompt), 0);
+// }

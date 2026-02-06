@@ -6,7 +6,7 @@
 #    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/02/04 18:02:35 by atabarea         ###   ########.fr        #
+#    Updated: 2026/02/06 17:35:46 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,9 @@ SRC	 =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/exec/check_paths.c \
 		$(SRC_DIR)/builtins/utils_export2.c \
 		$(SRC_DIR)/utils/cmd_isdir.c \
-		$(SRC_DIR)/exec/utils_here_doc.c   
+		$(SRC_DIR)/exec/utils_here_doc.c \
+		$(SRC_DIR)/exec/new_find_path.c \
+		$(SRC_DIR)/utils/pid_utils.c 
 
 OBJS	= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

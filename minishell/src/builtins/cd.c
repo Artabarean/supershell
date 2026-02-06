@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 11:19:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/02/03 12:30:20 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 11:53:07 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,24 @@ int	cd(char **args, t_prompt *prompt)
 
 	path = NULL;
 	if (!getcwd(oldpwd, sizeof(oldpwd)))
-		return (g_exit_status = 1, 1);
+		return (prompt->exit_status = 1, 1);
 	if (too_many_args(args) == 1)
-		return (1);
+		return (prompt->exit_status = 1, 1);
 	if (!args[1] || !args[1][0])
 	{
 		if (do_path(prompt->enviroment, path, "HOME") == 1)
-			return (g_exit_status = 1, 1);
+			return (prompt->exit_status = 1, 1);
 		path = get_env_value(prompt->enviroment, "HOME");
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
 	{
 		if (do_path(prompt->enviroment, path, "OLDPWD") == 1)
-			return (g_exit_status = 1, 1);
+			return (prompt->exit_status = 1, 1);
 		path = printpath(prompt);
 	}
 	else
 		path = args[1];
 	if (chdir(path) != 0)
-		return (g_exit_status = 1, cd_error(path), 1);
+		return (prompt->exit_status = 1, cd_error(path), 1);
 	return (update_pwd_vars(prompt, oldpwd), 0);
 }

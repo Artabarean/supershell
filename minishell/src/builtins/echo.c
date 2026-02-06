@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:44:43 by codespace         #+#    #+#             */
-/*   Updated: 2026/01/27 15:06:17 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:45:40 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	echo(char **full_cmd, t_env *env)
+void	echo(char **full_cmd)
 {
 	int		i;
 	int		no_newline;
@@ -20,7 +20,6 @@ void	echo(char **full_cmd, t_env *env)
 
 	no_newline = 0;
 	i = 1;
-	(void)env;
 	while (full_cmd[i] && ft_strncmp(full_cmd[i], "-n", 2) == 0)
 	{
 		no_newline = 1;

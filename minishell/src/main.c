@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_exit_status = 0;
+volatile sig_atomic_t	g_sign = 0;
 
 void	start_minishell(t_prompt *prompt)
 {

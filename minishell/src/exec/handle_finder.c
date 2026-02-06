@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 10:37:20 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/03 11:28:22 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 10:54:51 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	handle_in(t_redir *redir, int *fin)
 	if (*fin != -1)
 	{
 		dup2(*fin, 0);
-		ft_putendl_fd("debera pasar por aqui", 2);
 		close(*fin);
 	}
 	return (0);
@@ -36,7 +35,6 @@ int	handle_out(t_redir *redir, int *fout)
 	if (*fout != -1)
 	{
 		dup2(*fout, 1);
-		ft_putendl_fd("debera pasar por aqui", 2);
 		close(*fout);
 	}
 	return (0);

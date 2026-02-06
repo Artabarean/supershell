@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 17:25:37 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/05 12:39:09 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 16:34:38 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ void	child_processpfd(t_cmd *cmd, int fin, int i, t_prompt *prompt)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
+		if (find_path(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
-			cmd->full_path = cmd->full_cmd[0];
+			cmd->full_path = ft_strdup(cmd->full_cmd[0]);
 			execute(cmd->full_cmd, cmd->full_path, prompt);
 		}
 	}
 	else
-		cmd->full_path = cmd->full_cmd[0];
-	if (find_path_no_print(cmd, prompt) == 0)
+		cmd->full_path = ft_strdup(cmd->full_cmd[0]);
+	if (find_path(cmd, prompt) == 0)
 		execute(cmd->full_cmd, cmd->full_path, prompt);
 	exit(127);
 }

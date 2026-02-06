@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2026/01/30 14:09:13 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:56:16 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ void	executer(t_prompt *prompt)
 	prompt->pip_exec = 0;
 	cmd = prompt->cmds;
 	set_signal(SIG_PROMPT);
+	if (g_sign)
+		prompt->exit_status = g_sign;
 	while (cmd)
 	{
 		if (prompt->pip_exec == 0 && cmd->redir != NULL)
 		{
-			pipex(*prompt);
+			pipex(prompt);
 			prompt->pip_exec = 1;
 		}
 		cmd = cmd->next;
@@ -31,12 +33,9 @@ void	executer(t_prompt *prompt)
 	if (prompt->pip_exec == 0)
 	{
 		cmd = prompt->cmds;
-		prompt->pid = malloc(sizeof(pid_t) * (pipecount(*prompt) + 1));
+		prompt->pid = ft_calloc(sizeof(pid_t), (pipecount(*prompt) + 1));
 		if (!execute_(cmd, prompt))
-		{
-			g_exit_status = pid_stat(cmd, prompt, g_exit_status);
-			check_status(g_exit_status);
-		}
+			prompt->exit_status = pid_stat(cmd, prompt, prompt->exit_status);
 		free(prompt->pid);
 	}
 }

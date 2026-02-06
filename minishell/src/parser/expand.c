@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:28:26 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 09:44:46 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:11:51 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expand_dollar(char *res, char *str, int *i, t_env *env)
+static char	*expand_dollar(char *res, char *str, int *i, t_env *env, int status)
 {
 	(*i)++;
 	if (!str[*i] || str[*i] == ' ' || str[*i] == '"'
@@ -21,7 +21,7 @@ static char	*expand_dollar(char *res, char *str, int *i, t_env *env)
 	if (str[*i] == '?')
 	{
 		(*i)++;
-		return (extract_e_status(res));
+		return (extract_e_status(res, status));
 	}
 	if (str[*i] == '$')
 	{
@@ -31,7 +31,7 @@ static char	*expand_dollar(char *res, char *str, int *i, t_env *env)
 	return (extract_str(res, str, i, env));
 }
 
-char	*expand(char *str, t_env *env)
+char	*expand(char *str, t_env *env, int status)
 {
 	int		i;
 	char	*result;
@@ -48,7 +48,7 @@ char	*expand(char *str, t_env *env)
 			i++;
 			continue ;
 		}
-		result = expand_dollar(result, str, &i, env);
+		result = expand_dollar(result, str, &i, env, status);
 	}
 	free(str);
 	return (result);
