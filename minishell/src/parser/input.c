@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:29 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/06 12:14:02 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:20:11 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	get_user_input(t_prompt *prompt)
 	temp = get_user(prompt);
 	user = ft_strjoin(temp, "@minishell: ");
 	set_signal(SIG_PROMPT);
-	if (g_sign)
-		prompt->exit_status = g_sign;
 	prompt->input = readline(user);
 	if (prompt->input && not_only_spaces(prompt->input))
 	{

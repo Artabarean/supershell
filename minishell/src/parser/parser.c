@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:54 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/30 09:45:10 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/07 13:43:32 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,19 @@ static bool	parser(t_prompt *prompt, t_cmd *curr)
 		if (prompt->types[i] == T_PIPE)
 		{
 			if (!handle_pipe(prompt, &curr))
-				return (false);
+				return (prompt->exit_status = 2, false);
 			i++;
 		}
 		else if (is_redirection_type(prompt->types[i]))
 		{
 			if (!handle_redirection(prompt, curr, &i))
-				return (false);
+				return (prompt->exit_status = 2, false);
 		}
 		else
 			handle_word(prompt, curr, &i);
 	}
 	if (!curr->full_cmd && !curr->redir)
-		return (syntax_error("newline"), false);
+		return (prompt->exit_status = 2, syntax_error("newline"), false);
 	curr->next = NULL;
 	return (true);
 }
