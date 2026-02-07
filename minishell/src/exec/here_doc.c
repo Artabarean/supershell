@@ -68,7 +68,7 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 {
 	char	*line;
 
-	while (g_sign == 0)
+	while (1)
 	{
 		line = readline("> ");
 		if (!line)
@@ -134,12 +134,11 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	set_signal(SIG_WAIT);
 	waitpid(pid, &status, 0);
 	closehfd(fd);
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			return (g_sign = 130, 1);
-	}
 	if (WIFEXITED(status))
+	{
+		if (WEXITSTATUS(status) == 130)
+			return (130);
 		return (WEXITSTATUS(status));
+	}
 	return (0);
 }

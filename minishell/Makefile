@@ -68,7 +68,8 @@ SRC	 =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/utils/cmd_isdir.c \
 		$(SRC_DIR)/exec/utils_here_doc.c \
 		$(SRC_DIR)/exec/new_find_path.c \
-		$(SRC_DIR)/utils/pid_utils.c 
+		$(SRC_DIR)/utils/pid_utils.c \
+		$(SRC_DIR)/parser/split_spc.c 
 
 OBJS	= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

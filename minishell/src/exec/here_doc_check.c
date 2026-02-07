@@ -67,7 +67,11 @@ int	handle_heredoc(t_prompt *prompt, t_cmd *cmd)
 	if (is_heredoc == 1)
 	{
 		if (process_heredocs(cmd, prompt->enviroment))
+		{
 			prompt->exit_status = 130;
+			closepfds(prompt->n_cmds, prompt);
+			return (1);
+		}
 	}
 	return (0);
 }
