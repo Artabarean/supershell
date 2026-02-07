@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:54 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/07 13:43:32 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:20:44 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	handle_word(t_prompt *prompt, t_cmd *curr, int *i)
 {
-	add_arg_to_cmd(prompt->tkns[*i], curr);
+	add_arg_to_cmd(prompt->tkns[*i], prompt->quotes[*i], curr);
 	(*i)++;
 }
 

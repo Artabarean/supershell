@@ -3,24 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:50 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/27 15:07:50 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:39:55 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_arg_to_cmd(char *arg, t_cmd *cmd)
+static int	arg_count(char **argv)
 {
 	int	i;
 
 	i = 0;
-	while (cmd->full_cmd[i])
+	if (!argv)
+		return (0);
+	while (argv[i])
 		i++;
-	cmd->full_cmd[i] = ft_strdup(arg);
-	cmd->full_cmd[i + 1] = NULL;
+	return (i);
+}
+
+void	add_one_arg(t_cmd *cmd, char *arg)
+{
+	char	**new;
+	int		n;
+	int		i;
+
+	n = arg_count(cmd->full_cmd);
+	new = malloc(sizeof(char *) * (n + 2));
+	i = 0;
+	if (!new)
+		return ;
+	while (i < n)
+	{
+		new[i] = cmd->full_cmd[i];
+		i++;
+	}
+	new[n] = ft_strdup(arg);
+	new[n + 1] = NULL;
+	free(cmd->full_cmd);
+	cmd->full_cmd = new;
+}
+
+void	add_arg_to_cmd(char *arg, t_quote quote, t_cmd *cmd)
+{
+	char	**split;
+	int		i;
+
+	if (quote == Q_NONE)
+	{
+		split = ft_split_spc(arg);
+		i = 0;
+		while (split && split[i])
+			add_one_arg(cmd, split[i++]);
+		free_doble_ptr(split);
+	}
+	else
+		add_one_arg(cmd, arg);
 }
 
 bool	create_file(t_toktype type, char *filename, t_cmd *curr)
