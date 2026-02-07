@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:09 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/06 11:42:48 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:25:05 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,34 @@
 
 static void	close_heredoc(int signal)
 {
-	if(g_sign == 0)
-	{
-		(void)signal;
-		write(1, "\n", 1);
-		g_sign = 1;
-		exit(130);
-	}
+	(void)signal;
+	write(1, "\n", 1);
+	g_sign = 130;
+	exit(130);
+
 }
 
 static void	reset_shell(int signal)
 {
-	write(1, "\n", 1);
+	
+	(void)signal;
+	write(1, "\n", 1);	
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	g_sign = 1;
-	(void)signal;
+	g_sign = 130;
 }
 
 void	set_signal(int context)
 {
+	struct sigaction sa;
+
+   	sigemptyset(&sa.sa_mask);
 	if (context == SIG_PROMPT)
 	{
-		signal(SIGINT, reset_shell);
+		sa.sa_handler = reset_shell;
+		sa.sa_flags = SA_RESTART;
+		sigaction(SIGINT, &sa, NULL);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (context == SIG_CHILD)
@@ -52,7 +56,9 @@ void	set_signal(int context)
 	}
 	else if (context == SIG_HEREDOC)
 	{
-		signal(SIGINT, close_heredoc);
+    	sa.sa_handler = close_heredoc;
+		sa.sa_flags = 0;
+    	sigaction(SIGINT, &sa, NULL);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }
