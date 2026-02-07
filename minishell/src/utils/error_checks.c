@@ -24,7 +24,7 @@ void	check_command(t_cmd *cmd, t_prompt *prompt, int *fout, int *fin)
 			if (copy->full_cmd[0] != NULL)
 			{
 				if (!ft_strchr(copy->full_cmd[0], '/'))
-					find_path(copy, prompt);
+					find_path_no_print(copy, prompt);
 			}
 			if (copy->full_cmd[0] == NULL)
 			{

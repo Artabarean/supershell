@@ -12,34 +12,55 @@
 
 #include "minishell.h"
 
+// int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
+// {
+// 	int		i;
+// 	int		wstatus;
+// 	pid_t	pid;
+
+// 	i = 0;
+// 	wstatus = 0;
+// 	while (i < prompt->n_cmds && curr_nde)
+// 	{
+// 		set_signal(SIG_WAIT);
+// 		if (prompt->pid[0] > 0)
+// 		{
+// 			pid = waitpid(prompt->pid[i], &wstatus, 0);
+// 			if (pid > 0)
+// 			{
+// 				if (WIFSIGNALED(wstatus))
+// 					pid_util(&wstatus, prompt, &last_status, i);
+// 				else if (WIFEXITED(wstatus))
+// 				{
+// 					if (checkfather_builtin(curr_nde) == 0)
+// 						last_status = WEXITSTATUS(wstatus);
+// 					else
+// 						last_status = 0;
+// 				}
+				
+// 			}
+// 		}
+// 		curr_nde = curr_nde->next;
+// 		i++;
+// 	}
+// 	return (last_status);
+//}
+
 int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 {
-	int		i;
-	int		wstatus;
-	pid_t	pid;
+	int	i;
+	int	wstatus;
 
 	i = 0;
 	wstatus = 0;
 	while (i < prompt->n_cmds && curr_nde)
 	{
 		set_signal(SIG_WAIT);
-		if (prompt->pid[0] > 0)
-		{
-			pid = waitpid(prompt->pid[i], &wstatus, 0);
-			if (pid > 0)
-			{
-				if (WIFSIGNALED(wstatus))
-					pid_util(&wstatus, prompt, &last_status, i);
-				else if (WIFEXITED(wstatus))
-				{
-					if (checkfather_builtin(curr_nde) == 0)
-						last_status = WEXITSTATUS(wstatus);
-					else
-						last_status = 0;
-				}
-				
-			}
-		}
+		waitpid(prompt->pid[i], &wstatus, 0);
+		if (checkfather_builtin(curr_nde) == 0)
+			is_parent(curr_nde, &wstatus, &last_status);
+		else
+			last_status = 0;
 		curr_nde = curr_nde->next;
 		i++;
 	}
@@ -54,21 +75,12 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	fin = -1;
 	fout = -1;
 	prompt->iter = 0;
-	pfd_alloc(prompt);
+	pfd_alloc(prompt, prompt->n_cmds);
 	create_pipes(prompt, prompt->n_cmds);
 	if (handle_heredoc(prompt, cmd) == 1)
 		return ;
 	while (prompt->iter < prompt->n_cmds && cmd)
 	{
-		if (!is_builtin(cmd))
-		{
-			if(!resolve_and_check(cmd, prompt, prompt->iter))
-    		{
-				prompt->iter++;
-        		cmd = cmd->next;
-        		continue;
-			}	
-		}
 		if (prompt->n_cmds == 1 && is_lone_builtin(cmd, prompt, fin, fout) == 1)
 			return ;
 		if (cmd->full_cmd && cmd->full_cmd[0])

@@ -45,7 +45,7 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int *fin, int *fout)
 		{
 			if (((i + 1) < prompt->n_cmds && !redirout(cmd->redir))
 				|| (i == 0 && prompt->n_cmds > 1 && !redirout(cmd->redir)))
-					child_processpfd(cmd, *fin, i, prompt);
+				child_processpfd(cmd, *fin, i, prompt);
 			else if (i > 0 || (i + 1) == prompt->n_cmds || redirout(cmd->redir))
 				child_process1(cmd, *fin, *fout, prompt);
 		}
@@ -56,5 +56,5 @@ void	selectprocess(t_prompt *prompt, t_cmd *cmd, int *fin, int *fout)
 		exit(prompt->exit_status);
 	}
 	if (!is_builtin(cmd) && cmd->full_cmd[0])
-		find_path(cmd, prompt);
+		find_path(cmd, prompt, i);
 }

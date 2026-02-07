@@ -36,15 +36,15 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path(cmd, prompt) == 1 && ispath(prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
-			cmd->full_path = ft_strdup(cmd->full_cmd[0]);
+			cmd->full_path = cmd->full_cmd[0];
 			execute(cmd->full_cmd, cmd->full_path, prompt);
 		}
 	}
 	else
-		cmd->full_path = ft_strdup(cmd->full_cmd[0]);
-	if (find_path(cmd, prompt) == 0)
+		cmd->full_path = cmd->full_cmd[0];
+	if (find_path_no_print(cmd, prompt) == 0)
 		execute(cmd->full_cmd, cmd->full_path, prompt);
 	exit(127);
 }
@@ -58,15 +58,15 @@ void	child_processmid(t_cmd *cmd, t_prompt *prompt, int i)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path(cmd, prompt) == 1 && ispath(prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
-			cmd->full_path = ft_strdup(cmd->full_cmd[0]);
+			cmd->full_path = cmd->full_cmd[0];
 			execute(cmd->full_cmd, cmd->full_path, prompt);
 		}
 	}
 	else
-		cmd->full_path = ft_strdup(cmd->full_cmd[0]);
-	if (find_path(cmd, prompt) == 0)
+		cmd->full_path = cmd->full_cmd[0];
+	if (find_path_no_print(cmd, prompt) == 0)
 		execute(cmd->full_cmd, cmd->full_path, prompt);
 	exit(127);
 }
@@ -84,15 +84,15 @@ void	child_processend(t_cmd *cmd, int fout, t_prompt *prompt, int i)
 		exit(run_builtin_child(cmd, prompt));
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
 	{
-		if (find_path(cmd, prompt) == 1 && ispath(prompt) == 1)
+		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
-			cmd->full_path = ft_strdup(cmd->full_cmd[0]);
+			cmd->full_path = cmd->full_cmd[0];
 			execute(cmd->full_cmd, cmd->full_path, prompt);
 		}
 	}
 	else
-		cmd->full_path = ft_strdup(cmd->full_cmd[0]);
-	if (find_path(cmd, prompt) == 0)
+		cmd->full_path = cmd->full_cmd[0];
+	if (find_path_no_print(cmd, prompt) == 0)
 		execute(cmd->full_cmd, cmd->full_path, prompt);
 	exit(127);
 }

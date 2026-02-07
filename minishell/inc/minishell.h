@@ -215,14 +215,15 @@ int		find_heredoc(t_cmd *cmd, int *filein);
 
 void	check_status(t_prompt prompt, int last_status);
 int		pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status);
-void	pfd_alloc(t_prompt *prompt);
+void	pfd_alloc(t_prompt *prompt, int n_cmds);
 void	check_command(t_cmd *cmd, t_prompt *prompt, int *fout, int *fin);
 void	check_com(t_cmd *cmd, t_prompt *prompt);
 int		pipecount(t_prompt prompt);
-int		find_path(t_cmd *cmd, t_prompt *prompt);
-int		resolve_and_check(t_cmd *cmd, t_prompt *prompt, int index);
-void    handle_prechildprocess(t_cmd *cmd, t_prompt *prompt, int i);
-int 	find_path2(t_cmd *cmd, t_prompt *prompt);
+int		find_path(t_cmd *cmd, t_prompt *prompt, int i);
+int		find_path_no_print(t_cmd *cmd, t_prompt *prompt);
+//int		resolve_and_check(t_cmd *cmd, t_prompt *prompt, int index);
+//void    handle_prechildprocess(t_cmd *cmd, t_prompt *prompt, int i);
+//int 	find_path2(t_cmd *cmd, t_prompt *prompt);
 void	closepfds(int n_cmds, t_prompt *prompt);
 void	create_pipes(t_prompt *prompt, int n_cmds);
 
@@ -262,7 +263,7 @@ int		ft_chrcmpr( char prompt, char sym);
 char	*ft_strjoin_free(char *s1, char *s2);
 void	add_cmd_back(t_cmd **lst, t_cmd *new);
 void	syntax_error(char *token);
-void	errormsg(t_prompt *prompt, char *full_cmd, int j, int error);
+//void	errormsg(t_prompt *prompt, char *full_cmd, int j, int error);
 int		is_redirection_type(t_toktype type);
 
 //Debugging
