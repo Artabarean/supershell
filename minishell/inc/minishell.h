@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 18:02:11 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:45:01 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# define _POSIX_C_SOURCE 200809L
 # include <stdio.h>
 # include <unistd.h>
 # include <readline/readline.h>
@@ -120,7 +121,7 @@ char	*extract_double_quote(char **input);
 void	extract_sym(char **ptr, t_prompt *prompt, int index);
 
 //EXPANSIONES
-char	*expand(char *str, t_env *env, int status);
+char	*expand(char *str, t_prompt *prompt);
 void	expand_tkn(t_prompt *prompt);
 char	*expand_var(char *str, t_env *enviroment);
 char	*extract_dollar(char *result);
@@ -128,10 +129,11 @@ char	*extract_e_status(char *result, int status);
 char	*extract_pid(char *result);
 char	*extract_str(char *result, char *str, int *i, t_env *env);
 char	*extract_char(char *result, char value);
+char	**ft_split_spc(const char *s);
 
 //PARSER
 bool	init_parser(t_prompt *prompt);
-void	add_arg_to_cmd(char *arg, t_cmd *cmd);
+void	add_arg_to_cmd(char *arg, t_quote quote, t_cmd *cmd);
 bool	create_file(t_toktype type, char *filename, t_cmd *curr);
 void	add_file(t_cmd *cmd, char *filename, t_toktype type);
 
