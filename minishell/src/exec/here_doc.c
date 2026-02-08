@@ -81,8 +81,7 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 			free(line);
 			break ;
 		}
-		if (g_sign == 0)
-			ft_putendl_fd(expand_for_heredoc(line, env), fd);
+		ft_putendl_fd(expand_for_heredoc(line, env), fd);
 		free(line);
 	}
 	close(fd);
