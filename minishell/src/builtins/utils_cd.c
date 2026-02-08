@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_cd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 10:24:39 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 16:22:55 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/08 18:54:27 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
 {
+	int sig;
+
 	
 	if (curr_nde->next == NULL)
 	{
@@ -21,7 +23,12 @@ void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
 			*last_status = WEXITSTATUS(*wstatus);
 		else if (WIFSIGNALED(*wstatus))
 		{
-			*last_status = 128 + WTERMSIG(*wstatus);
+			sig = WTERMSIG(*wstatus);
+			*last_status = 128 + sig;
+			if (sig == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 19);
+			else if (sig == SIGINT)
+				write(2, "\n", 1);
 		}
 	}
 }

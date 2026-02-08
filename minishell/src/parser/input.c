@@ -6,7 +6,7 @@
 /*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:29 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/07 16:20:11 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/08 17:59:57 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	is_valid_input(char *input)
 	if (!input[0] || input[0] == '|')
 	{
 		if (input[0] == '|')
-			syntax_error(&input[end]);
+			syntax_error("|");
 		free(input);
 		return (0);
 	}

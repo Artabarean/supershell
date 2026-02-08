@@ -20,8 +20,6 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 
 ### Pendiente
 
-* `export`
-* `unset`
 * Manejo correcto de códigos de salida en errores (ej. `cd $PWD hi` → exit code 1)
 * Mensajes de error en `exit`
 
@@ -92,12 +90,12 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 
 ## Complejas
 
-* [ ] `echo hi>./outfiles/outfile01 | echo bye`
-* [ ] `echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye`
-* [ ] `echo hi >./outfiles/outfile01 | echo bye >./outfiles/outfile02`
-* [ ] `ls >>./outfiles/outfile01`
-* [ ] `ls >>      ./outfiles/outfile01`
-* [ ] `ls >>./outfiles/outfile01 >>./outfiles/outfile02`
+* [x] `echo hi>./outfiles/outfile01 | echo bye`
+* [x] `echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye`
+* [x] `echo hi >./outfiles/outfile01 | echo bye >./outfiles/outfile02`
+* [x] `ls >>./outfiles/outfile01`
+* [x] `ls >>      ./outfiles/outfile01`
+* [x] `ls >>./outfiles/outfile01 >>./outfiles/outfile02`
 ---
 
 ## 6. Redirecciones incorrectas
@@ -115,17 +113,11 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 
 ## 7. Heredoc
 
-* [ ] `cat << EOF`
-* [ ] `cat <<EOF`
-* [ ] `cat << "EOF"`
-* [ ] `cat << 'EOF'`
-* [ ] `cat <<EOF | wc`
-
-### Delimitador con comillas
-
-* [ ] `cat << "END"`
-* [ ] `cat << 'END'`
-* [ ] `cat << "EOF" | grep x` → no ejecuta el segundo comando
+* [x] `cat << EOF`
+* [x] `cat <<EOF`
+* [x] `cat << "EOF"`
+* [x] `cat << 'EOF'`
+* [x] `cat <<EOF | wc`
 
 ---
 
@@ -137,7 +129,7 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 * [x] `echo "hola $USER mundo"`
 * [x] `echo $$$$`
 * [x] `echo "'$USER'"`
-* [ ] `echo $UNSET_VARIABLE`
+* [x] `echo $UNSET_VARIABLE`
 * [x] `echo $?????????`
 * [x] `echo "hola $meru"`
 
@@ -157,26 +149,26 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 
 ## 10. Casos de espacios raros
 
-* [ ] `echo hola>file`
-* [ ] `echo hola>>file`
-* [ ] `echo hola<file`
-* [ ] `echo "<<EOF"`
-* [ ] `echo >file`
-* [ ] `> file echo hola` (debería ser error)
-* [ ] `cat<in>out`
-* [ ] `cmd<<EOF|wc`
+* [x] `echo hola>file`
+* [x] `echo hola>>file`
+* [x] `echo hola<file`
+* [x] `echo "<<EOF"`
+* [x] `echo >file`
+* [x] `> file echo hola`
+* [x] `cat<in>out`
+* [x] `cmd<<EOF|wc`
 * [ ] `cmd>out|cmd2<in`
 
 ---
 
 ## 11. Splitting (detección de fallos)
 
-* [ ] `echo foo"bar"baz`
-* [ ] `echo foo'bar'baz`
-* [ ] `echo "foo"'bar'"baz"`
-* [ ] `echo """"` (cadena vacía)
-* [ ] `echo ''""''`
-* [ ] `echo " "`
+* [x] `echo foo"bar"baz`
+* [x] `echo foo'bar'baz`
+* [x] `echo "foo"'bar'"baz"`
+* [x] `echo """"` (cadena vacía)
+* [x] `echo ''""''`
+* [x] `echo " "`
 
 ---
 
@@ -190,24 +182,12 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 
 ---
 
-## 13. Wildcards (solo parsing)
-
-* [ ] `echo *`
-* [ ] `echo a*`
-* [ ] `echo *a`
-* [ ] `echo *.*`
-* [ ] `ls * | wc`
-* [ ] `echo "*"`
-* [ ] `echo "*a*"`
-
----
-
 ## 14. Comprobaciones generales
 
 * [ ] FDs cerrados correctamente en cada hijo
 * [ ] Status final es el del último comando
-* [ ] `>` crea o trunca archivo
-* [ ] `>>` añade al archivo
+* [x] `>` crea o trunca archivo
+* [x] `>>` añade al archivo
 * [ ] `<` falla si no puede leer archivo
 * [ ] `<<` sin comillas expande variables
 * [ ] `<<` con comillas no expande
@@ -217,7 +197,6 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 * [ ] Sin invalid reads/writes
 * [ ] Libera memoria en errores
 * [ ] Gran número de pipes
-* [ ] Wildcard con miles de archivos
 
 ---
 
@@ -230,13 +209,13 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 * [x] `cd` (HOME)
 * [x] `cd -`
 * [x] Actualiza `PWD` y `OLDPWD`
-* [ ] `export VAR=valor`
+* [x] `export VAR=valor`
 * [ ] `export` lista ordenada
 * [ ] Manejo de nombres inválidos
-* [ ] `unset` elimina variable
-* [ ] `exit N` con N válido
-* [ ] Error en `exit 1 2` (demasiados argumentos)
-* [ ] Detecta valores no numéricos en `exit`
+* [x] `unset` elimina variable
+* [x] `exit N` con N válido
+* [x] Error en `exit 1 2` (demasiados argumentos)
+* [x] Detecta valores no numéricos en `exit`
 * [ ] Búsqueda en `PATH`
 * [ ] Ruta absoluta (`/bin/ls`)
 * [ ] Ruta relativa (`./a.out`)
@@ -244,5 +223,5 @@ Este documento recoge las pruebas funcionales y de parsing realizadas durante el
 * [ ] Error si no existe
 * [x] Ctrl-C limpia línea y muestra prompt
 * [x] Ctrl-\ ignorado en shell
-* [ ] Ctrl-C afecta solo a hijos
+* [x] Ctrl-C afecta solo a hijos
 * [x] Ctrl-D en heredoc finaliza heredoc

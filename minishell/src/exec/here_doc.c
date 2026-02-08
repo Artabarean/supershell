@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 15:57:31 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/07 13:45:57 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 {
 	char	*line;
 
-	while (g_sign == 0)
+	while (1)
 	{
 		line = readline("> ");
 		if (!line)
@@ -81,8 +81,7 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 			free(line);
 			break ;
 		}
-		if (g_sign == 0)
-			ft_putendl_fd(expand_for_heredoc(line, env), fd);
+		ft_putendl_fd(expand_for_heredoc(line, env), fd);
 		free(line);
 	}
 	close(fd);
@@ -134,12 +133,11 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 	set_signal(SIG_WAIT);
 	waitpid(pid, &status, 0);
 	closehfd(fd);
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == SIGINT)
-			return (g_sign = 130, 1);
-	}
 	if (WIFEXITED(status))
+	{
+		if (WEXITSTATUS(status) == 130)
+			return (130);
 		return (WEXITSTATUS(status));
+	}
 	return (0);
 }

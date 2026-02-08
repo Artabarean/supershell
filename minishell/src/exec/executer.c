@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 12:53:07 by alex              #+#    #+#             */
-/*   Updated: 2026/02/06 12:56:16 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/07 13:53:04 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	executer(t_prompt *prompt)
 	prompt->pip_exec = 0;
 	cmd = prompt->cmds;
 	set_signal(SIG_PROMPT);
-	if (g_sign)
-		prompt->exit_status = g_sign;
 	while (cmd)
 	{
 		if (prompt->pip_exec == 0 && cmd->redir != NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_check.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 11:48:58 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/07 13:44:28 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,11 @@ int	handle_heredoc(t_prompt *prompt, t_cmd *cmd)
 	if (is_heredoc == 1)
 	{
 		if (process_heredocs(cmd, prompt->enviroment))
+		{
 			prompt->exit_status = 130;
+			closepfds(prompt->n_cmds, prompt);
+    		return (1);
+		}
 	}
 	return (0);
 }
