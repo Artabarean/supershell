@@ -76,8 +76,6 @@ void	execute(char **full_cmd, char *full_path, t_prompt *prompt)
 
 	envp = env_to_array(prompt->enviroment);
 	check_exec_errors(full_path);
-	if (prompt->exit_status == 130)
-		exit(prompt->exit_status);
 	if (execve(full_path, full_cmd, envp) == -1)
 	{
 		err = errno;
