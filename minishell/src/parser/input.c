@@ -42,7 +42,7 @@ static int	is_valid_input(char *input)
 	if (!input[0] || input[0] == '|')
 	{
 		if (input[0] == '|')
-			syntax_error(&input[end]);
+			syntax_error("|");
 		free(input);
 		return (0);
 	}
