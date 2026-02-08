@@ -22,6 +22,7 @@ void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
 		else if (WIFSIGNALED(*wstatus))
 		{
 			*last_status = 128 + WTERMSIG(*wstatus);
+			write(1, "\n", 1);
 		}
 	}
 }
