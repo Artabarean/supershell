@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
+#    By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/02/06 17:35:46 by atabarea         ###   ########.fr        #
+#    Updated: 2026/02/07 17:29:08 by medel-ca         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,8 @@ SRC	 =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/utils/cmd_isdir.c \
 		$(SRC_DIR)/exec/utils_here_doc.c \
 		$(SRC_DIR)/exec/new_find_path.c \
-		$(SRC_DIR)/utils/pid_utils.c 
+		$(SRC_DIR)/utils/pid_utils.c \
+		$(SRC_DIR)/parser/split_spc.c \
 
 OBJS	= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
