@@ -14,6 +14,8 @@
 
 void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
 {
+	int sig;
+
 	
 	if (curr_nde->next == NULL)
 	{
@@ -21,8 +23,12 @@ void	is_parent(t_cmd *curr_nde, int *wstatus, int *last_status)
 			*last_status = WEXITSTATUS(*wstatus);
 		else if (WIFSIGNALED(*wstatus))
 		{
-			*last_status = 128 + WTERMSIG(*wstatus);
-			write(1, "\n", 1);
+			sig = WTERMSIG(*wstatus);
+			*last_status = 128 + sig;
+			if (sig == SIGQUIT)
+				write(2, "Quit (core dumped)\n", 19);
+			else if (sig == SIGINT)
+				write(2, "\n", 1);
 		}
 	}
 }
