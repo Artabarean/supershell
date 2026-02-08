@@ -40,7 +40,7 @@ void	start_minishell(t_prompt *prompt)
 void	clean_exit(t_prompt *prompt)
 {
 	printf("exit\n");
-	free_all(&prompt);
+	free_all(prompt);
 	rl_clear_history();
 	exit(EXIT_SUCCESS);
 }
@@ -71,3 +71,4 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (0);
 }
+
