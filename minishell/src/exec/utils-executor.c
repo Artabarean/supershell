@@ -52,6 +52,13 @@ void	check_exec_errors(char *path)
 {
 	struct stat	st;
 
+	if (!ft_strchr(path, '/'))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": command not found\n", 2);
+		exit(127);
+	}
 	if (stat(path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))
