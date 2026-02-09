@@ -6,13 +6,13 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 15:57:31 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 11:54:26 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	createfile(t_cmd *cmd, int *fd)
+void	createfile(t_cmd *cmd, int *fd)
 {
 	int		i;
 	int		j;
@@ -64,7 +64,7 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 	}
 }
 
-void	do_single_heredoc(char *limiter, t_env *env, int fd)
+void	do_single_heredoc(char *limiter, int fd, t_prompt *prompt)
 {
 	char	*line;
 
@@ -81,13 +81,12 @@ void	do_single_heredoc(char *limiter, t_env *env, int fd)
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(expand_for_heredoc(line, env), fd);
-		free(line);
+		ft_putendl_fd(expand_for_heredoc(line, prompt), fd);
 	}
 	close(fd);
 }
 
-static int	heredoc_child(t_cmd *cmd, t_env *env, int *fd)
+static int	heredoc_child(t_cmd *cmd, int *fd, t_prompt *prompt)
 {
 	t_cmd	*copycmd;
 	t_redir	*redir;
@@ -102,7 +101,7 @@ static int	heredoc_child(t_cmd *cmd, t_env *env, int *fd)
 		{
 			if (redir->type == T_HEREDOC)
 			{
-				do_single_heredoc(redir->file, env, fd[i]);
+				do_single_heredoc(redir->file, fd[i], prompt);
 				i++;
 			}
 			redir = redir->next;
@@ -112,7 +111,7 @@ static int	heredoc_child(t_cmd *cmd, t_env *env, int *fd)
 	return (0);
 }
 
-int	process_heredocs(t_cmd *cmd, t_env *env)
+int	process_heredocs(t_cmd *cmd, t_prompt *prompt)
 {
 	pid_t	pid;
 	int		status;
@@ -120,14 +119,13 @@ int	process_heredocs(t_cmd *cmd, t_env *env)
 
 	set_tempdoc(cmd);
 	fd = count_hfds(cmd);
-	createfile(cmd, fd);
 	pid = fork();
 	if (pid == -1)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
 		set_signal(SIG_HEREDOC);
-		heredoc_child(cmd, env, fd);
+		heredoc_child(cmd, fd, prompt);
 		exit(0);
 	}
 	set_signal(SIG_WAIT);

@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 18:01:47 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 11:21:42 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,11 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 	closepfds(n_cmds, prompt);
 	if (find_path_no_print(cmd, prompt) == 0)
 		execute(cmd->full_cmd, cmd->full_path, prompt);
+	else
+	{
+		free_input(prompt);
+		free_env(prompt->enviroment);
+	}
 	exit(127);
 }
 

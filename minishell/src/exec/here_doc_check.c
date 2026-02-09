@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 11:48:58 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 12:04:08 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,27 @@ void	fd_failed_hd(char *filename)
 	error_in_child("tmpfile failure");
 }
 
-char	*expand_for_heredoc(char *str, t_env *env)
+char	*expand_for_heredoc(char *str, t_prompt *prompt)
 {
-	char	*keyword;
+	int		i;
+	char	*result;
 
-	keyword = NULL;
-	if (!str || !*str)
-		return ("");
-	while (env)
+	i = 0;
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	while (str[i])
 	{
-		keyword = ft_strjoin("$", env->keyword);
-		if (!ft_strcmp(str, keyword))
-			return (free(keyword), ft_strdup(env->value));
-		free(keyword);
-		env = env->next;
+		if (str[i] != '$')
+		{
+			result = extract_char(result, str[i]);
+			i++;
+			continue ;
+		}
+		result = expand_dollar(result, str, &i, prompt);
 	}
-	return (str);
+	free(str);
+	return (result);
 }
 
 int	handle_heredoc(t_prompt *prompt, t_cmd *cmd)
@@ -64,15 +69,8 @@ int	handle_heredoc(t_prompt *prompt, t_cmd *cmd)
 		}
 		copycmd = copycmd->next;
 	}
-	if (is_heredoc == 1)
-	{
-		if (process_heredocs(cmd, prompt->enviroment))
-		{
-			prompt->exit_status = 130;
-			closepfds(prompt->n_cmds, prompt);
-			return (1);
-		}
-	}
+	if (see_if_heredoc(cmd, prompt, is_heredoc) == 1)
+		return (1);
 	return (0);
 }
 
