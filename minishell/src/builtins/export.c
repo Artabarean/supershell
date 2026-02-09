@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:49:17 by codespace         #+#    #+#             */
-/*   Updated: 2026/02/06 11:53:58 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:48:25 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	export_builtin(t_prompt *prompt, t_cmd *cmd)
 	{
 		if (!is_valid_identifier(cmd->full_cmd[i]))
 		{
-			ft_putstr_fd("minishell: not a valid identifier\n", 2);
+			ft_putstr_fd("minishell: export: not a valid identifier\n", 2);
 			prompt->exit_status = 1;
 		}
 		else

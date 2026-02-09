@@ -3,21 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:09 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/07 16:25:05 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:14:33 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	heredoc_sig_check(void)
+{
+    if (g_sign == 130)
+        rl_done = 1;
+    return (0);
+}
+
 static void	close_heredoc(int signal)
 {
 	(void)signal;
-	write(1, "\n", 1);
 	g_sign = 130;
-	exit(130);
+	rl_done = 1;
+	// rl_cleanup_after_signal();
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	//rl_redisplay();
+	//exit(130);
 
 }
 

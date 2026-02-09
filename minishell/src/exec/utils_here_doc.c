@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 16:40:27 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 12:03:43 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 17:29:00 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	see_if_heredoc(t_cmd *cmd, t_prompt *prompt, int is_heredoc)
 		if (process_heredocs(cmd, prompt))
 		{
 			prompt->exit_status = 130;
-			closepfds(prompt->n_cmds, prompt);
 			return (1);
 		}
 	}

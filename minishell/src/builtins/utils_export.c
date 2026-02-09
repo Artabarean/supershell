@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 09:49:17 by codespace         #+#    #+#             */
-/*   Updated: 2026/02/03 11:51:56 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:41:16 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_valid_identifier(char *str)
 {
 	int	i;
 
-	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+	if ((!str || (!ft_isalpha(str[0]) && str[0] != '_')) && str[0] != '$')
 		return (0);
 	i = 1;
 	while (str[i] && str[i] != '=')

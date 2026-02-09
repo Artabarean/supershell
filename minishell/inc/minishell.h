@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 12:04:27 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 17:16:30 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,11 +233,12 @@ void	create_pipes(t_prompt *prompt, int n_cmds);
 //Here_doc
 int		process_heredocs(t_cmd *copycmd, t_prompt *prompt);
 int		count_strs(char	**str);
-void	eof_warning_msg(char *limiter);
+int		eof_warning_msg(char *line, char *limiter);
 char	*expand_for_heredoc(char *str, t_prompt *prompt);
 int		handle_heredoc(t_prompt *prompt, t_cmd *cmd);
 int		get_last_heredoc(char **tmp_doc);
 void	cleanup_heredoc_files(t_cmd *cmds);
+int		heredoc_sig_check(void);
 char	**count_heredoc(t_redir *redir);
 void	fd_failed_hd(char *filename);
 void	createfile(t_cmd *cmd, int *fd);
@@ -246,6 +247,8 @@ int		*count_hfds(t_cmd *cmd);
 void	set_tempdoc(t_cmd *cmd);
 int		see_if_heredoc(t_cmd *cmd, t_prompt *prompt, int is_heredoc);
 int		heredoc_open(t_cmd *copycmd, int i, int j);
+void	set_hdoc_child(t_cmd *cmd, int *fd, t_prompt *prompt);
+int		heredoc_child(t_cmd *cmd, int *fd, t_prompt *prompt);
 
 //Built-ins
 int		handle_in(t_redir *redir, int *fin);

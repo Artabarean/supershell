@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 11:54:26 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 17:16:12 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,33 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 void	do_single_heredoc(char *limiter, int fd, t_prompt *prompt)
 {
 	char	*line;
+	char	*result;
 
+	rl_event_hook = heredoc_sig_check;
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
+		if (g_sign == 130)
 		{
-			eof_warning_msg(limiter);
-			break ;
+			free(line);
+			break;
 		}
+		if (eof_warning_msg(line ,limiter) == 1)
+			break ;
 		if (ft_strcmp(line, limiter) == 0)
 		{
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(expand_for_heredoc(line, prompt), fd);
+		result = expand_for_heredoc(line, prompt);
+		ft_putendl_fd(result, fd);
+		free(result);
 	}
+	rl_event_hook = NULL;
 	close(fd);
 }
 
-static int	heredoc_child(t_cmd *cmd, int *fd, t_prompt *prompt)
+int	heredoc_child(t_cmd *cmd, int *fd, t_prompt *prompt)
 {
 	t_cmd	*copycmd;
 	t_redir	*redir;
@@ -99,6 +106,8 @@ static int	heredoc_child(t_cmd *cmd, int *fd, t_prompt *prompt)
 		redir = copycmd->redir;
 		while (redir)
 		{
+			if (g_sign == 130)
+				return(130);
 			if (redir->type == T_HEREDOC)
 			{
 				do_single_heredoc(redir->file, fd[i], prompt);
@@ -123,11 +132,7 @@ int	process_heredocs(t_cmd *cmd, t_prompt *prompt)
 	if (pid == -1)
 		return (perror("fork"), 1);
 	if (pid == 0)
-	{
-		set_signal(SIG_HEREDOC);
-		heredoc_child(cmd, fd, prompt);
-		exit(0);
-	}
+		set_hdoc_child(cmd, fd, prompt);
 	set_signal(SIG_WAIT);
 	waitpid(pid, &status, 0);
 	closehfd(fd);

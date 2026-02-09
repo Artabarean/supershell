@@ -6,16 +6,21 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 12:04:08 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 17:16:05 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	eof_warning_msg(char *limiter)
+int	eof_warning_msg(char *line, char *limiter)
 {
-	printf("minishell: warning: here-document \
+	if (!line)
+	{
+		printf("minishell: warning: here-document \
 delimited by end-of-file (wanted `%s')\n", limiter);
+			return (1);
+	}
+	return (0);
 }
 
 void	fd_failed_hd(char *filename)

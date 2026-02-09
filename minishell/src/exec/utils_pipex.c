@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 17:59:44 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 17:27:43 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ void	childprocess_(t_cmd *cmd, t_prompt *prompt)
 	fin = -1;
 	fout = -1;
 	prompt->iter = 0;
-	pfd_alloc(prompt, prompt->n_cmds);
-	create_pipes(prompt, prompt->n_cmds);
 	if (handle_heredoc(prompt, cmd) == 1)
 		return ;
+	pfd_alloc(prompt, prompt->n_cmds);
+	create_pipes(prompt, prompt->n_cmds);
 	while (prompt->iter < prompt->n_cmds && cmd)
 	{
 		if (prompt->n_cmds == 1 && is_lone_builtin(cmd, prompt, fin, fout) == 1)
