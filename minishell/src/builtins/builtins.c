@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 16:58:47 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 15:51:18 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 11:22:59 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,12 @@ int	run_builtin_child(t_cmd *cmd, t_prompt *prompt)
 	{
 		exit_builtin(cmd, prompt);
 		free(prompt->pid);
+		free_env(prompt->enviroment);
 		free_input(prompt);
 		return (1);
 	}
 	free(prompt->pid);
+	free_env(prompt->enviroment);
 	free_input(prompt);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/07 17:45:01 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/09 12:04:27 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	extract_sym(char **ptr, t_prompt *prompt, int index);
 
 //EXPANSIONES
 char	*expand(char *str, t_prompt *prompt);
+char	*expand_dollar(char *res, char *str, int *i, t_prompt *prompt);
 void	expand_tkn(t_prompt *prompt);
 char	*expand_var(char *str, t_env *enviroment);
 char	*extract_dollar(char *result);
@@ -230,18 +231,20 @@ void	closepfds(int n_cmds, t_prompt *prompt);
 void	create_pipes(t_prompt *prompt, int n_cmds);
 
 //Here_doc
-int		process_heredocs(t_cmd *copycmd, t_env *env);
+int		process_heredocs(t_cmd *copycmd, t_prompt *prompt);
 int		count_strs(char	**str);
 void	eof_warning_msg(char *limiter);
-char	*expand_for_heredoc(char *str, t_env *env);
+char	*expand_for_heredoc(char *str, t_prompt *prompt);
 int		handle_heredoc(t_prompt *prompt, t_cmd *cmd);
 int		get_last_heredoc(char **tmp_doc);
 void	cleanup_heredoc_files(t_cmd *cmds);
 char	**count_heredoc(t_redir *redir);
 void	fd_failed_hd(char *filename);
+void	createfile(t_cmd *cmd, int *fd);
 void	closehfd(int *fd);
 int		*count_hfds(t_cmd *cmd);
 void	set_tempdoc(t_cmd *cmd);
+int		see_if_heredoc(t_cmd *cmd, t_prompt *prompt, int is_heredoc);
 int		heredoc_open(t_cmd *copycmd, int i, int j);
 
 //Built-ins

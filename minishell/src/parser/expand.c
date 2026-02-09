@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:28:26 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/07 17:45:43 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/09 11:45:50 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expand_dollar(char *res, char *str, int *i, t_prompt *prompt)
+char	*expand_dollar(char *res, char *str, int *i, t_prompt *prompt)
 {
 	(*i)++;
 	if (!str[*i] || str[*i] == ' ' || str[*i] == '"'

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils-executor.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/02/06 17:50:30 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 13:17:18 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ void	check_exec_errors(char *path)
 {
 	struct stat	st;
 
+	if (!ft_strchr(path, '/'))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": command not found\n", 2);
+		exit(127);
+	}
 	if (stat(path, &st) == 0)
 	{
 		if (S_ISDIR(st.st_mode))

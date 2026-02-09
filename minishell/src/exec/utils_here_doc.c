@@ -6,11 +6,25 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 16:40:27 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 17:50:37 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 12:03:43 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	see_if_heredoc(t_cmd *cmd, t_prompt *prompt, int is_heredoc)
+{
+	if (is_heredoc)
+	{
+		if (process_heredocs(cmd, prompt))
+		{
+			prompt->exit_status = 130;
+			closepfds(prompt->n_cmds, prompt);
+			return (1);
+		}
+	}
+	return (0);
+}
 
 void	set_tempdoc(t_cmd *cmd)
 {
@@ -46,6 +60,7 @@ int	*count_hfds(t_cmd *cmd)
 	}
 	fd = ft_calloc(sizeof(int), count + 1);
 	fd[count] = -2;
+	createfile(cmd, fd);
 	return (fd);
 }
 
