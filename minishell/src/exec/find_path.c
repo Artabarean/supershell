@@ -107,7 +107,13 @@ int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)
 
 	i = 0;
 	if (cmd_isdir(cmd, cmd->full_cmd[0]))
+	{
+		if (access(cmd->full_cmd[0], F_OK) == -1)
+		    prompt->exit_status = 127;
+		else if (access(cmd->full_cmd[0], X_OK) == -1)
+    		prompt->exit_status = 126;
 		return (1);
+	}
 	if (!ft_strcmp(cmd->full_cmd[0], cmd->full_path))
 		return (0);
 	paths = ft_split(get_environments("PATH", prompt), ':');
@@ -124,5 +130,6 @@ int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)
 	}
 	if (check_paths(cmd, paths) == 0)
 		return (freer(paths), 0);
+	prompt->exit_status = 127;
 	return (freer(paths), 1);
 }
