@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:54 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/07 17:20:44 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/09 10:59:20 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static bool	parser(t_prompt *prompt, t_cmd *curr)
 	int	i;
 
 	i = 0;
+	if(!prompt->tkns[i])
+		return (false);
 	while (prompt->tkns[i])
 	{
 		if (!prompt->tkns[i])
