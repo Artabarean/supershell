@@ -5,10 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/30 19:59:54 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/09 12:10:05 by atabarea         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2026/02/09 12:19:14 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+
 
 #include "minishell.h"
 
