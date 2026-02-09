@@ -45,8 +45,6 @@ static bool	parser(t_prompt *prompt, t_cmd *curr)
 	int	i;
 
 	i = 0;
-	if(!prompt->tkns[i])
-		return (false);
 	while (prompt->tkns[i])
 	{
 		if (!prompt->tkns[i])
@@ -76,6 +74,8 @@ bool	init_parser(t_prompt *prompt)
 	t_cmd	*curr;
 
 	if (!prompt || !prompt->tkns)
+		return (0);
+	if(!prompt->tkns[0])
 		return (0);
 	curr = create_cmd(prompt);
 	if (!curr)
