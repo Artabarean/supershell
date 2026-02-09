@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 11:54:26 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:16:06 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 void	do_single_heredoc(char *limiter, int fd, t_prompt *prompt)
 {
 	char	*line;
+	char	*expanded_line;
 
 	while (1)
 	{
@@ -81,7 +82,9 @@ void	do_single_heredoc(char *limiter, int fd, t_prompt *prompt)
 			free(line);
 			break ;
 		}
-		ft_putendl_fd(expand_for_heredoc(line, prompt), fd);
+		expanded_line = expand_for_heredoc(line, prompt);
+		ft_putendl_fd(expanded_line, fd);
+		free(expanded_line);
 	}
 	close(fd);
 }
@@ -126,6 +129,8 @@ int	process_heredocs(t_cmd *cmd, t_prompt *prompt)
 	{
 		set_signal(SIG_HEREDOC);
 		heredoc_child(cmd, fd, prompt);
+		free_env(prompt->enviroment);
+		free_input(prompt);
 		exit(0);
 	}
 	set_signal(SIG_WAIT);

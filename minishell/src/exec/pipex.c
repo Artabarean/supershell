@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:54 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 16:31:27 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:02:26 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	child_process1(t_cmd *cmd, int fin, int fout, t_prompt *prompt)
 	{
 		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
 		{
-			cmd->full_path = cmd->full_cmd[0];
+ 			cmd->full_path = cmd->full_cmd[0];
 			execute(cmd->full_cmd, cmd->full_path, prompt);
 		}
 	}

@@ -42,6 +42,8 @@ void	clean_exit(t_prompt *prompt)
 	printf("exit\n");
 	free_all(prompt);
 	rl_clear_history();
+	rl_free_line_state();
+	rl_cleanup_after_signal();
 	exit(EXIT_SUCCESS);
 }
 
