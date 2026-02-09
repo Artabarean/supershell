@@ -56,7 +56,6 @@ void	init_prompt(t_prompt *prompt, char **envp)
 	prompt->input = NULL;
 	prompt->tkns = NULL;
 	prompt->tkns_nbr = 0;
-	prompt->pid = 0;
 	prompt->exit_status = 0;
 	init_env(prompt, envp);
 }
