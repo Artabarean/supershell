@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/10 12:35:55 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 12:55:38 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_redir
 	t_toktype		type;
 	char			*file;
 	struct s_redir	*next;
-	t_quote			*quote;
+	t_quote			quote;
 }	t_redir;
 
 typedef struct s_cmd
@@ -136,8 +136,8 @@ char	**ft_split_spc(const char *s);
 //PARSER
 bool	init_parser(t_prompt *prompt);
 void	add_arg_to_cmd(char *arg, t_quote quote, t_cmd *cmd);
-bool	create_file(t_toktype type, char *filename, t_cmd *curr);
-void	add_file(t_cmd *cmd, char *filename, t_toktype type);
+bool	create_file(t_toktype type, char *filename, t_cmd *curr, t_quote quoted);
+void	add_file(t_cmd *cmd, char *filename, t_toktype type, t_quote quoted);
 
 //EJECUCIÓN
 void	executer(t_prompt *prompt);

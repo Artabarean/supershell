@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:50 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/07 17:39:55 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/10 12:53:55 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ void	add_arg_to_cmd(char *arg, t_quote quote, t_cmd *cmd)
 		add_one_arg(cmd, arg);
 }
 
-bool	create_file(t_toktype type, char *filename, t_cmd *curr)
+bool	create_file(t_toktype type, char *filename, t_cmd *curr, t_quote quoted)
 {
 	if (!filename || !curr)
 		return (false);
 	if (!is_redirection_type(type))
 		return (false);
-	add_file(curr, filename, type);
+	add_file(curr, filename, type, quoted);
 	return (true);
 }
 
-void	add_file(t_cmd *cmd, char *filename, t_toktype type)
+void	add_file(t_cmd *cmd, char *filename, t_toktype type, t_quote quoted)
 {
 	t_redir	*curr;
 	t_redir	*new;
@@ -83,6 +83,7 @@ void	add_file(t_cmd *cmd, char *filename, t_toktype type)
 		return ;
 	new->file = filename;
 	new->type = type;
+	new->quote = quoted;
 	new->next = NULL;
 	if (!cmd->redir)
 	{
