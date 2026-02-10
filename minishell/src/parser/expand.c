@@ -15,9 +15,6 @@
 char	*expand_dollar(char *res, char *str, int *i, t_prompt *prompt)
 {
 	(*i)++;
-	if (!str[*i] || str[*i] == ' ' || str[*i] == '"'
-		|| str[*i] == '\'' || str[*i] == '(')
-		return (extract_dollar(res));
 	if (str[*i] == '?')
 	{
 		(*i)++;
@@ -28,6 +25,8 @@ char	*expand_dollar(char *res, char *str, int *i, t_prompt *prompt)
 		(*i)++;
 		return (extract_pid(res));
 	}
+	if (!str[*i] || !ft_isalnum(str[*i]))
+		return (extract_dollar(res));
 	return (extract_str(res, str, i, prompt->enviroment));
 }
 
