@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
+#    By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/02/10 16:11:13 by atabarea         ###   ########.fr        #
+#    Updated: 2026/02/10 17:34:44 by medel-ca         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ INC	 = -I$(INC_DIR) -I$(LIBFT_DIR)/inc
 LIBS = $(LIBFT_DIR)/libft.a -lreadline
 
 SRC	 =	$(SRC_DIR)/main.c \
-		$(SRC_DIR)/utils/enviroment.c \
+		$(SRC_DIR)/builtins/enviroment.c \
 		$(SRC_DIR)/parser/lexer.c \
 		$(SRC_DIR)/parser/lexer_utils.c \
 		$(SRC_DIR)/parser/lexer_utils2.c \
@@ -44,7 +44,7 @@ SRC	 =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/exec/selectprocess.c \
 		$(SRC_DIR)/builtins/echo.c \
 		$(SRC_DIR)/builtins/pwd.c \
-		$(SRC_DIR)/utils/env.c \
+		$(SRC_DIR)/builtins/env.c \
 		$(SRC_DIR)/builtins/cd.c \
 		$(SRC_DIR)/builtins/unset.c \
 		$(SRC_DIR)/builtins/builtins.c \
@@ -70,7 +70,8 @@ SRC	 =	$(SRC_DIR)/main.c \
 		$(SRC_DIR)/utils/pid_utils.c \
 		$(SRC_DIR)/parser/split_spc.c \
 		$(SRC_DIR)/exec/utils_here_doc2.c \
-		$(SRC_DIR)/exec/utils_find_path.c 
+		$(SRC_DIR)/exec/utils_find_path.c \
+		$(SRC_DIR)/parser/utils_init.c 
 
 OBJS	= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
