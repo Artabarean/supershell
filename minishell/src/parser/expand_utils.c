@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 15:07:02 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/06 11:54:58 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:35:14 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,6 @@ char	*extract_e_status(char *result, int status)
 	char	*value;
 
 	value = ft_itoa(status);
-	tmp = result;
-	result = ft_strjoin(tmp, value);
-	free(tmp);
-	free(value);
-	return (result);
-}
-
-char	*extract_pid(char *result)
-{
-	char	*tmp;
-	char	*value;
-
-	value = ft_itoa(getpid());
 	tmp = result;
 	result = ft_strjoin(tmp, value);
 	free(tmp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 14:28:26 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 11:45:50 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:34:49 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ char	*expand_dollar(char *res, char *str, int *i, t_prompt *prompt)
 	{
 		(*i)++;
 		return (extract_e_status(res, prompt->exit_status));
-	}
-	if (str[*i] == '$')
-	{
-		(*i)++;
-		return (extract_pid(res));
 	}
 	if (!str[*i] || !ft_isalnum(str[*i]))
 		return (extract_dollar(res));

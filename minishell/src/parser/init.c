@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 19:59:24 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/06 14:37:06 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:16:29 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	init_prompt(t_prompt *prompt, char **envp)
 	prompt->tkns_nbr = 0;
 	prompt->exit_status = 0;
 	init_env(prompt, envp);
+	iter_shlvl(prompt->enviroment);
 }
 
 t_cmd	*create_cmd(t_prompt *prompt)
