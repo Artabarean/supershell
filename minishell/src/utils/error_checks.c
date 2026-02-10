@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/26 17:02:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/10 12:15:57 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 12:20:17 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	check_command(t_cmd *cmd, t_prompt *prompt, int *fout, int *fin)
 	t_cmd	*copy;
 
 	copy = cmd;
+	(void)prompt;
 	while (copy)
 	{
 		if (is_builtin(copy) == 0)
