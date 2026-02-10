@@ -3,15 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2026/02/09 12:19:14 by atabarea         ###   ########.fr       */
+/*   Created: 2026/02/09 13:42:09 by medel-ca          #+#    #+#             */
+/*   Updated: 2026/02/09 13:43:41 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
 
 #include "minishell.h"
 
@@ -75,7 +72,7 @@ bool	init_parser(t_prompt *prompt)
 
 	if (!prompt || !prompt->tkns)
 		return (0);
-	if(!prompt->tkns[0])
+	if (!prompt->tkns[0])
 		return (0);
 	curr = create_cmd(prompt);
 	if (!curr)
