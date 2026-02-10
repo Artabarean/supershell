@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/04 10:26:01 by gcollet           #+#    #+#             */
-/*   Updated: 2026/02/06 17:50:30 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:29:43 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	check_exec_errors(char *path)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(path, 2);
-		ft_putendl_fd(": command not found\n", 2);
+		ft_putendl_fd(": command not found", 2);
 		exit(127);
 	}
 	if (stat(path, &st) == 0)

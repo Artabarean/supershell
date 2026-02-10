@@ -49,8 +49,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_prompt	prompt;
 
-	if (argc != 1 || envp == NULL || *envp == NULL)
-		return (ft_putendl_fd("Environment error", 2), 1);
+	if (argc != 1)
+		return (ft_putendl_fd("error", 2), 1);
 	(void)argv;
 	init_prompt(&prompt, envp);
 	while (1)

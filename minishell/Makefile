@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+         #
+#    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/02/10 17:34:44 by medel-ca         ###   ########.fr        #
+#    Updated: 2026/02/10 18:14:06 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 CC		= gcc
-CFLAGS  = -Wall -Wextra -Werror -Wuninitialized -g -fsanitize=address
+CFLAGS  = -Wall -Wextra -Werror -Wuninitialized -g
 
 SRC_DIR = src
 OBJ_DIR = obj
@@ -23,7 +23,7 @@ INC	 = -I$(INC_DIR) -I$(LIBFT_DIR)/inc
 LIBS = $(LIBFT_DIR)/libft.a -lreadline
 
 SRC	 =	$(SRC_DIR)/main.c \
-		$(SRC_DIR)/builtins/enviroment.c \
+		$(SRC_DIR)/utils/enviroment.c \
 		$(SRC_DIR)/parser/lexer.c \
 		$(SRC_DIR)/parser/lexer_utils.c \
 		$(SRC_DIR)/parser/lexer_utils2.c \

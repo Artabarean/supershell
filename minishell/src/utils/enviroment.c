@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:06:53 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/01/30 09:51:04 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:36:06 by medel-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,46 @@ static t_env	*new_env(void)
 	return (current);
 }
 
+t_env	*empty_env(void)
+{
+	t_env	*head;
+	t_env	*current;
+	char	cwd[PATH_MAX];
+
+	current = new_env();
+	head = current;
+	current->keyword = ft_strdup("PWD");
+	if (!getcwd(cwd, PATH_MAX))
+		current->value = ft_strdup("");
+	else
+		current->value = ft_strdup(cwd);
+	current->next = new_env();
+	current = current->next;
+	current->keyword = ft_strdup("SHLVL");
+	current->value = ft_strdup("1");
+	current->next = new_env();
+	current = current->next;
+	current->keyword = ft_strdup("_");
+	current->value = ft_strdup("/usr/bin/env");
+	current->next = new_env();
+	current = current->next;
+	current->keyword = ft_strdup("PATH");
+	current->value = ft_strdup("/usr/local/sbin:/usr/local/bin:/usr/sbin:\
+/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin");
+	return (head);
+}
+
 void	init_env(t_prompt *prompt, char **env)
 {
 	int		i;
 	t_env	*head;
 	t_env	*current;
 
-	if (!prompt || !env)
+	if (!prompt || !env || !*env)
+	{
+		prompt->enviroment = empty_env();
 		return ;
+	}
 	head = new_env();
 	if (!head)
 		return ;
@@ -62,28 +94,12 @@ void	init_env(t_prompt *prompt, char **env)
 	}
 }
 
-char	*get_user(t_prompt *prompt)
-{
-	char	*temp;
-	t_env	*env;
-
-	env = prompt->enviroment;
-	temp = NULL;
-	while (env && !temp)
-	{
-		if (ft_strnstr(env->keyword, "USER", 4))
-			temp = ft_strdup(env->value);
-		env = env->next;
-	}
-	if (!temp)
-		temp = ft_strdup("guest");
-	return (temp);
-}
-
 void	free_env(t_env *env)
 {
 	t_env	*tmp;
 
+	if (!env)
+		return ;
 	while (env)
 	{
 		tmp = env;

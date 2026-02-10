@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 11:39:14 by atabarea          #+#    #+#             */
-/*   Updated: 2026/01/30 09:15:04 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:21:05 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ static void	free_last_node(t_env *node)
 	free(node->keyword);
 	free(node->value);
 	free(node);
+}
+
+static void	set_previous_node(t_env *node, t_env *prev)
+{
+	free_last_node(node);
+	prev->next = NULL;
 }
 
 static void	shift_env_data(t_env *curr)
@@ -46,23 +52,28 @@ static void	shift_env_data(t_env *curr)
 static void	unset_env(t_prompt *prompt, char *name)
 {
 	t_env	*curr;
+	t_env	*prev;
 
 	if (!prompt || !prompt->enviroment)
 		return ;
 	curr = prompt->enviroment;
+	prev = curr;
 	while (curr)
 	{
-		if (!ft_strcmp(curr->keyword, name))
+		if (curr->keyword)
 		{
-			if (!curr->next)
+			if (!ft_strcmp(curr->keyword, name))
 			{
-				prompt->enviroment = NULL;
-				free_last_node(curr);
+				if (!curr->next)
+				{
+					set_previous_node(curr, prev);
+					return ;
+				}
+				shift_env_data(curr);
 				return ;
 			}
-			shift_env_data(curr);
-			return ;
 		}
+		prev = curr;
 		curr = curr->next;
 	}
 }

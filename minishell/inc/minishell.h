@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/10 16:05:16 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 18:15:36 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ void	expand_tkn(t_prompt *prompt);
 char	*expand_var(char *str, t_env *enviroment);
 char	*extract_dollar(char *result);
 char	*extract_e_status(char *result, int status);
-char	*extract_pid(char *result);
 char	*extract_str(char *result, char *str, int *i, t_env *env);
 char	*extract_char(char *result, char value);
 char	**ft_split_spc(const char *s);
@@ -184,6 +183,7 @@ void	set_signal(int status);
 //UTILS
 int		cmd_isdir(t_cmd *cmd, char *full_cmd);
 int		check_access(char *full_cmd, t_prompt *prompt);
+void	iter_shlvl(t_env *env);
 char	*joiner(char *paths, t_cmd *cmd);
 void	forker(t_prompt *prompt, int i);
 void	pid_util(int *wstatus, t_prompt *prompt, int *last_status, int i);
