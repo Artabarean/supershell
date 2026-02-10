@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 16:40:27 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 17:29:00 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:06:19 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,26 @@ void	closehfd(int *fd)
 	free(fd);
 }
 
-int	heredoc_open(t_cmd *copycmd, int i, int j)
+int	heredoc_open(t_cmd *copycmd, int j)
 {
 	char	*idx;
+	int		i;
 	int		fd;
+	char	*check;
 
+	i = 0;
 	idx = ft_itoa(i);
-	copycmd->tmp_doc[j] = ft_strjoin("heredoc_", idx);
+	check = ft_strjoin("/tmp/heredoc_", idx);
+	while (access(check, F_OK) == 0)
+	{
+		free(idx);
+		free(check);
+		i++;
+		idx = ft_itoa(i);
+		check = ft_strjoin("/tmp/heredoc_", idx);
+	}
+	free(check);
+	copycmd->tmp_doc[j] = ft_strjoin("/tmp/heredoc_", idx);
 	free(idx);
 	unlink(copycmd->tmp_doc[j]);
 	fd = open(copycmd->tmp_doc[j], O_CREAT | O_WRONLY | O_TRUNC, 0644);

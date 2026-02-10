@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 13:42:09 by medel-ca          #+#    #+#             */
-/*   Updated: 2026/02/10 12:52:35 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/10 12:59:47 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static bool	handle_redirection(t_prompt *prompt, t_cmd *curr, int *i)
 {
 	if (!prompt->tkns[*i + 1] || prompt->types[*i + 1] != T_WORD)
 		return (syntax_error(prompt->tkns[*i]), false);
-	if (!create_file(prompt->types[*i], prompt->tkns[*i + 1], curr, prompt->quotes[*i + 1]))
+	if (!create_file(prompt->types[*i], prompt->tkns[*i + 1], \
+		curr, prompt->quotes[*i + 1]))
 		return (syntax_error(prompt->tkns[*i]), false);
 	*i += 2;
 	return (true);

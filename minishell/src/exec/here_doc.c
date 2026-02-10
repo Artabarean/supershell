@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/10 12:33:27 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:26:09 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	createfile(t_cmd *cmd, int *fd)
 {
-	int		i;
 	int		j;
 	int		k;
 	t_cmd	*copycmd;
@@ -22,7 +21,6 @@ void	createfile(t_cmd *cmd, int *fd)
 
 	copycmd = cmd;
 	k = 0;
-	i = 0;
 	while (copycmd)
 	{
 		redir = copycmd->redir;
@@ -31,9 +29,8 @@ void	createfile(t_cmd *cmd, int *fd)
 		{
 			if (redir->type == T_HEREDOC)
 			{
-				fd[k++] = heredoc_open(copycmd, i, j);
+				fd[k++] = heredoc_open(copycmd, j);
 				j++;
-				i++;
 			}
 			redir = redir->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/10 12:36:22 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 13:00:58 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ char	*expand_for_heredoc(t_redir *redir, char *str, t_prompt *prompt)
 	char	*result;
 
 	i = 0;
-	(void)redir;
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] != '$')
+		if (str[i] != '$' || redir->quote != Q_NONE)
 		{
 			result = extract_char(result, str[i]);
 			i++;

@@ -6,13 +6,13 @@
 #    By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 0025/11/14 10:40:04 by tabarea           #+#    #+#              #
-#    Updated: 2026/02/10 11:24:49 by atabarea         ###   ########.fr        #
+#    Updated: 2026/02/10 16:11:13 by atabarea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 CC		= gcc
-CFLAGS  = -Wall -Wextra -Werror -Wuninitialized -g
+CFLAGS  = -Wall -Wextra -Werror -Wuninitialized -g -fsanitize=address
 
 SRC_DIR = src
 OBJ_DIR = obj

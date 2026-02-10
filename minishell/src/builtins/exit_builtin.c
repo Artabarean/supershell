@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 14:05:50 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/06 11:48:07 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:11:52 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	print_num_arg_req(t_prompt *prompt, char *cmd)
 {
-	ft_putendl_fd("exit", 2);
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putendl_fd(": numeric argument required", 2);
@@ -73,6 +72,7 @@ void	exit_builtin(t_cmd *cmd, t_prompt *prompt)
 	bool		overflow;
 	long long	code;
 
+	ft_putendl_fd("exit", 2);
 	if (!cmd->full_cmd[1])
 		exit(0);
 	if (!is_numeric(cmd->full_cmd[1]))
@@ -88,7 +88,6 @@ void	exit_builtin(t_cmd *cmd, t_prompt *prompt)
 	}
 	if (cmd->full_cmd[2])
 	{
-		ft_putendl_fd("exit", 2);
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		prompt->exit_status = 1;
 		return ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: medel-ca <medel-ca@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/10 12:55:38 by medel-ca         ###   ########.fr       */
+/*   Updated: 2026/02/10 16:05:16 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ void	closehfd(int *fd);
 int		*count_hfds(t_cmd *cmd);
 void	set_tempdoc(t_cmd *cmd);
 int		see_if_heredoc(t_cmd *cmd, t_prompt *prompt, int is_heredoc);
-int		heredoc_open(t_cmd *copycmd, int i, int j);
+int		heredoc_open(t_cmd *copycmd, int j);
 void	set_hdoc_child(t_cmd *cmd, int *fd, t_prompt *prompt);
 int		heredoc_child(t_cmd *cmd, int *fd, t_prompt *prompt);
 
