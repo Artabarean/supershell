@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 11:50:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 17:16:12 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 12:33:27 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	cleanup_heredoc_files(t_cmd *cmds)
 	}
 }
 
-void	do_single_heredoc(char *limiter, int fd, t_prompt *prompt)
+void	do_single_heredoc(t_redir *redir, char *limiter, int fd, t_prompt *prompt)
 {
 	char	*line;
 	char	*result;
@@ -85,7 +85,7 @@ void	do_single_heredoc(char *limiter, int fd, t_prompt *prompt)
 			free(line);
 			break ;
 		}
-		result = expand_for_heredoc(line, prompt);
+		result = expand_for_heredoc(redir, line, prompt);
 		ft_putendl_fd(result, fd);
 		free(result);
 	}
@@ -110,7 +110,7 @@ int	heredoc_child(t_cmd *cmd, int *fd, t_prompt *prompt)
 				return(130);
 			if (redir->type == T_HEREDOC)
 			{
-				do_single_heredoc(redir->file, fd[i], prompt);
+				do_single_heredoc(redir, redir->file, fd[i], prompt);
 				i++;
 			}
 			redir = redir->next;

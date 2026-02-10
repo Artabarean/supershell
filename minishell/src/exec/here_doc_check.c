@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 12:14:33 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 17:16:05 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 12:36:22 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ void	fd_failed_hd(char *filename)
 	error_in_child("tmpfile failure");
 }
 
-char	*expand_for_heredoc(char *str, t_prompt *prompt)
+char	*expand_for_heredoc(t_redir *redir, char *str, t_prompt *prompt)
 {
 	int		i;
 	char	*result;
 
 	i = 0;
+	(void)redir;
 	result = ft_strdup("");
 	if (!result)
 		return (NULL);

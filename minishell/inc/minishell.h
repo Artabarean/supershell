@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 20:00:00 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/10 11:52:19 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 12:35:55 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_redir
 	t_toktype		type;
 	char			*file;
 	struct s_redir	*next;
+	t_quote			*quote;
 }	t_redir;
 
 typedef struct s_cmd
@@ -236,9 +237,9 @@ void	create_pipes(t_prompt *prompt, int n_cmds);
 int		process_heredocs(t_cmd *copycmd, t_prompt *prompt);
 int		count_strs(char	**str);
 int		eof_warning_msg(char *line, char *limiter);
-char	*expand_for_heredoc(char *str, t_prompt *prompt);
+char	*expand_for_heredoc(t_redir *redir, char *str, t_prompt *prompt);
 int		handle_heredoc(t_prompt *prompt, t_cmd *cmd);
-int		get_last_heredoc(char **tmp_doc);
+//int		get_last_heredoc(char **tmp_doc);
 void	cleanup_heredoc_files(t_cmd *cmds);
 int		heredoc_sig_check(void);
 char	**count_heredoc(t_redir *redir);
