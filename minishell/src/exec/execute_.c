@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:48:09 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 11:21:42 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 11:55:39 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,25 +72,15 @@ void	child_process(t_cmd *cmd, t_prompt *prompt, int i, int n_cmds)
 		exit(0);
 	}
 	if (!ft_strchr(cmd->full_cmd[0], '/'))
-	{
-		if (find_path_no_print(cmd, prompt) == 1 && ispath(prompt) == 1)
-		{
-			cmd->full_path = ft_strdup(cmd->full_cmd[0]);
-			closepfds(n_cmds, prompt);
-			execute(cmd->full_cmd, cmd->full_path, prompt);
-		}
-	}
+		exec_if_nondir(cmd, prompt, n_cmds);
 	else
-		cmd->full_path = ft_strdup(cmd->full_cmd[0]);
+		cmd->full_path = cmd->full_cmd[0];
 	closepfds(n_cmds, prompt);
 	if (find_path_no_print(cmd, prompt) == 0)
 		execute(cmd->full_cmd, cmd->full_path, prompt);
 	else
-	{
-		free_input(prompt);
-		free_env(prompt->enviroment);
-	}
-	exit(127);
+		clean_for_child(prompt);
+	exit(prompt->exit_status);
 }
 
 int	execute_(t_cmd *cmd, t_prompt *prompt)

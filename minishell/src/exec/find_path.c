@@ -6,7 +6,7 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 11:08:59 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 18:11:43 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 11:41:29 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,7 @@ int	find_path_no_print(t_cmd *cmd, t_prompt *prompt)
 
 	i = 0;
 	if (cmd_isdir(cmd, cmd->full_cmd[0]))
-	{
-		if (access(cmd->full_cmd[0], F_OK) == -1)
-		    prompt->exit_status = 127;
-		else if (access(cmd->full_cmd[0], X_OK) == -1)
-    		prompt->exit_status = 126;
-		return (1);
-	}
+		return (check_access(cmd->full_cmd[0], prompt));
 	if (!ft_strcmp(cmd->full_cmd[0], cmd->full_path))
 		return (0);
 	paths = ft_split(get_environments("PATH", prompt), ':');

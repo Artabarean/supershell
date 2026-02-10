@@ -6,45 +6,11 @@
 /*   By: atabarea <atabarea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 11:43:30 by atabarea          #+#    #+#             */
-/*   Updated: 2026/02/09 17:27:43 by atabarea         ###   ########.fr       */
+/*   Updated: 2026/02/10 11:24:05 by atabarea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
-// {
-// 	int		i;
-// 	int		wstatus;
-// 	pid_t	pid;
-
-// 	i = 0;
-// 	wstatus = 0;
-// 	while (i < prompt->n_cmds && curr_nde)
-// 	{
-// 		set_signal(SIG_WAIT);
-// 		if (prompt->pid[0] > 0)
-// 		{
-// 			pid = waitpid(prompt->pid[i], &wstatus, 0);
-// 			if (pid > 0)
-// 			{
-// 				if (WIFSIGNALED(wstatus))
-// 					pid_util(&wstatus, prompt, &last_status, i);
-// 				else if (WIFEXITED(wstatus))
-// 				{
-// 					if (checkfather_builtin(curr_nde) == 0)
-// 						last_status = WEXITSTATUS(wstatus);
-// 					else
-// 						last_status = 0;
-// 				}
-				
-// 			}
-// 		}
-// 		curr_nde = curr_nde->next;
-// 		i++;
-// 	}
-// 	return (last_status);
-//}
 
 int	pid_stat(t_cmd *curr_nde, t_prompt *prompt, int last_status)
 {
