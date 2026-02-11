@@ -38,6 +38,7 @@ void	free_tmpdoc(t_cmd *cmd)
 void	set_hdoc_child(t_cmd *cmd, int *fd, t_prompt *prompt)
 {
 	g_sign = 0;
+	free(prompt->pid);
 	set_signal(SIG_HEREDOC);
 	heredoc_child(cmd, fd, prompt);
 	closehfd(fd);
